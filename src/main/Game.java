@@ -25,7 +25,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private int fps = 60;
    private int frameCount = 0;
    
-   //Player Instance
+   //Player Instance (here is my first change!)
    private Player player;
    
    //instance list for game
