@@ -259,7 +259,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      player = new Player(200,0);
 	      player.setDepth(2);
 	      addWorldObject(player);
-	      //addWorldObject(new Chicken());
+	      //addWorldObject(new Chicken(xx,yy,ww,hh));
 	      viewX = player.getX()-viewW/2;
 	      viewY = player.getY()-viewH/2;
 	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
