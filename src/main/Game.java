@@ -74,6 +74,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private BufferedImage spr_black;
    private BufferedImage spr_diamond;
    private BufferedImage spr_heart;
+   private BufferedImage spr_chicken;
    //private BufferedImage spr_block;
    private BufferedImage[][] sprites;
    //Sounds
@@ -129,6 +130,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		bg_sky = ImageIO.read(new File("images\\bg_clouds.png"));
 		spr_black = ImageIO.read(new File("images\\spr_black.png"));
 		spr_heart = ImageIO.read(new File("images\\spr_heart.png"));
+		spr_chicken = ImageIO.read(new File("images\\spr_chicken.png"));
 		//spr_diamond = ImageIO.read(new File("images\\spr_diamond.png"));
 		//Terrain
 		sprites[TYPE_BLOCK][1] = ImageIO.read(new File("images\\spr_dirt.png"));
@@ -145,6 +147,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		//Tools
 		sprites[TYPE_TOOL][0] = ImageIO.read(new File("images\\spr_pickaxe.png"));
 		sprites[TYPE_TOOL][1] = ImageIO.read(new File("images\\spr_axe.png"));
+		sprites[TYPE_TOOL][2] = ImageIO.read(new File("images\\spr_sword.png"));
 		//Items
 		sprites[TYPE_ITEM][0] = ImageIO.read(new File("images\\spr_diamond.png"));
 		//Food
@@ -236,6 +239,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		  inventory = new ArrayList<Item>();
 		  inventory.add(new Item(TYPE_TOOL,0,1));
 		  inventory.add(new Item(TYPE_TOOL,1,1));
+		  inventory.add(new Item(TYPE_TOOL,2,1));
 		  inventoryFocus = 0;
 	      running = true;
 	      viewX = 0;
@@ -255,6 +259,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      player = new Player(200,0);
 	      player.setDepth(2);
 	      addWorldObject(player);
+	      //addWorldObject(new Chicken());
 	      viewX = player.getX()-viewW/2;
 	      viewY = player.getY()-viewH/2;
 	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
