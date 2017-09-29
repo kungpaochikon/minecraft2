@@ -272,14 +272,6 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      }
 	      viewX = player.getX()-viewW/2;
 	      viewY = player.getY()-viewH/2;
-	      
-	      //World Grid
-	      
-	      
-	      //for(int i = 0;i<wGridSizeX;i++){
-	    	//	  wGrid[i][11] = 2;
-	      //}
-	      //wGenTree(10,10,2,5);
    }
 
    /*******************************************************************
