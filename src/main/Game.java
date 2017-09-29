@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
+// here is a test comment
 public class Game extends JFrame implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
    private GamePanel gamePanel = new GamePanel();
@@ -25,7 +25,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private int fps = 60;
    private int frameCount = 0;
    
-   //Player Instance
+   //Player Instance (here is my first change!)
    private Player player;
    
    //instance list for game
@@ -256,22 +256,14 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      moveL = false;
 	      moveR = false;
 	      //Player
-	      player = new Player(100,100);
+	      player = new Player(200,0);
 	      player.setDepth(2);
 	      addWorldObject(player);
-	      //addWorldObject(new Chicken(xx,yy,ww,hh));
-	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
-	      world.generate();
-	      boolean go = true;
-	      for(int j = 0;j<wGridSizeY;j++){
-	    	  if(world.getWID(wGridSizeX/2, j)!=0 && go){
-	    		  player.setX(wGridSizeX*wBlockSize/2);
-	    		  player.setY((j-1)*wBlockSize);
-	    		  go = false;
-	    	  }
-	      }
+	      //addWorldObject(new Chicken());
 	      viewX = player.getX()-viewW/2;
 	      viewY = player.getY()-viewH/2;
+	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
+	      world.generate();
 	      
 	      //World Grid
 	      
@@ -491,8 +483,6 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   if(mousePressed){
 		   
 	   }
-	   
-	   //Player Movement
 	   if(moveL){
 		   player.setXsp(player.getXsp()-1);
 	   }
@@ -510,8 +500,6 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			   player.setXsp(0);
 		   }
 	   }
-	   
-	   
 	   //Update World In View
 	   if(updateIntervalCount>=updateInterval){
 		   updateIntervalCount = 0;
