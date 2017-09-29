@@ -79,7 +79,7 @@ public class WorldGrid {
 	    		  wGenTree(i,ground,random.nextInt(3)+1,random.nextInt(5)+7,4);
 	    	  }
 	    	  for(int j = ground+1;j<sizeY;j++){
-	    		  if(wGrid[i][j].getWID()==0){
+	    		  if(wGridBounds(i,j) && wGrid[i][j].getWID()==0){
 	    			  if(j<stoneDepth) wGrid[i][j].setWID(1);
 	    			  else wGrid[i][j].setWID(6);
 	    		  }
