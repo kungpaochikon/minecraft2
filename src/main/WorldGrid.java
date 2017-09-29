@@ -79,7 +79,7 @@ public class WorldGrid {
 	    		  wGenTree(i,ground,random.nextInt(3)+1,random.nextInt(5)+7,4);
 	    	  }
 	    	  for(int j = ground+1;j<sizeY;j++){
-	    		  if(wGrid[i][j].getWID()==0){
+	    		  if(wGridBounds(i,j) && wGrid[i][j].getWID()==0){
 	    			  if(j<stoneDepth) wGrid[i][j].setWID(1);
 	    			  else wGrid[i][j].setWID(6);
 	    		  }
@@ -277,30 +277,37 @@ public class WorldGrid {
 	}
 	
 	public void setBID(int x, int y, int bid){
+		if(!wGridBounds(x,y)) return;
 		wGrid[x][y].setBID(bid);
 	}
 	
 	public void setLight(int x, int y, int ll){
+		if(!wGridBounds(x,y)) return;
 		wGrid[x][y].setLight(ll);
 	}
 	
 	public int getWID(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getWID();
 	}
 	
 	public int getBID(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getBID();
 	}
 	
 	public int getLight(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getLight();
 	}
 	
 	public boolean isWater(int x, int y){
+		if(!wGridBounds(x,y)) return false;
 		return wGrid[x][y].isWater();
 	}
 	
 	public int getWaterLevel(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return ((Block_Water) wGrid[x][y]).getWaterLevel();
 	}
 	
