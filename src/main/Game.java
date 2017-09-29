@@ -256,14 +256,22 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      moveL = false;
 	      moveR = false;
 	      //Player
-	      player = new Player(200,0);
+	      player = new Player(100,100);
 	      player.setDepth(2);
 	      addWorldObject(player);
 	      //addWorldObject(new Chicken(xx,yy,ww,hh));
-	      viewX = player.getX()-viewW/2;
-	      viewY = player.getY()-viewH/2;
 	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
 	      world.generate();
+	      boolean go = true;
+	      for(int j = 0;j<wGridSizeY;j++){
+	    	  if(world.getWID(wGridSizeX/2, j)!=0 && go){
+	    		  player.setX(wGridSizeX*wBlockSize/2);
+	    		  player.setY((j-1)*wBlockSize);
+	    		  go = false;
+	    	  }
+	      }
+	      viewX = player.getX()-viewW/2;
+	      viewY = player.getY()-viewH/2;
 	      
 	      //World Grid
 	      
@@ -483,6 +491,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   if(mousePressed){
 		   
 	   }
+	   
+	   //Player Movement
 	   if(moveL){
 		   player.setXsp(player.getXsp()-1);
 	   }
@@ -500,6 +510,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			   player.setXsp(0);
 		   }
 	   }
+	   
+	   
 	   //Update World In View
 	   if(updateIntervalCount>=updateInterval){
 		   updateIntervalCount = 0;

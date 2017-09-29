@@ -277,30 +277,37 @@ public class WorldGrid {
 	}
 	
 	public void setBID(int x, int y, int bid){
+		if(!wGridBounds(x,y)) return;
 		wGrid[x][y].setBID(bid);
 	}
 	
 	public void setLight(int x, int y, int ll){
+		if(!wGridBounds(x,y)) return;
 		wGrid[x][y].setLight(ll);
 	}
 	
 	public int getWID(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getWID();
 	}
 	
 	public int getBID(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getBID();
 	}
 	
 	public int getLight(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return wGrid[x][y].getLight();
 	}
 	
 	public boolean isWater(int x, int y){
+		if(!wGridBounds(x,y)) return false;
 		return wGrid[x][y].isWater();
 	}
 	
 	public int getWaterLevel(int x, int y){
+		if(!wGridBounds(x,y)) return 0;
 		return ((Block_Water) wGrid[x][y]).getWaterLevel();
 	}
 	
