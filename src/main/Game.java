@@ -23,6 +23,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private boolean running = false;
    private boolean debug = false;
    private boolean paused = false;
+   private boolean playerControl;
+   private boolean menu_player;
    private int fps = 60;
    private int frameCount = 0;
    
@@ -33,8 +35,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    public ArrayList<WorldObject> objList;
    
    //Inventory
-   private ArrayList<Item> inventory;
-   private int inventoryFocus;
+   public ArrayList<Item> inventory;
+   public int inventoryFocus;
+   public int inventoryMax;
    
    //View Handling
    private double viewX;
@@ -268,57 +271,60 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     * 
     *******************************************************************/
    private void setGame(){
-		  objList = new ArrayList<WorldObject>();
-		  inventory = new ArrayList<Item>();
-		  inventory.add(new Item(TYPE_TOOL,0,1));
-		  inventory.add(new Item(TYPE_TOOL,1,1));
-		  inventory.add(new Item(TYPE_TOOL,2,1));
-		  inventoryFocus = 0;
-	      running = true;
-	      viewX = 0;
-	      viewY = 0;
-	      viewW = 1280;
-	      viewH = 720;
-	      viewXFinal = 0;
-	      viewYFinal = 0;
-	      viewShakeX = 0;
-	      viewShakeY = 0;
-	      viewShakeTime = 0;
-	      viewShakeMag = 0;
-	      viewShaking = false;
-	      moveL = false;
-	      moveR = false;
-	      //Player
-	      player = new Player(100,100);
-	      player.setDepth(2);
-	      addWorldObject(player);
-	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
-	      world.generate();
-	      boolean go = true;
-	      //Place Player
+	   playerControl = true;
+	   menu_player = false;
+	  objList = new ArrayList<WorldObject>();
+	  inventoryMax = 10;
+	  inventory = new ArrayList<Item>();
+	  inventory.add(new Item(TYPE_TOOL,0,1));
+	  inventory.add(new Item(TYPE_TOOL,1,1));
+	  inventory.add(new Item(TYPE_TOOL,2,1));
+	  inventoryFocus = 0;
+      running = true;
+      viewX = 0;
+      viewY = 0;
+      viewW = 1280;
+      viewH = 720;
+      viewXFinal = 0;
+      viewYFinal = 0;
+      viewShakeX = 0;
+      viewShakeY = 0;
+      viewShakeTime = 0;
+      viewShakeMag = 0;
+      viewShaking = false;
+      moveL = false;
+      moveR = false;
+      //Player
+      player = new Player(100,100);
+      player.setDepth(2);
+      addWorldObject(player);
+      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
+      world.generate();
+      boolean go = true;
+      //Place Player
+      for(int j = 0;j<wGridSizeY;j++){
+    	  if(world.getWID(wGridSizeX/2, j)!=0 && go){
+    		  player.setX(wGridSizeX*wBlockSize/2);
+    		  player.setY((j-1)*wBlockSize);
+    		  go = false;
+    	  }
+      }
+      //Spawn Animals
+      for(int i = 0;i<wGridSizeX;i++){
 	      for(int j = 0;j<wGridSizeY;j++){
-	    	  if(world.getWID(wGridSizeX/2, j)!=0 && go){
-	    		  player.setX(wGridSizeX*wBlockSize/2);
-	    		  player.setY((j-1)*wBlockSize);
-	    		  go = false;
+	    	  if(world.getWID(i, j+1)!=0){
+	    		  if(random.nextInt(25)==1){
+	    			  if(random.nextInt(2)==1)
+	    				  addWorldObject(new Chicken(i*wBlockSize,(j)*wBlockSize));
+	    			  else
+	    				  addWorldObject(new Cow(i*wBlockSize,(j)*wBlockSize));
+	    		  }
+	    		  break;
 	    	  }
 	      }
-	      //Spawn Animals
-	      for(int i = 0;i<wGridSizeX;i++){
-		      for(int j = 0;j<wGridSizeY;j++){
-		    	  if(world.getWID(i, j+1)!=0){
-		    		  if(random.nextInt(25)==1){
-		    			  if(random.nextInt(2)==1)
-		    				  addWorldObject(new Chicken(i*wBlockSize,(j)*wBlockSize));
-		    			  else
-		    				  addWorldObject(new Cow(i*wBlockSize,(j)*wBlockSize));
-		    		  }
-		    		  break;
-		    	  }
-		      }
-	      }
-	      viewX = player.getX()-viewW/2;
-	      viewY = player.getY()-viewH/2;
+      }
+      viewX = player.getX()-viewW/2;
+      viewY = player.getY()-viewH/2;
    }
 
    /*******************************************************************
@@ -346,50 +352,53 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     *******************************************************************/
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_SPACE){
+		if(arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl){
 			if(player.isGrounded()){
 				player.jump();
 				playSound(snd_jump);
 			}
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_R){
+		if(arg0.getKeyCode() == KeyEvent.VK_R && playerControl){
 			reset();
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_E){
+		if(arg0.getKeyCode() == KeyEvent.VK_E && playerControl){
 			inventoryFocus++;
 			if(inventoryFocus>=inventory.size()) inventoryFocus = 0;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_Q){
+		if(arg0.getKeyCode() == KeyEvent.VK_Q && playerControl){
 			inventoryFocus--;
 			if(inventoryFocus<0) inventoryFocus = inventory.size()-1;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_A){
+		if(arg0.getKeyCode() == KeyEvent.VK_A && playerControl){
 			moveL = true;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_D){
+		if(arg0.getKeyCode() == KeyEvent.VK_D && playerControl){
 			moveR = true;
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(0);
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_F){
+		if(arg0.getKeyCode() == KeyEvent.VK_F && playerControl){
 			player.destroy();
 			viewShake(20, 50);
 		}
+		if(arg0.getKeyCode() == KeyEvent.VK_I){
+			menu_player = !menu_player;
+		}
 		//Select Inventory with Numbs
-		if(arg0.getKeyCode() == KeyEvent.VK_1){
+		if(arg0.getKeyCode() == KeyEvent.VK_1 && playerControl){
 			int num = 0;
 			if(inventory.size()>num) inventoryFocus = num;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_2){
+		if(arg0.getKeyCode() == KeyEvent.VK_2 && playerControl){
 			int num = 1;
 			if(inventory.size()>num) inventoryFocus = num;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_3){
+		if(arg0.getKeyCode() == KeyEvent.VK_3 && playerControl){
 			int num = 2;
 			if(inventory.size()>num) inventoryFocus = num;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_4){
+		if(arg0.getKeyCode() == KeyEvent.VK_4 && playerControl){
 			int num = 3;
 			if(inventory.size()>num) inventoryFocus = num;
 		}
@@ -401,10 +410,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_A){
+		if(arg0.getKeyCode() == KeyEvent.VK_A && playerControl){
 			moveL = false;
 		}
-		if(arg0.getKeyCode() == KeyEvent.VK_D){
+		if(arg0.getKeyCode() == KeyEvent.VK_D && playerControl){
 			moveR = false;
 		}
 		
@@ -817,9 +826,30 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          */
          int xx = (int) (Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize)*wBlockSize - viewXFinal);
          int yy = (int) (Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize)*wBlockSize - viewYFinal);
-         g.setColor(Color.white);
-         g.drawRect(xx, yy, wBlockSize, wBlockSize);
+         if(world.getWID(Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize),Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize))!=0){
+	         g.setColor(Color.white);
+	         g.drawRect(xx, yy, wBlockSize, wBlockSize); 
+         }
          g.drawImage(spr_black, (int)mouseX, (int)mouseY, 16, 16, null);
+         
+         //Player Menu
+         if(menu_player){
+        	 g.setColor(new Color(0,0,(float)0.4,(float) 0.9));
+        	 g.fillRect(1280/4, 720/4, 1280/2, 720/2);
+        	 g.setColor(Color.white);
+        	 g.drawRect(1280/4, 720/4, 1280/2, 720/2);
+             for(int i = 0;i<inventory.size();i++){
+            	 BufferedImage image = null;
+            	 image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
+            	 g.drawImage(image, 1280/4+54*i, 720/2-48*2, 48, 48, null);
+            	 g.setColor(Color.black);
+            	 g.fillRect(1280/4+54*i+40, 720/2-48-12, 12, 12);
+            	 g.setColor(Color.white);
+                 g.drawString(Integer.toString(inventory.get(i).getCount()), 1280/4+54*i+40,720/2-48);
+                 //g.drawString((inventory.get(i).getType().name()), 54*i+40,720-48);
+                 
+             }
+         }
          
          //Draw HUD
 
@@ -835,7 +865,11 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          
          //Inventory Bar
          g.setColor(new Color(0,0,(float)0.4,(float) 0.5));
-         g.fillRect(0, 720-64-40, inventory.size()*54+4, 64);
+         g.fillRect(0, 720-64-40, inventoryMax*54+4, 64);
+         for(int i = 0;i<inventoryMax;i++){
+        	 g.setColor(Color.white);
+        	 g.drawRect(i*54, 720-64-40+8, 48, 48);
+         }
          for(int i = 0;i<inventory.size();i++){
         	 BufferedImage image = null;
         	 image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
@@ -970,6 +1004,15 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		   inventory.add(new Item(type, id,1));
 	   }
    }
+   
+   public boolean inventoryCheck(int type, int id){
+	   for(int i = 0;i<inventory.size();i++){
+		   if(inventory.get(i).getType()==type && inventory.get(i).getId()==id){
+			   return true;
+		   }
+	   }
+	   return false;
+   }
 
 @Override
 public void mouseClicked(MouseEvent arg0) {
@@ -1003,6 +1046,8 @@ public void mousePressed(MouseEvent e) {
 		if(Math.abs(e.getX()+viewXFinal - player.getX()) < 128 && Math.abs(e.getY()+viewYFinal - player.getY()) < 128){
 		   int xx = Math.floorDiv((int) ((int) e.getX()+viewXFinal), wBlockSize);
 		   int yy = Math.floorDiv((int) ((int) e.getY()-24+viewYFinal), wBlockSize);
+		   int xxx = xx*wBlockSize+wBlockSize/4;
+		   int yyy = yy*wBlockSize+wBlockSize/4;
 		   if(inventory.size()>0 && inventory.get(inventoryFocus).getCount()>0){
 			   //Place Block
 			   if(inventory.get(inventoryFocus).getType()==TYPE_BLOCK){
@@ -1037,15 +1082,15 @@ public void mousePressed(MouseEvent e) {
 					   }
 					   if(myID == 3){
 						   drop = false;
-						   if(random.nextInt(10)==1)ItemDropCreate(xx*wBlockSize+wBlockSize/4, yy*wBlockSize+wBlockSize/4, TYPE_FOOD, 0);
+						   if(random.nextInt(10)==1)ItemDropCreate(xxx, yyy, TYPE_FOOD, 0);
 					   }
-					   if(drop) ItemDropCreate(xx*wBlockSize+wBlockSize/4, yy*wBlockSize+wBlockSize/4, myType, myID);
+					   if(drop) ItemDropCreate(xxx, yyy, myType, myID);
 					   world.setWID(xx,yy,0);
 				   }
 			   }
 			   if(inventory.get(inventoryFocus).getType()==TYPE_TOOL && inventory.get(inventoryFocus).getId()==1){
 				   if(world.getBID(xx,yy)!=0){
-					   ItemDropCreate(xx, yy, TYPE_BACK, world.getBID(xx, yy));
+					   ItemDropCreate(xxx, yyy, TYPE_BACK, world.getBID(xx, yy));
 					   world.setBID(xx,yy,0);
 				   }
 			   }
@@ -1056,7 +1101,8 @@ public void mousePressed(MouseEvent e) {
 				   for(int i = 0;i<objList.size();i++){
 					   WorldObject obj = objList.get(i);
 					   if(obj instanceof Animal){
-						  if(Math.abs(obj.getX() - x)<32 && Math.abs(obj.getY() - y)<32){
+						   if(x>obj.getX() && x<obj.getX()+obj.getWidth()
+						   && y>obj.getY() && y<obj.getY()+obj.getHeight()){
 							  if(obj instanceof Chicken) ItemDropCreate((int)x, (int)y, TYPE_FOOD, 1);
 							  if(obj instanceof Cow) ItemDropCreate((int)x, (int)y, TYPE_FOOD, 2);
 							  obj.destroy();

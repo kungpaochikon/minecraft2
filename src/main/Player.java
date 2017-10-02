@@ -155,13 +155,15 @@ public class Player extends Entity{
 			   double bx2 = objCol.getX() + objCol.getWidth();
 			   double by1 = objCol.getY();
 			   double by2 = objCol.getY() + objCol.getHeight();
-			   
+			   Item_Drop drop = (Item_Drop)objCol;
 			   //General Collision
 			   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
 				ay1+aysp < by2 && ay2+aysp > by1 && isAlive()){
-				   g.inventoryAdd(((Item_Drop) objCol).getType(), ((Item_Drop) objCol).getId());
-				   g.removeWorldObject(objCol);
-				   g.playSound(g.snd_bop);
+				   if(g.inventoryCheck(drop.getType(), drop.getId()) || g.inventory.size()<g.inventoryMax){
+					   g.inventoryAdd((drop).getType(), (drop).getId());
+					   g.removeWorldObject(drop);
+					   g.playSound(g.snd_bop);
+				   }
 			   }
 		   }
 		   if(objCol.isSolid()){
