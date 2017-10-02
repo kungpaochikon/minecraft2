@@ -307,7 +307,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      for(int i = 0;i<wGridSizeX;i++){
 		      for(int j = 0;j<wGridSizeY;j++){
 		    	  if(world.getWID(i, j+1)!=0){
-		    		  if(random.nextInt(50)==1){
+		    		  if(random.nextInt(25)==1){
 		    			  if(random.nextInt(2)==1)
 		    				  addWorldObject(new Chicken(i*wBlockSize,(j)*wBlockSize));
 		    			  else
@@ -815,9 +815,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     		}
          }
          */
-         int xx = Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize)*wBlockSize;
-         int yy = Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize)*wBlockSize;
-         g.setColor(Color.red);
+         int xx = (int) (Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize)*wBlockSize - viewXFinal);
+         int yy = (int) (Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize)*wBlockSize - viewYFinal);
+         g.setColor(Color.white);
          g.drawRect(xx, yy, wBlockSize, wBlockSize);
          g.drawImage(spr_black, (int)mouseX, (int)mouseY, 16, 16, null);
          
@@ -853,13 +853,34 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          
          //DRAW DEBUG
          if(debug){
+        	 //Info
         	 g.setColor(new Color((float)0.1,(float)0.1,(float)0.1,(float) 0.5));
         	 g.fillRect(1280-256, 0, 256, 256);
         	 g.setColor(Color.white);
         	 g.drawRect(1280-256, 0, 256, 256);
-             g.drawString("FPS: "+Double.toString(fps), 1280-64, 10);
-             g.drawString("Inventory Focus: "+Integer.toString(inventoryFocus), 0, 20);
-             g.drawString("Inventory Size: "+Integer.toString(inventory.size()), 0, 30);
+        	 int i = 1280-256+2;
+        	 int j = 1;
+        	 int h = 16;
+        	 g.drawString("DEBUG MENU", i, j*h);
+        	 j++;
+             g.drawString("FPS: "+Double.toString(fps), i, j*h);
+             j++;
+             g.drawString("X: " + Double.toString(player.getX()), i, j*h);
+             j++;
+             g.drawString("Y: " + Double.toString(player.getY()), i, j*h);
+             j++;
+             g.drawString("X Grid: " + Integer.toString(Math.floorDiv((int) player.getX(),wBlockSize)), i, j*h);
+             j++;
+             g.drawString("Y Grid: " + Integer.toString(Math.floorDiv((int) player.getY(),wBlockSize)), i, j*h);
+             j++;
+             g.drawString("objList Size: " + Integer.toString(objList.size()), i, j*h);
+             j++;
+             
+             //Mouse
+             i = (int)mouseX;
+             j = (int)mouseY;
+             g.setColor(Color.black);
+             //g.drawString(str, x, y);
          }
          
          
@@ -981,7 +1002,7 @@ public void mousePressed(MouseEvent e) {
 	if(e.getButton() == MouseEvent.BUTTON1){
 		if(Math.abs(e.getX()+viewXFinal - player.getX()) < 128 && Math.abs(e.getY()+viewYFinal - player.getY()) < 128){
 		   int xx = Math.floorDiv((int) ((int) e.getX()+viewXFinal), wBlockSize);
-		   int yy = Math.floorDiv((int) ((int) e.getY()+viewYFinal), wBlockSize);
+		   int yy = Math.floorDiv((int) ((int) e.getY()-24+viewYFinal), wBlockSize);
 		   if(inventory.size()>0 && inventory.get(inventoryFocus).getCount()>0){
 			   //Place Block
 			   if(inventory.get(inventoryFocus).getType()==TYPE_BLOCK){
@@ -1054,9 +1075,9 @@ public void mousePressed(MouseEvent e) {
 
 	}
 	if(e.getButton() == MouseEvent.BUTTON3){
-	   //int xx = Math.floorDiv((int) ((int) e.getX()+viewXFinal), wBlockSize);
-	   //int yy = Math.floorDiv((int) ((int) e.getY()+viewYFinal), wBlockSize);
-		addWorldObject(new Enemy(e.getX()+viewX,e.getY()+viewY));
+		if(debug){
+			addWorldObject(new Enemy(e.getX()+viewX,e.getY()+viewY));
+		}
 	}
 	
 }
