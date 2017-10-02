@@ -21,6 +21,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 {
    private GamePanel gamePanel = new GamePanel();
    private boolean running = false;
+   private boolean debug = false;
    private boolean paused = false;
    private int fps = 60;
    private int frameCount = 0;
@@ -59,17 +60,40 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private Random random;
    
    //Constants
+   //Types
    private int TYPE_BLOCK = 0;
    private int TYPE_BACK = 1;
    private int TYPE_TOOL = 2;
    private int TYPE_ITEM = 3;
    private int TYPE_FOOD = 4;
+   private int TYPE_ENTITY = 5;
+   
+   //IDS
+   //BLOCKS
+   private int BLOCK_DIRT = 1;
+   private int BLOCK_GRASS = 2;
+   private int BLOCK_LEAVES = 3;
+   private int BLOCK_WATER = 4;
+   private int BLOCK_DIAMOND = 5;
+   private int BLOCK_STONE = 6;
+   private int BLOCK_COBBLESTONE = 7;
+   //BACKS
+   
+   //TOOLS
+   
+   //ITEMS
+   
+   //FOODS
+   
+   //ENTITIES
+   private int ENTITY_PLAYER = 0;
+   private int ENTITY_CHICKEN = 1;
+   private int ENTITY_COW = 1;
+   private int ENTITY_ZOMBIE = 1;
    
    
    //Sprites
    private BufferedImage spr_player;
-   private BufferedImage spr_spike;
-   private BufferedImage spr_wall;
    private BufferedImage bg_sky;
    private BufferedImage spr_black;
    private BufferedImage spr_diamond;
@@ -127,23 +151,20 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
       try {
     	  sprites = new BufferedImage[10][256];
 		spr_player = ImageIO.read(new File("images\\spr_player.png"));
-		spr_spike = ImageIO.read(new File("images\\spr_spike.png"));
-		spr_wall = ImageIO.read(new File("images\\spr_wall.png"));
 		bg_sky = ImageIO.read(new File("images\\bg_clouds.png"));
 		spr_black = ImageIO.read(new File("images\\spr_black.png"));
 		spr_heart = ImageIO.read(new File("images\\spr_heart.png"));
 		spr_chicken = ImageIO.read(new File("images\\spr_chicken.png"));
 		spr_cow = ImageIO.read(new File("images\\spr_cow.png"));
 		spr_zombie = ImageIO.read(new File("images\\spr_zombie.png"));
-		//spr_diamond = ImageIO.read(new File("images\\spr_diamond.png"));
 		//Terrain
-		sprites[TYPE_BLOCK][1] = ImageIO.read(new File("images\\spr_dirt.png"));
-		sprites[TYPE_BLOCK][2] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
-		sprites[TYPE_BLOCK][3] = ImageIO.read(new File("images\\spr_leaves.png"));
-		sprites[TYPE_BLOCK][4] = ImageIO.read(new File("images\\spr_water.png"));
-		sprites[TYPE_BLOCK][5] = ImageIO.read(new File("images\\spr_diamond_ore.png"));
-		sprites[TYPE_BLOCK][6] = ImageIO.read(new File("images\\spr_stone.png"));
-		sprites[TYPE_BLOCK][7] = ImageIO.read(new File("images\\spr_cobblestone.png"));
+		sprites[TYPE_BLOCK][BLOCK_DIRT] = ImageIO.read(new File("images\\spr_dirt.png"));
+		sprites[TYPE_BLOCK][BLOCK_GRASS] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
+		sprites[TYPE_BLOCK][BLOCK_LEAVES] = ImageIO.read(new File("images\\spr_leaves.png"));
+		sprites[TYPE_BLOCK][BLOCK_WATER] = ImageIO.read(new File("images\\spr_water.png"));
+		sprites[TYPE_BLOCK][BLOCK_DIAMOND] = ImageIO.read(new File("images\\spr_diamond_ore.png"));
+		sprites[TYPE_BLOCK][BLOCK_STONE] = ImageIO.read(new File("images\\spr_stone.png"));
+		sprites[TYPE_BLOCK][BLOCK_COBBLESTONE] = ImageIO.read(new File("images\\spr_cobblestone.png"));
 		//Backs
 		sprites[TYPE_BACK][1] = ImageIO.read(new File("images\\spr_wood.png"));
 		sprites[TYPE_BACK][2] = ImageIO.read(new File("images\\spr_back_cave.png"));
@@ -158,6 +179,12 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		sprites[TYPE_FOOD][0] = ImageIO.read(new File("images\\spr_apple.png"));
 		sprites[TYPE_FOOD][1] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
 		sprites[TYPE_FOOD][2] = ImageIO.read(new File("images\\spr_beef_raw.png"));
+		
+		//Entities
+		sprites[TYPE_ENTITY][ENTITY_PLAYER] = ImageIO.read(new File("images\\spr_player.png"));
+		sprites[TYPE_ENTITY][ENTITY_CHICKEN] = ImageIO.read(new File("images\\spr_chicken.png"));
+		sprites[TYPE_ENTITY][ENTITY_COW] = ImageIO.read(new File("images\\spr_cow.png"));
+		sprites[TYPE_ENTITY][ENTITY_ZOMBIE] = ImageIO.read(new File("images\\spr_zombie.png"));
 		//Sounds
 		snd_jump = new File("sounds\\jump.wav").getAbsoluteFile();
 		snd_death = new File("sounds\\death.wav").getAbsoluteFile();
@@ -365,6 +392,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		if(arg0.getKeyCode() == KeyEvent.VK_4){
 			int num = 3;
 			if(inventory.size()>num) inventoryFocus = num;
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_M){
+			debug = !debug;
 		}
 		
 	}
@@ -712,25 +742,22 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          //Draw Terrain
          for(int i = (int) Math.floor(viewX/wBlockSize);i<Math.floor((viewX + viewW+128)/wBlockSize);i++){
         	 for(int j = (int) Math.floor(viewY/wBlockSize);j<Math.floor((viewY + viewH+128)/wBlockSize);j++){
-        		 if(i<0) i = 0;
-        		 if(j<0) j = 0;
-        		 if(i>wGridSizeX-1) i = wGridSizeX-1;
-        		 if(j>wGridSizeY-1) j = wGridSizeY-1;
-        		 if(world.getBID(i,j)!=0 && world.getWID(i,j)==0 || world.isWater(i, j)){
+        		 
+        		 //if(i<0) i = 0;
+        		 //if(j<0) j = 0;
+        		 //if(i>wGridSizeX-1) i = wGridSizeX-1;
+        		 //if(j>wGridSizeY-1) j = wGridSizeY-1;
+        		 if(wGridBounds(i,j) && world.getBID(i,j)!=0 && world.getWID(i,j)==0 || world.isWater(i, j)){
         			 g.drawImage(sprites[TYPE_BACK][world.getBID(i,j)], (int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal), wBlockSize, wBlockSize, null);
         		 }
-        		 if(world.getWID(i,j)!=0){
-        			 //g.fillRect((int)(i*32-viewX), (int)(j*32-viewY), 32, 32);
-        			 //g.drawImage(blockSprites[wGrid[i][j]],(int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal), null);
+        		 if(wGridBounds(i,j) && world.getWID(i,j)!=0){
         			 if(!world.isWater(i, j)) g.drawImage(sprites[TYPE_BLOCK][world.getWID(i,j)], (int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal), wBlockSize, wBlockSize, null);
         			 else drawTile(i,j,sprites[TYPE_BLOCK][world.getWID(i, j)],g,(float)world.getWaterLevel(i, j)/4);
-        			 //g.dispose();
         		 }
-        		 if(world.getLight(i,j)!=0){
-        			 //drawTile(i,j,spr_black,g,(float)wGrid[i][j].getLight()/lBlockLen);
-        		 }
+        		 
         	 }
          }
+         
          
          
          //Draw
@@ -795,10 +822,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          g.drawImage(spr_black, (int)mouseX, (int)mouseY, 16, 16, null);
          
          //Draw HUD
-         g.setColor(Color.white);
-         g.drawString(Double.toString(fps), 0, 10);
-         g.drawString("Inventory Focus: "+Integer.toString(inventoryFocus), 0, 20);
-         g.drawString("Inventory Size: "+Integer.toString(inventory.size()), 0, 30);
+
          //Hearts
          for(int i=0;i<player.getHP();i++){
         	 g.drawImage(spr_heart,32*i,0,32,32,null);
@@ -825,6 +849,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          }
          g.setColor(Color.cyan);
          g.drawRect(54*inventoryFocus, 720-48*2, 48, 48);
+         
+         
+         //DRAW DEBUG
+         if(debug){
+        	 g.setColor(new Color((float)0.1,(float)0.1,(float)0.1,(float) 0.5));
+        	 g.fillRect(1280-256, 0, 256, 256);
+        	 g.setColor(Color.white);
+        	 g.drawRect(1280-256, 0, 256, 256);
+             g.drawString("FPS: "+Double.toString(fps), 1280-64, 10);
+             g.drawString("Inventory Focus: "+Integer.toString(inventoryFocus), 0, 20);
+             g.drawString("Inventory Size: "+Integer.toString(inventory.size()), 0, 30);
+         }
+         
          
          frameCount++;
       }

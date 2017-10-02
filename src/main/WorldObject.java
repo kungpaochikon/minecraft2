@@ -1,5 +1,10 @@
 package main;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
 public class WorldObject implements Comparable<WorldObject>{
 	protected double x;
 	protected double y;
@@ -138,5 +143,6 @@ public class WorldObject implements Comparable<WorldObject>{
 		return depth - arg0.depth;
 	}
 	
+
 	
 }
