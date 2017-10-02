@@ -5,7 +5,9 @@ public class Item_Drop extends WorldObject{
 	int id;
 	int count;
 	public Item_Drop(double xx, double yy, int t, int i, int c) {
-		super(xx, yy, 32, 32);
+		super(xx, yy);
+		width = 32;
+		height = 32;
 		type = t;
 		id = i;
 		count = c;
@@ -25,10 +27,10 @@ public class Item_Drop extends WorldObject{
 	
 	public void changeCount(int c){count+=c;}
 	
-	public void step(){
-		super.step();
+	public void step(Game g){
 		if(xsp<0.1) xsp=0;
 		if(ysp<0.1) ysp=0;
+		super.step(g);
 	}
 
 }

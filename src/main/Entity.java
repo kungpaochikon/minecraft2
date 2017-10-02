@@ -5,11 +5,13 @@ public class Entity extends WorldObject{
 	protected int hp;
 	protected boolean alive;
 	
-	public Entity(double xx, double yy, double ww, double hh){
-		super(xx,yy,ww,hh);
+	public Entity(double xx, double yy){
+		super(xx,yy);
+		width = 32;
+		height = 32;
 		xsp = 0;
 		ysp = 0;
-		grav = 0;
+		grav = 1;
 		solid = false;
 		hp_max = 3;
 		hp = hp_max;
@@ -25,9 +27,9 @@ public class Entity extends WorldObject{
 		return alive;
 	}
 	
-	public void step(){
+	public void step(Game g){
 		if(alive){
-			super.step();
+			super.step(g);
 		}
 		if(hp<1){
 			alive = false;

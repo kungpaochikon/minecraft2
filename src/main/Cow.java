@@ -2,13 +2,13 @@ package main;
 
 import java.util.Random;
 
-public class Chicken extends Animal{
+public class Cow extends Animal{
 	int state;
 	Random random;
-	public Chicken(double xx, double yy) {
+	public Cow(double xx, double yy) {
 		super(xx, yy);
-		width = 32;
-		height = 32;
+		width = 64;
+		height = 64;
 		state = 0;
 		random = new Random();
 	}

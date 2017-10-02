@@ -13,14 +13,14 @@ public class WorldObject implements Comparable<WorldObject>{
 	protected boolean destroy;
 	protected int depth;
 	
-	public WorldObject(double xx,double yy,double ww,double hh){
+	public WorldObject(double xx,double yy){
 		x = xx;
 		y = yy;
 		xsp = 0;
 		ysp = 0;
 		grav = 0;
-		width = ww;
-		height = hh;
+		width = 32;
+		height = 32;
 		solid = false;
 		angle = 0;
 		destroy = false;
@@ -71,7 +71,8 @@ public class WorldObject implements Comparable<WorldObject>{
 		ysp+=grav;
 	}
 	
-	public void step(){
+	public void step(Game g){
+		//doGrav();
 		x+=xsp;
 		y+=ysp;
 	}

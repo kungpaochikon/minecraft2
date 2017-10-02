@@ -29,7 +29,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private Player player;
    
    //instance list for game
-   private ArrayList<WorldObject> objList;
+   public ArrayList<WorldObject> objList;
    
    //Inventory
    private ArrayList<Item> inventory;
@@ -75,24 +75,26 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private BufferedImage spr_diamond;
    private BufferedImage spr_heart;
    private BufferedImage spr_chicken;
+   private BufferedImage spr_cow;
+   private BufferedImage spr_zombie;
    //private BufferedImage spr_block;
    private BufferedImage[][] sprites;
    //Sounds
    private File snd_jump;
    private File snd_death;
    private File snd_explosion;
-   private File snd_bop;
+   public File snd_bop;
    
    //World Grid
-   private WorldGrid world;
-   private int wGridSizeX = 256;
-   private int wGridSizeY = 256;
-   private int wBlockSize = 48;
-   private int wBlockLen = 256;
-   private int bBlockLen = 256;
-   private int lBlockLen = 5;
-   private int updateInterval = 1;
-   private int updateIntervalCount = 0;
+   public WorldGrid world;
+   public int wGridSizeX = 256;
+   public int wGridSizeY = 256;
+   public int wBlockSize = 48;
+   public int wBlockLen = 256;
+   public int bBlockLen = 256;
+   public int lBlockLen = 5;
+   public int updateInterval = 1;
+   public int updateIntervalCount = 0;
    
    /*******************************************************************
     * 
@@ -131,6 +133,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		spr_black = ImageIO.read(new File("images\\spr_black.png"));
 		spr_heart = ImageIO.read(new File("images\\spr_heart.png"));
 		spr_chicken = ImageIO.read(new File("images\\spr_chicken.png"));
+		spr_cow = ImageIO.read(new File("images\\spr_cow.png"));
+		spr_zombie = ImageIO.read(new File("images\\spr_zombie.png"));
 		//spr_diamond = ImageIO.read(new File("images\\spr_diamond.png"));
 		//Terrain
 		sprites[TYPE_BLOCK][1] = ImageIO.read(new File("images\\spr_dirt.png"));
@@ -152,6 +156,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		sprites[TYPE_ITEM][0] = ImageIO.read(new File("images\\spr_diamond.png"));
 		//Food
 		sprites[TYPE_FOOD][0] = ImageIO.read(new File("images\\spr_apple.png"));
+		sprites[TYPE_FOOD][1] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
+		sprites[TYPE_FOOD][2] = ImageIO.read(new File("images\\spr_beef_raw.png"));
 		//Sounds
 		snd_jump = new File("sounds\\jump.wav").getAbsoluteFile();
 		snd_death = new File("sounds\\death.wav").getAbsoluteFile();
@@ -211,7 +217,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     * There is probably a better way to do this.
     * 
     *******************************************************************/
-   private void removeWorldObject(WorldObject obj){
+   public void removeWorldObject(WorldObject obj){
 	   objList.remove(obj);
    }
    
@@ -259,16 +265,30 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	      player = new Player(100,100);
 	      player.setDepth(2);
 	      addWorldObject(player);
-	      //addWorldObject(new Chicken(xx,yy,ww,hh));
 	      world = new WorldGrid(wGridSizeX,wGridSizeY,wBlockSize);
 	      world.generate();
 	      boolean go = true;
+	      //Place Player
 	      for(int j = 0;j<wGridSizeY;j++){
 	    	  if(world.getWID(wGridSizeX/2, j)!=0 && go){
 	    		  player.setX(wGridSizeX*wBlockSize/2);
 	    		  player.setY((j-1)*wBlockSize);
 	    		  go = false;
 	    	  }
+	      }
+	      //Spawn Animals
+	      for(int i = 0;i<wGridSizeX;i++){
+		      for(int j = 0;j<wGridSizeY;j++){
+		    	  if(world.getWID(i, j+1)!=0){
+		    		  if(random.nextInt(50)==1){
+		    			  if(random.nextInt(2)==1)
+		    				  addWorldObject(new Chicken(i*wBlockSize,(j)*wBlockSize));
+		    			  else
+		    				  addWorldObject(new Cow(i*wBlockSize,(j)*wBlockSize));
+		    		  }
+		    		  break;
+		    	  }
+		      }
 	      }
 	      viewX = player.getX()-viewW/2;
 	      viewY = player.getY()-viewH/2;
@@ -511,7 +531,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   }
 	   updateIntervalCount++;
 	   if(player.getJumpSequence()>2){
-		   addWorldObject(new Particle(player.getX()+8,player.getY()+8,16,16,0,0,30));
+		   addWorldObject(new Particle(player.getX()+8,player.getY()+8,0,0,30));
 	   }
 	   //if(!player.isGrounded()) player.setAngle(player.getAngle()+player.getXsp());
 	   //else player.setAngle(Math.round(player.getAngle()/90)*90);
@@ -523,147 +543,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			   continue;
 		   }
 		   obj.doGrav();
-		   if(obj instanceof Player){
-			   double ax1 = obj.getX();
-			   double ax2 = obj.getX() + obj.getWidth();
-			   double ay1 = obj.getY();
-			   double ay2 = obj.getY() + obj.getHeight();
-			   double axsp = obj.getXsp();
-			   double aysp = obj.getYsp();
-			   double aw = obj.getWidth();
-			   double ah =  obj.getHeight();
-			   boolean xCol = false;
-			   boolean yCol = false;
-			   
-			   //Grid Collision
-			   int xx;
-			   //X Collision
-			   int yLow = Math.floorDiv((int) ay1, wBlockSize);
-			   int yHi = Math.floorDiv((int) ay2, wBlockSize);
-			   xx = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+axsp), wBlockSize);
-			   for(int yy = yLow;yy<=yHi;yy++){
-				   if(wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-					   int xx2 = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)), wBlockSize);
-					   while(wGridBounds(xx,yy) && (world.getWID(xx2,yy)==0 || world.getWID(xx2,yy)==4)){
-						   ax1+=Math.signum(axsp);
-						   xx2 = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)), wBlockSize);
-					   }
-					   obj.setX((ax1));
-					   obj.setXsp(0);
-					   xCol = true;
-				   }
-			   }
-			   
-			   
-			   //Grid Collision
-			   //Y Collision
-			   int xLow = Math.floorDiv((int) ax1, wBlockSize);
-			   int xHi = Math.floorDiv((int) ax2, wBlockSize);
-			   int yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
-			   for(xx = xLow;xx<=xHi;xx++){
-				   if(wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-					   int yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize);
-					   while(wGridBounds(xx,yy) && (world.getWID(xx,yy2)==0 || world.getWID(xx,yy2)==4)){
-						   ay1+=Math.signum(aysp);
-						   yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize);
-					   }
-					   //Damage
-					   if(player.getYsp()>28){
-						   player.setHP(player.getHP()-1);
-						   viewShake(7, 20);
-					   }
-					   obj.setY(ay1);
-					   obj.setYsp(0);
-					   yCol = true;
-				   }
-			   }
-			   
-			   //Corner Collision
-			   if(!xCol && !yCol){
-				   yLow = Math.floorDiv((int) ((int) ay1 + aysp), wBlockSize);
-				   yHi = Math.floorDiv((int) ((int) ay2 + aysp), wBlockSize);
-				   xLow = Math.floorDiv((int) ((int) ax1 + axsp), wBlockSize);
-				   xHi = Math.floorDiv((int) ((int) ax2 + axsp), wBlockSize);
-				   //yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
-				   for(xx = xLow;xx<=xHi;xx++){
-					   for(yy = yLow;yy<=yHi;yy++){
-						   if(wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-							   obj.setXsp(0);
-						   }
-					   }
-				   }
-			   }
-			   
-			   
-			   ax1 = obj.getX();
-			   ax2 = obj.getX() + obj.getWidth();
-			   ay1 = obj.getY();
-			   ay2 = obj.getY() + obj.getHeight();
-			   axsp = obj.getXsp();
-			   aysp = obj.getYsp();
-			   aw = obj.getWidth();
-			   ah =  obj.getHeight();
-			   //xCol = false;
-			   //yCol = false;
-			   //Solid Object Collision
-			   for(int o = 0;o<objList.size();o++){
-				   WorldObject objCol = objList.get(o);
-				   if(objCol instanceof Item_Drop){
-					   double bx1 = objCol.getX();
-					   double bx2 = objCol.getX() + objCol.getWidth();
-					   double by1 = objCol.getY();
-					   double by2 = objCol.getY() + objCol.getHeight();
-					   //double bxsp = objCol.getXsp();
-					   //double bysp = objCol.getYsp();
-					   
-					   //General Collision
-					   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
-						ay1+aysp < by2 && ay2+aysp > by1 && player.isAlive()){
-						   inventoryAdd(((Item_Drop) objCol).getType(), ((Item_Drop) objCol).getId());
-						   removeWorldObject(objCol);
-						   playSound(snd_bop);
-					   }
-				   }
-				   if(objCol.isSolid()){
-					   double bx1 = objCol.getX();
-					   double bx2 = objCol.getX() + objCol.getWidth();
-					   double by1 = objCol.getY();
-					   double by2 = objCol.getY() + objCol.getHeight();
-					   //double bxsp = objCol.getXsp();
-					   //double bysp = objCol.getYsp();
-					   //X collision
-					   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
-						ay1 < by2 && ay2 > by1){
-						   while(!(ax1+1*Math.signum(axsp) < bx2 && ax2+1*Math.signum(axsp) > bx1 &&
-									ay1 < by2 && ay2 > by1)){
-							   ax1+=Math.signum(axsp);
-							   ax2+=Math.signum(axsp);
-						   }
-						   obj.setX(ax1);
-						   obj.setXsp(0);
-						   xCol = true;
-					   }
-					   //Y collision
-					   if (ax1 < bx2 && ax2 > bx1 &&
-						ay1+aysp < by2 && ay2+aysp > by1){
-						   while(!(ax1 < bx2 && ax2 > bx1 &&
-								ay1+1*Math.signum(aysp) < by2 && ay2+1*Math.signum(aysp) > by1)){
-							   ay1+=Math.signum(aysp);
-							   ay2+=Math.signum(aysp);
-						   }
-						   obj.setY(ay1);
-						   obj.setYsp(0);
-						   yCol = true;
-					   }
-				   }
-			   }
-			   if(xCol || yCol){
-				   ((Player) obj).setGrounded(true);
-			   }
-			   else{
-				   ((Player) obj).setGrounded(false);
-			   }
-		   }
+		   //obj.step();
 		   if(obj instanceof Item_Drop){
 			   double ax1 = obj.getX();
 			   double ax2 = obj.getX() + obj.getWidth();
@@ -736,7 +616,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 				   }
 			   }
 		   }
-		   obj.step();
+		   obj.step(this);
 	   }
 	   //View Shake
 	   if(viewShaking){
@@ -826,6 +706,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          //g.fillRect(0, 0, 1280, 720);
     	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2),0,1280,720,null);
     	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280,720,null);
+    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280*2,720,null);
+    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280*3,720,null);
+    	  
          //Draw Terrain
          for(int i = (int) Math.floor(viewX/wBlockSize);i<Math.floor((viewX + viewW+128)/wBlockSize);i++){
         	 for(int j = (int) Math.floor(viewY/wBlockSize);j<Math.floor((viewY + viewH+128)/wBlockSize);j++){
@@ -848,6 +731,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
         		 }
         	 }
          }
+         
          
          //Draw
          for(int i = 0;i<objList.size();i++){
@@ -881,8 +765,14 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	            	 image = sprites[((Item_Drop)obj).getType()][((Item_Drop)obj).getId()];
 	            	 g.drawImage(image, (int)(obj.getX()-viewXFinal), (int)(obj.getY()-viewYFinal), (int)obj.getWidth(), (int)obj.getHeight(), null);
 	        	 }
-	        	 if(obj instanceof Spike){
-	        		 drawSprite(obj,spr_spike,g);
+	        	 if(obj instanceof Chicken){
+	        		 drawSprite(obj,spr_chicken,g);
+	        	 }
+	        	 if(obj instanceof Cow){
+	        		 drawSprite(obj,spr_cow,g);
+	        	 }
+	        	 if(obj instanceof Enemy){
+	        		 drawSprite(obj,spr_zombie,g);
 	        	 }
 			 }
          }
@@ -915,9 +805,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          }
          //Hunger
          g.setColor(Color.ORANGE);
-         g.fillRect(0, 0, (int) ((player.getHunger()/player.getHungerMax())*256), 64);
+         g.fillRect(0, 32, (int) ((player.getHunger()/player.getHungerMax())*96), 32);
          g.setColor(Color.white);
-         g.drawRect(0, 0, 256, 64);
+         g.drawRect(0, 32, 96, 32);
          
          //Inventory Bar
          g.setColor(new Color(0,0,(float)0.4,(float) 0.5));
@@ -994,7 +884,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		return val;
    }
    
-   private boolean wGridBounds(int i, int j){
+   public boolean wGridBounds(int i, int j){
 	   return i>=0 && i<wGridSizeX && j>=0 && j<wGridSizeY;
    }
    
@@ -1009,7 +899,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   if(inventoryFocus>=inventory.size()) inventoryFocus = inventory.size()-1;
    }
    
-   private void inventoryAdd(int type, int id){
+   public void inventoryAdd(int type, int id){
 	   boolean found = false;
 	   for(int i = 0;i<inventory.size();i++){
 		   if(inventory.get(i).getType()==type && inventory.get(i).getId()==id){
@@ -1042,7 +932,7 @@ public void mouseExited(MouseEvent e) {
 }
 
 private Item_Drop ItemDropCreate(int xx, int yy, int type, int id){
-	   WorldObject drop = addWorldObject(new Item_Drop(xx*wBlockSize+wBlockSize/4,yy*wBlockSize+wBlockSize/4,type,id,1));
+	   WorldObject drop = addWorldObject(new Item_Drop(xx,yy,type,id,1));
 	   drop.setGrav(1);
 	   drop.setXsp(randomRange(-5,5));
 	   drop.setYsp(randomRange(-5,5));
@@ -1089,9 +979,9 @@ public void mousePressed(MouseEvent e) {
 					   }
 					   if(myID == 3){
 						   drop = false;
-						   if(random.nextInt(10)==1)ItemDropCreate(xx, yy, TYPE_FOOD, 0);
+						   if(random.nextInt(10)==1)ItemDropCreate(xx*wBlockSize+wBlockSize/4, yy*wBlockSize+wBlockSize/4, TYPE_FOOD, 0);
 					   }
-					   if(drop) ItemDropCreate(xx, yy, myType, myID);
+					   if(drop) ItemDropCreate(xx*wBlockSize+wBlockSize/4, yy*wBlockSize+wBlockSize/4, myType, myID);
 					   world.setWID(xx,yy,0);
 				   }
 			   }
@@ -1099,6 +989,21 @@ public void mousePressed(MouseEvent e) {
 				   if(world.getBID(xx,yy)!=0){
 					   ItemDropCreate(xx, yy, TYPE_BACK, world.getBID(xx, yy));
 					   world.setBID(xx,yy,0);
+				   }
+			   }
+			   
+			   if(inventory.get(inventoryFocus).getType()==TYPE_TOOL && inventory.get(inventoryFocus).getId()==2){
+				   double x = e.getX() + viewXFinal;
+				   double y = e.getY() + viewYFinal;
+				   for(int i = 0;i<objList.size();i++){
+					   WorldObject obj = objList.get(i);
+					   if(obj instanceof Animal){
+						  if(Math.abs(obj.getX() - x)<32 && Math.abs(obj.getY() - y)<32){
+							  if(obj instanceof Chicken) ItemDropCreate((int)x, (int)y, TYPE_FOOD, 1);
+							  if(obj instanceof Cow) ItemDropCreate((int)x, (int)y, TYPE_FOOD, 2);
+							  obj.destroy();
+						  }
+					   }
 				   }
 			   }
 			   
@@ -1114,6 +1019,7 @@ public void mousePressed(MouseEvent e) {
 	if(e.getButton() == MouseEvent.BUTTON3){
 	   //int xx = Math.floorDiv((int) ((int) e.getX()+viewXFinal), wBlockSize);
 	   //int yy = Math.floorDiv((int) ((int) e.getY()+viewYFinal), wBlockSize);
+		addWorldObject(new Enemy(e.getX()+viewX,e.getY()+viewY));
 	}
 	
 }
