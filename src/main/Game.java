@@ -10,12 +10,17 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game extends JFrame implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener
 {
@@ -111,6 +116,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    private File snd_death;
    private File snd_explosion;
    public File snd_bop;
+   public File snd_mus_overworld;
+   public File snd_mus_overworldNight;
+   public File snd_mus_underground;
    
    //World Grid
    public WorldGrid world;
@@ -193,6 +201,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		snd_death = new File("sounds\\death.wav").getAbsoluteFile();
 		snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
 		snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
+		snd_mus_overworld = new File("sounds\\snd_mus_overworld.wav").getAbsoluteFile();
+		snd_mus_overworldNight = new File("sounds\\snd_mus_overworldNight.wav").getAbsoluteFile();
+		snd_mus_underground = new File("sounds\\snd_mus_underground.wav").getAbsoluteFile();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -271,6 +282,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     * 
     *******************************************************************/
    private void setGame(){
+	   playSound(snd_mus_overworld);
 	   playerControl = true;
 	   menu_player = false;
 	  objList = new ArrayList<WorldObject>();
@@ -405,6 +417,12 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		if(arg0.getKeyCode() == KeyEvent.VK_M){
 			debug = !debug;
 		}
+		if(arg0.getKeyCode() == KeyEvent.VK_K){
+			saveGame();
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_L){
+			loadGame();
+		}
 		
 	}
 	
@@ -423,6 +441,54 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+   /*******************************************************************
+    * 
+    * Save Game
+    * -------------
+    * Save game to file
+    * 
+    *******************************************************************/
+	public void saveGame(){
+		PrintWriter out = null;
+		try {
+
+			out = new PrintWriter(new BufferedWriter(new FileWriter("save")));
+
+		}
+
+		catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+		out.println(Double.toString(player.getX())+":"+Double.toString(player.getY()));
+		for(int i = 0;i<wGridSizeX;i++){
+			for(int j = 0;j<wGridSizeY;j++){
+				out.println(Integer.toString(i)+":"+Integer.toString(j)+":"+Integer.toString(world.getWID(i, j))
+				+":"+Integer.toString(world.getBID(i, j)));
+			}
+		}
+		out.close();
+	}
+	
+	public void loadGame(){
+		try {
+			Scanner fileReader = new Scanner(new File("save"));
+			String playerLine = fileReader.nextLine();
+			String[] playerData = playerLine.split(":");
+			player.setX(Double.parseDouble(playerData[0]));
+			player.setY(Double.parseDouble(playerData[1]));
+			while(fileReader.hasNextLine()){
+				String line = fileReader.nextLine();
+				String[] data = line.split(":");
+				world.setWID(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+				world.setBID(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]));
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
 	}
    
    /*******************************************************************
