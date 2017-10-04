@@ -201,9 +201,6 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		snd_death = new File("sounds\\death.wav").getAbsoluteFile();
 		snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
 		snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
-		snd_mus_overworld = new File("sounds\\snd_mus_overworld.wav").getAbsoluteFile();
-		snd_mus_overworldNight = new File("sounds\\snd_mus_overworldNight.wav").getAbsoluteFile();
-		snd_mus_underground = new File("sounds\\snd_mus_underground.wav").getAbsoluteFile();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -282,7 +279,6 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     * 
     *******************************************************************/
    private void setGame(){
-	   playSound(snd_mus_overworld);
 	   playerControl = true;
 	   menu_player = false;
 	  objList = new ArrayList<WorldObject>();
