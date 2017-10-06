@@ -2,6 +2,8 @@ package main;
 
 import java.util.Random;
 
+
+// adding test comment
 public class Animal extends Entity{
 	int state;
 	Random random;
