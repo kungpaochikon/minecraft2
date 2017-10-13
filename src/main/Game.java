@@ -417,8 +417,10 @@ public class Game extends JFrame
 	 * Remove World Object ---------------- Remove instance from the world objects
 	 * list. There is probably a better way to do this.
 	 * 
+	 * @param obj HERE IS THE DESCRIPTION
+	 * 
 	 *******************************************************************/
-	public void removeWorldObject(WorldObject obj) {
+	public void removeWorldObject(final WorldObject obj) {
 		objList.remove(obj);
 	}
 
@@ -426,6 +428,8 @@ public class Game extends JFrame
 	 * 
 	 * Remove World Object index ---------------- Remove instance from the world
 	 * objects list at index. There is probably a better way to do this.
+	 * 
+	 * @param i HERE IS THE DESCRIPTION
 	 * 
 	 *******************************************************************/
 	private void removeWorldObject(final int i) {
