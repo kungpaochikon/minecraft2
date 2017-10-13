@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+//import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,13 +18,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+//import java.util.Date;
+//import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.TimerTask;
+//import java.util.TimerTask;
 import java.util.Timer;
 
+/**
+ * INSERTED JAVADOC COMMENT.
+ * 
+ */
 public class Game extends JFrame
 		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	private GamePanel gamePanel = new GamePanel();
@@ -37,75 +41,264 @@ public class Game extends JFrame
 	private int frameCount = 0;
 
 	// Player Instance
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private Player player;
 
 	// instance list for game
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public ArrayList<WorldObject> objList;
 
 	// Inventory
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public ArrayList<Item> inventory;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int inventoryFocus;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int inventoryMax;
 
 	// View Handling
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double viewX;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double viewY;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double viewXFinal;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double viewYFinal;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewW;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewH;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewShakeX;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewShakeY;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewShakeTime;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private int viewShakeMag;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private boolean viewShaking;
 
 	private Timer t;
 
 	// Control booleans
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private boolean moveL;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private boolean moveR;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private boolean mousePressed;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double mouseX;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private double mouseY;
 
 	// random
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private Random random;
 
 	// Sprites
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_player;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage bg_sky;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_black;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_diamond;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_heart;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_chicken;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_cow;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage spr_zombie;
+	
 	// private BufferedImage spr_block;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private BufferedImage[][] sprites;
 	// Sounds
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private File snd_jump;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private File snd_death;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	private File snd_explosion;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public File snd_bop;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public File snd_mus_overworld;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public File snd_mus_overworldNight;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public File snd_mus_underground;
 
 	// World Grid
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public WorldGrid world;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int wGridSizeX = 256;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int wGridSizeY = 256;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int wBlockSize = 48;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int wBlockLen = 256;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int bBlockLen = 256;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int lBlockLen = 5;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int updateInterval = 1;
+	/**
+	 * INSERTED JAVADOC COMMENT.
+	 * 
+	 */
 	public int updateIntervalCount = 0;
 
 	/*******************************************************************
 	 * 
-	 * Game ---- Set the panel and all other meta things
+	 * Game ---- Set the panel and all other meta things.
 	 * 
 	 *******************************************************************/
 	public Game() {
@@ -186,8 +379,10 @@ public class Game extends JFrame
 	 * 
 	 * Main ---- Main Method, basically just run the game.
 	 * 
+	 * @param args HERE IS THE DESCRIPTION
+	 * 
 	 *******************************************************************/
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Game game = new Game();
 		game.setVisible(true);
 	}
@@ -197,8 +392,11 @@ public class Game extends JFrame
 	 * Add World Object ---------------- Add instance to the world objects list.
 	 * There is probably a better way to do this.
 	 * 
+	 * @param obj HERE IS THE DESCRIPTION
+	 * @return DESCRIPTION FOR WHAT THIS RETURNS
+	 * 
 	 *******************************************************************/
-	private WorldObject addWorldObject(WorldObject obj) {
+	private WorldObject addWorldObject(final WorldObject obj) {
 		objList.add(obj);
 		sortWorldObjectDepth();
 		return obj;
