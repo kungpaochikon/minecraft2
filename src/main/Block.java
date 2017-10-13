@@ -145,4 +145,7 @@ public class Block {
 	}
 }
 
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624

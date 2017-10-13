@@ -827,7 +827,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			inventory.setFocus(inventory.getFocus()-1);
 			if(inventory.getFocus()<0) inventory.setFocus(inventory.size()-1);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 =======
 		if (arg0.getKeyCode() == KeyEvent.VK_E && playerControl) {
 			inventoryFocus++;
@@ -841,7 +844,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 				inventoryFocus = inventory.size() - 1;
 			}
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
@@ -866,13 +872,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 			if (inventory.size() > num) {
 				inventoryFocus = num;
 			}
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_2 && playerControl) {
 			int num = 1;
@@ -880,13 +892,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 			if (inventory.size() > num) {
 				inventoryFocus = num;
 			}
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_3 && playerControl) {
 			int num = 2;
@@ -894,13 +912,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 			if (inventory.size() > num) {
 				inventoryFocus = num;
 			}
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_4 && playerControl) {
 			int num = 3;
@@ -908,13 +932,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if(inventory.size()>num) inventory.setFocus(num);
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 			if (inventory.size() > num) {
 				inventoryFocus = num;
 			}
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_M) {
 			debug = !debug;
@@ -1903,7 +1933,10 @@ public void mousePressed(MouseEvent e) {
 		if(debug){
 			addWorldObject(new Enemy(e.getX()+view.getViewXFinal(),e.getY()+view.getViewYFinal()));
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 =======
 
 	/*******************************************************************
@@ -1953,7 +1986,10 @@ public void mousePressed(MouseEvent e) {
 		 */
 		public void update() {
 
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 		}
 
 		/*******************************************************************
@@ -2408,7 +2444,10 @@ public void mouseWheelMoved(MouseWheelEvent arg0) {
 		inventory.setFocus(inventory.getFocus()-1);
 		if(inventory.getFocus()<0) inventory.setFocus(inventory.size()-1);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 =======
 				if (inventory.get(inventoryFocus).getType() == Constants.TYPE_TOOL
 						&& inventory.get(inventoryFocus).getId() == Constants.SWORD) {
@@ -2439,7 +2478,10 @@ public void mouseWheelMoved(MouseWheelEvent arg0) {
 				}
 			}
 		}
+<<<<<<< HEAD
 >>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
+=======
+>>>>>>> 86f9c217b2b4ecb4f2d9904efdee5a841559b624
 	}
 
 	@Override
