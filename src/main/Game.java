@@ -25,10 +25,6 @@ import java.util.Scanner;
 //import java.util.TimerTask;
 import java.util.Timer;
 
-/**
- * @author gary
- *
- */
 public class Game extends JFrame
 		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	/**
@@ -136,9 +132,6 @@ public class Game extends JFrame
 	 */
 	private boolean viewShaking;
 
-	/**
-	 * 
-	 */
 	private Timer t;
 
 	// Control booleans
@@ -2252,9 +2245,6 @@ public void mousePressed(MouseEvent e) {
 		return i >= 0 && i < wGridSizeX && j >= 0 && j < wGridSizeY;
 	}
 
-	/**
-	 * 
-	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getCount() < 1) {
@@ -2263,16 +2253,11 @@ public void mousePressed(MouseEvent e) {
 				continue;
 			}
 		}
-		if (inventoryFocus >= inventory.size()) {
+		if (inventoryFocus >= inventory.size())
 			inventoryFocus = inventory.size() - 1;
-		}
 	}
 
-	/**
-	 * @param type DESCRIPTION
-	 * @param id DESCRIPTION
-	 */
-	public void inventoryAdd(final int type, final int id) {
+	public void inventoryAdd(int type, int id) {
 		boolean found = false;
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
@@ -2286,12 +2271,7 @@ public void mousePressed(MouseEvent e) {
 		}
 	}
 
-	/**
-	 * @param type DESCRIPTION
-	 * @param id DESCRIPTION
-	 * @return DESCRIPTION
-	 */
-	public boolean inventoryCheck(final int type, final int id) {
+	public boolean inventoryCheck(int type, int id) {
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
 				return true;
@@ -2300,38 +2280,25 @@ public void mousePressed(MouseEvent e) {
 		return false;
 	}
 
-	/**
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-	 */
 	@Override
-	public void mouseClicked(final MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-	 */
-	@Override
-	public void mouseEntered(final MouseEvent e) {
+	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseExited(final MouseEvent e) {
+	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/**
-	 * @param xx DESCRIPTION
-	 * @param yy DESCRIPTION
-	 * @param type DESCRIPTION
-	 * @param id DESCRIPTION
-	 * @return DESCRIPTION
-	 */
-	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private Item_Drop ItemDropCreate(int xx, int yy, int type, int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
 		drop.setGrav(1);
 		drop.setXsp(randomRange(-5, 5));
@@ -2339,11 +2306,7 @@ public void mousePressed(MouseEvent e) {
 		return (Item_Drop) drop;
 	}
 	
-	/**
-	 * @param pX DESCRIPTION
-	 * @param pY DESCRIPTION
-	 */
-	public void pressMouse(final double pX, final double pY) {
+	public void pressMouse(double pX, double pY) {
 		if (Math.abs(pX + viewXFinal - player.getX()) < 128
 				&& Math.abs(pY + viewYFinal - player.getY()) < 128) {
 			int xx = Math.floorDiv((int) ((int) pX + viewXFinal), wBlockSize);
@@ -2454,11 +2417,8 @@ public void mouseWheelMoved(MouseWheelEvent arg0) {
 		}
 	}
 
-	/**
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-	 */
 	@Override
-	public void mousePressed(final MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			this.mousePressed = true;
 			
@@ -2472,65 +2432,43 @@ public void mouseWheelMoved(MouseWheelEvent arg0) {
 >>>>>>> 08fd8053c80e83e47f5a32625390e4ccbd52731c
 	}
 
-	/**
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-	 */
 	@Override
-	public void mouseReleased(final MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
 		this.mousePressed = false;
 	}
 
-	/**
-	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
-	 */
 	@Override
-	public void mouseDragged(final MouseEvent arg0) {
+	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/**
-	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
-	 */
 	@Override
-	public void mouseMoved(final MouseEvent arg0) {
+	public void mouseMoved(MouseEvent arg0) {
 		mouseX = arg0.getX();
 		mouseY = arg0.getY() - 24;
 
 	}
 
-	/**
-	 * @see java.awt.event.MouseWheelListener#mouseWheelMoved(java.awt.event.MouseWheelEvent)
-	 */
 	@Override
-	public void mouseWheelMoved(final MouseWheelEvent arg0) {
+	public void mouseWheelMoved(MouseWheelEvent arg0) {
 		int notches = arg0.getWheelRotation();
 		if (notches > 0) {
 			inventoryFocus++;
-			if (inventoryFocus >= inventory.size()) {
+			if (inventoryFocus >= inventory.size())
 				inventoryFocus = 0;
-			}
 		} else {
 			inventoryFocus--;
-			if (inventoryFocus < 0) {
+			if (inventoryFocus < 0)
 				inventoryFocus = inventory.size() - 1;
-			}
 		}
 	}
 
-	/**
-	 * @param message DESCRIPTION
-	 */
-	public void debugMsg(final String message) {
+	public void debugMsg(String message) {
 		System.out.println(message);
 	}
 
-	/**
-	 * @param min DESCRIPTION
-	 * @param max DESCRIPTION
-	 * @return DESCRIPTION
-	 */
-	public int randomRange(final int min, final int max) {
+	public int randomRange(int min, int max) {
 		int randomNum = random.nextInt((max - min) + 1) + min;
 		return randomNum;
 	}
