@@ -8,7 +8,10 @@ public class Player extends Entity{
 	private double jumpSequenceCooldown;
 	private double hunger;
 	private double hunger_max;
-	public Player(double xx, double yy){
+	private static boolean swinging;
+	private long lastSwing;
+	
+	public Player(double xx, double yy) {
 		super(xx,yy);
 		width = 32;
 		height = 32;
@@ -25,6 +28,8 @@ public class Player extends Entity{
 		jumpSequence = 0;
 		jumpHeight = 10;
 		jumpSequenceCooldown = 0;
+		swinging = true;
+		lastSwing = 0;
 	}
 	
 	public double getJumpSequence(){
@@ -213,7 +218,29 @@ public class Player extends Entity{
 		
 	}
 	
-	public double getHunger(){ return hunger;}
-	public void setHunger(double h){ hunger = h;}
-	public double getHungerMax(){ return hunger_max;}
+	public double getHunger() { 
+		return hunger;
+	}
+	public void setHunger(double h) {
+		hunger = h;
+	}
+	public double getHungerMax() {
+		return hunger_max;
+	}
+	
+	static public boolean isSwinging() {
+		return swinging;
+	}
+	
+	static public void setSwinging(boolean s) {
+		swinging = s;
+	}
+	
+	public void setLastSwing(long ls) {
+		lastSwing = ls;
+	}
+	
+	public long getLastSwing() {
+		return lastSwing;
+	}
 }
