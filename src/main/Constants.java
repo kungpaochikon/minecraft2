@@ -52,5 +52,5 @@ public final class Constants {
     public static final double TARGET_FPS = 60;
     public static final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
     
-    public static final long SWING_COOL_DOWN = 200;
+    public static final long SWING_COOL_DOWN = 0;
 }
