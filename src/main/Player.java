@@ -159,7 +159,7 @@ public class Player extends Entity{
 			   //General Collision
 			   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
 				ay1+aysp < by2 && ay2+aysp > by1 && isAlive()){
-				   if(g.inventoryCheck(drop.getType(), drop.getId()) || g.inventory.size()<g.inventoryMax){
+				   if(g.inventoryCheck(drop.getType(), drop.getId()) || g.inventory.size()<g.inventory.getMax()){
 					   g.inventoryAdd((drop).getType(), (drop).getId());
 					   g.removeWorldObject(drop);
 					   g.playSound(g.snd_bop);

@@ -40,22 +40,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
    public ArrayList<WorldObject> objList;
    
    //Inventory
-   public ArrayList<Item> inventory;
-   public int inventoryFocus;
-   public int inventoryMax;
+   public Inventory inventory;
    
    //View Handling
-   private double viewX;
-   private double viewY;
-   private double viewXFinal;
-   private double viewYFinal;
-   private int viewW;
-   private int viewH;
-   private int viewShakeX;
-   private int viewShakeY;
-   private int viewShakeTime;
-   private int viewShakeMag;
-   private boolean viewShaking;
+   private View view;
    
    //Control booleans
    private boolean moveL;
@@ -282,24 +270,12 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   playerControl = true;
 	   menu_player = false;
 	  objList = new ArrayList<WorldObject>();
-	  inventoryMax = 10;
-	  inventory = new ArrayList<Item>();
+	  inventory = new Inventory();
 	  inventory.add(new Item(TYPE_TOOL,0,1));
 	  inventory.add(new Item(TYPE_TOOL,1,1));
 	  inventory.add(new Item(TYPE_TOOL,2,1));
-	  inventoryFocus = 0;
+	  //inventoryFocus = 0;
       running = true;
-      viewX = 0;
-      viewY = 0;
-      viewW = 1280;
-      viewH = 720;
-      viewXFinal = 0;
-      viewYFinal = 0;
-      viewShakeX = 0;
-      viewShakeY = 0;
-      viewShakeTime = 0;
-      viewShakeMag = 0;
-      viewShaking = false;
       moveL = false;
       moveR = false;
       //Player
@@ -331,8 +307,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	    	  }
 	      }
       }
-      viewX = player.getX()-viewW/2;
-      viewY = player.getY()-viewH/2;
+      //view = new View(player.getX()-view.getViewH()/2, player.getY()-view.getViewH()/2, 1280, 720);
+      view = new View();
+      view.setViewW(1280);
+      view.setViewH(720);
    }
 
    /*******************************************************************
@@ -370,12 +348,12 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			reset();
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_E && playerControl){
-			inventoryFocus++;
-			if(inventoryFocus>=inventory.size()) inventoryFocus = 0;
+			inventory.setFocus(inventory.getFocus()+1);
+			if(inventory.getFocus()>=inventory.size()) inventory.setFocus(0);;
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_Q && playerControl){
-			inventoryFocus--;
-			if(inventoryFocus<0) inventoryFocus = inventory.size()-1;
+			inventory.setFocus(inventory.getFocus()-1);
+			if(inventory.getFocus()<0) inventory.setFocus(inventory.size()-1);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_A && playerControl){
 			moveL = true;
@@ -388,7 +366,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_F && playerControl){
 			player.destroy();
-			viewShake(20, 50);
+			view.viewShake(20, 50);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_I){
 			menu_player = !menu_player;
@@ -396,19 +374,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		//Select Inventory with Numbs
 		if(arg0.getKeyCode() == KeyEvent.VK_1 && playerControl){
 			int num = 0;
-			if(inventory.size()>num) inventoryFocus = num;
+			if(inventory.size()>num) inventory.setFocus(num);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_2 && playerControl){
 			int num = 1;
-			if(inventory.size()>num) inventoryFocus = num;
+			if(inventory.size()>num) inventory.setFocus(num);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_3 && playerControl){
 			int num = 2;
-			if(inventory.size()>num) inventoryFocus = num;
+			if(inventory.size()>num) inventory.setFocus(num);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_4 && playerControl){
 			int num = 3;
-			if(inventory.size()>num) inventoryFocus = num;
+			if(inventory.size()>num) inventory.setFocus(num);
 		}
 		if(arg0.getKeyCode() == KeyEvent.VK_M){
 			debug = !debug;
@@ -628,7 +606,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   //Update World In View
 	   if(updateIntervalCount>=updateInterval){
 		   updateIntervalCount = 0;
-		   world.update((int) Math.floor(viewX/wBlockSize),(int) Math.floor((viewX + viewW)/wBlockSize),(int) Math.floor(viewY/wBlockSize),(int) Math.floor((viewY + viewH)/wBlockSize));
+		   world.update((int) Math.floor(view.getViewX()/wBlockSize),(int) Math.floor((view.getViewX() + view.getViewH())/wBlockSize),(int) Math.floor(view.getViewY()/wBlockSize),(int) Math.floor((view.getViewY() + view.getViewH())/wBlockSize));
 	   }
 	   updateIntervalCount++;
 	   if(player.getJumpSequence()>2){
@@ -719,45 +697,14 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 		   }
 		   obj.step(this);
 	   }
-	   //View Shake
-	   if(viewShaking){
-		   viewShakeTime--;
-		   if(viewShakeTime<1){
-			   viewShaking = false;
-		   }
-		   viewShakeX = random.nextInt(viewShakeMag*2 + 1) - viewShakeMag;
-		   viewShakeY = random.nextInt(viewShakeMag*2 + 1) - viewShakeMag;
-	   }
-	   else{
-		   viewShakeX = 0;
-		   viewShakeY = 0;
-	   }
+	   view.step();
 	  //View Follow Player
-      viewX += (player.getX()-viewW/2 - viewX)*0.3;
-      viewY += (player.getY()-viewH/2 - viewY)*0.1;
-      viewX = bindDouble(viewX,0,(wGridSizeX-1)*wBlockSize-viewW);
-      viewY = bindDouble(viewY,0,(wGridSizeY-1)*wBlockSize-viewH);
-      viewXFinal = viewX + viewShakeX;
-      viewYFinal = viewY + viewShakeY;
-      viewXFinal = Math.round(viewXFinal);
-      viewYFinal = Math.round(viewYFinal);
+      view.setViewX(view.getViewX()+(player.getX()-view.getViewW()/2 - view.getViewX())*0.3);
+      view.setViewY(view.getViewY()+(player.getY()-view.getViewH()/2 - view.getViewY())*0.1);
+      view.setViewX(bindDouble(view.getViewX(),0,(wGridSizeX-1)*wBlockSize-view.getViewW()));
+      view.setViewY(bindDouble(view.getViewY(),0,(wGridSizeX-1)*wBlockSize-view.getViewH()));
       gamePanel.update();
    }
-   
-   /*******************************************************************
-    * 
-    * View Shake
-    * -----------
-    * Init the camera shake.
-    * Will change to a list later to allow for multiple shakes
-    * 
-    *******************************************************************/
-   private void viewShake(int time, int mag){
-	   viewShakeTime = time;
-	   viewShakeMag = mag;
-	   viewShaking = true;
-   }
-   
    /*******************************************************************
     * 
     * Draw Game
@@ -805,24 +752,24 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     	  //Draw Back
          //g.setColor(Color.blue);
          //g.fillRect(0, 0, 1280, 720);
-    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2),0,1280,720,null);
-    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280,720,null);
-    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280*2,720,null);
-    	  g.drawImage(bg_sky, (int) (0-viewXFinal*0.2+1280),0,1280*3,720,null);
+    	  g.drawImage(bg_sky, (int) (0-view.getViewXFinal()*0.2),0,1280,720,null);
+    	  g.drawImage(bg_sky, (int) (0-view.getViewXFinal()*0.2+1280),0,1280,720,null);
+    	  g.drawImage(bg_sky, (int) (0-view.getViewXFinal()*0.2+1280),0,1280*2,720,null);
+    	  g.drawImage(bg_sky, (int) (0-view.getViewXFinal()*0.2+1280),0,1280*3,720,null);
     	  
          //Draw Terrain
-         for(int i = (int) Math.floor(viewX/wBlockSize);i<Math.floor((viewX + viewW+128)/wBlockSize);i++){
-        	 for(int j = (int) Math.floor(viewY/wBlockSize);j<Math.floor((viewY + viewH+128)/wBlockSize);j++){
+         for(int i = (int) Math.floor(view.getViewX()/wBlockSize);i<Math.floor((view.getViewX() + view.getViewW()+128)/wBlockSize);i++){
+        	 for(int j = (int) Math.floor(view.getViewY()/wBlockSize);j<Math.floor((view.getViewY() + view.getViewH()+128)/wBlockSize);j++){
         		 
         		 //if(i<0) i = 0;
         		 //if(j<0) j = 0;
         		 //if(i>wGridSizeX-1) i = wGridSizeX-1;
         		 //if(j>wGridSizeY-1) j = wGridSizeY-1;
         		 if(wGridBounds(i,j) && world.getBID(i,j)!=0 && world.getWID(i,j)==0 || world.isWater(i, j)){
-        			 g.drawImage(sprites[TYPE_BACK][world.getBID(i,j)], (int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal), wBlockSize, wBlockSize, null);
+        			 g.drawImage(sprites[TYPE_BACK][world.getBID(i,j)], (int)(i*wBlockSize-view.getViewXFinal()), (int)(j*wBlockSize-view.getViewYFinal()), wBlockSize, wBlockSize, null);
         		 }
         		 if(wGridBounds(i,j) && world.getWID(i,j)!=0){
-        			 if(!world.isWater(i, j)) g.drawImage(sprites[TYPE_BLOCK][world.getWID(i,j)], (int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal), wBlockSize, wBlockSize, null);
+        			 if(!world.isWater(i, j)) g.drawImage(sprites[TYPE_BLOCK][world.getWID(i,j)], (int)(i*wBlockSize-view.getViewXFinal()), (int)(j*wBlockSize-view.getViewYFinal()), wBlockSize, wBlockSize, null);
         			 else drawTile(i,j,sprites[TYPE_BLOCK][world.getWID(i, j)],g,(float)world.getWaterLevel(i, j)/4);
         		 }
         		 
@@ -834,10 +781,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          //Draw
          for(int i = 0;i<objList.size();i++){
         	 WorldObject obj = objList.get(i);
-        	 int vx = (int) Math.round(viewXFinal);
-        	 int vy = (int) Math.round(viewYFinal);
-        	 int vw = viewW;
-        	 int vh = viewH;
+        	 int vx = (int) Math.round(view.getViewXFinal());
+        	 int vy = (int) Math.round(view.getViewYFinal());
+        	 int vw = view.getViewW();
+        	 int vh = view.getViewH();
         	 int xx = (int) (Math.round(obj.getX())-vx);
         	 int yy = (int) (Math.round(obj.getY())-vy);
         	 int ww = (int) Math.round(obj.getWidth());
@@ -851,8 +798,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	        	 if(obj instanceof Player && ((Entity) obj).isAlive()){
 	        		 drawSprite(obj,spr_player,g);
 	        		 BufferedImage img = null;
-	        		 img = sprites[inventory.get(inventoryFocus).getType()][inventory.get(inventoryFocus).getId()];
-	        		 g.drawImage(img, (int)(obj.getX()-viewXFinal+10), (int)(obj.getY()-viewYFinal+10), (int)obj.getWidth(), (int)obj.getHeight(), null);
+	        		 img = sprites[inventory.get(inventory.getFocus()).getType()][inventory.get(inventory.getFocus()).getId()];
+	        		 g.drawImage(img, (int)(obj.getX()-view.getViewXFinal()+10), (int)(obj.getY()-view.getViewYFinal()+10), (int)obj.getWidth(), (int)obj.getHeight(), null);
 	        	 }
 	        	 if(obj instanceof Wall){
 	        		 g.setColor(Color.GRAY);
@@ -861,7 +808,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	        	 if(obj instanceof Item_Drop){
 	            	 BufferedImage image = null;
 	            	 image = sprites[((Item_Drop)obj).getType()][((Item_Drop)obj).getId()];
-	            	 g.drawImage(image, (int)(obj.getX()-viewXFinal), (int)(obj.getY()-viewYFinal), (int)obj.getWidth(), (int)obj.getHeight(), null);
+	            	 g.drawImage(image, (int)(obj.getX()-view.getViewXFinal()), (int)(obj.getY()-view.getViewYFinal()), (int)obj.getWidth(), (int)obj.getHeight(), null);
 	        	 }
 	        	 if(obj instanceof Chicken){
 	        		 drawSprite(obj,spr_chicken,g);
@@ -886,9 +833,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     		}
          }
          */
-         int xx = (int) (Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize)*wBlockSize - viewXFinal);
-         int yy = (int) (Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize)*wBlockSize - viewYFinal);
-         if(world.getWID(Math.floorDiv((int) (mouseX + viewXFinal),wBlockSize),Math.floorDiv((int) (mouseY + viewYFinal),wBlockSize))!=0){
+         int xx = (int) (Math.floorDiv((int) (mouseX + view.getViewXFinal()),wBlockSize)*wBlockSize - view.getViewXFinal());
+         int yy = (int) (Math.floorDiv((int) (mouseY + view.getViewYFinal()),wBlockSize)*wBlockSize - view.getViewYFinal());
+         if(world.getWID(Math.floorDiv((int) (mouseX + view.getViewXFinal()),wBlockSize),Math.floorDiv((int) (mouseY + view.getViewYFinal()),wBlockSize))!=0){
 	         g.setColor(Color.white);
 	         g.drawRect(xx, yy, wBlockSize, wBlockSize); 
          }
@@ -927,8 +874,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          
          //Inventory Bar
          g.setColor(new Color(0,0,(float)0.4,(float) 0.5));
-         g.fillRect(0, 720-64-40, inventoryMax*54+4, 64);
-         for(int i = 0;i<inventoryMax;i++){
+         g.fillRect(0, 720-64-40, inventory.getMax()*54+4, 64);
+         for(int i = 0;i<inventory.getMax();i++){
         	 g.setColor(Color.white);
         	 g.drawRect(i*54, 720-64-40+8, 48, 48);
          }
@@ -944,7 +891,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
              
          }
          g.setColor(Color.cyan);
-         g.drawRect(54*inventoryFocus, 720-48*2, 48, 48);
+         g.drawRect(54*inventory.getFocus(), 720-48*2, 48, 48);
          
          
          //DRAW DEBUG
@@ -971,6 +918,14 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
              j++;
              g.drawString("objList Size: " + Integer.toString(objList.size()), i, j*h);
              j++;
+             g.drawString("ViewX: " + Double.toString(view.getViewX()), i, j*h);
+             j++;
+             g.drawString("ViewY: " + Double.toString(view.getViewY()), i, j*h);
+             j++;
+             g.drawString("ViewW: " + Integer.toString(view.getViewW()), i, j*h);
+             j++;
+             g.drawString("ViewH: " + Integer.toString(view.getViewH()), i, j*h);
+             j++;
              
              //Mouse
              i = (int)mouseX;
@@ -984,8 +939,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
       }
       
       public void drawSprite(WorldObject obj, BufferedImage img, Graphics g){
-     	 int vx = (int) Math.round(viewXFinal);
-     	 int vy = (int) Math.round(viewYFinal);
+     	 int vx = (int) Math.round(view.getViewXFinal());
+     	 int vy = (int) Math.round(view.getViewYFinal());
      	 //int vw = viewW;
      	 //int vh = viewH;
      	 int xx = (int) (Math.round(obj.getX())-vx);
@@ -1008,8 +963,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
       }
       
       public void drawTile(int x, int y, BufferedImage img, Graphics g, float opacity){
-      	 int vx = (int) Math.round(viewXFinal);
-      	 int vy = (int) Math.round(viewYFinal);
+      	 int vx = (int) Math.round(view.getViewXFinal());
+      	 int vy = (int) Math.round(view.getViewYFinal());
      	 int xx = (int) (Math.round(x*wBlockSize)-vx);
      	 int yy = (int) (Math.round(y*wBlockSize)-vy);
          Graphics2D g2d = (Graphics2D) g;
@@ -1050,7 +1005,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			   continue;
 		   }
 	   }
-	   if(inventoryFocus>=inventory.size()) inventoryFocus = inventory.size()-1;
+	   if(inventory.getFocus()>=inventory.size()) inventory.setFocus(inventory.size()-1);
    }
    
    public void inventoryAdd(int type, int id){
@@ -1105,28 +1060,28 @@ private Item_Drop ItemDropCreate(int xx, int yy, int type, int id){
 @Override
 public void mousePressed(MouseEvent e) {
 	if(e.getButton() == MouseEvent.BUTTON1){
-		if(Math.abs(e.getX()+viewXFinal - player.getX()) < 128 && Math.abs(e.getY()+viewYFinal - player.getY()) < 128){
-		   int xx = Math.floorDiv((int) ((int) e.getX()+viewXFinal), wBlockSize);
-		   int yy = Math.floorDiv((int) ((int) e.getY()-24+viewYFinal), wBlockSize);
+		if(Math.abs(e.getX()+view.getViewXFinal() - player.getX()) < 128 && Math.abs(e.getY()+view.getViewYFinal() - player.getY()) < 128){
+		   int xx = Math.floorDiv((int) ((int) e.getX()+view.getViewXFinal()), wBlockSize);
+		   int yy = Math.floorDiv((int) ((int) e.getY()-24+view.getViewYFinal()), wBlockSize);
 		   int xxx = xx*wBlockSize+wBlockSize/4;
 		   int yyy = yy*wBlockSize+wBlockSize/4;
-		   if(inventory.size()>0 && inventory.get(inventoryFocus).getCount()>0){
+		   if(inventory.size()>0 && inventory.getFocused().getCount()>0){
 			   //Place Block
-			   if(inventory.get(inventoryFocus).getType()==TYPE_BLOCK){
+			   if(inventory.getFocused().getType()==TYPE_BLOCK){
 				   if(world.getWID(xx,yy)==0 || world.getWID(xx,yy)==4 || world.getWID(xx,yy)==5){
-					   world.setWID(xx, yy, inventory.get(inventoryFocus).getId());
-					   inventory.get(inventoryFocus).changeCount(-1);
+					   world.setWID(xx, yy, inventory.getFocused().getId());
+					   inventory.getFocused().changeCount(-1);
 				   }
 			   }
 			   //Place Back
-			   if(inventory.get(inventoryFocus).getType()==TYPE_BACK){
+			   if(inventory.getFocused().getType()==TYPE_BACK){
 				   if(world.getBID(xx,yy)==0){
-					   world.setBID(xx, yy, inventory.get(inventoryFocus).getId());
-					   inventory.get(inventoryFocus).changeCount(-1);
+					   world.setBID(xx, yy, inventory.getFocused().getId());
+					   inventory.getFocused().changeCount(-1);
 				   }
 			   }
 			   //Use Tool
-			   if(inventory.get(inventoryFocus).getType()==TYPE_TOOL && inventory.get(inventoryFocus).getId()==0){
+			   if(inventory.getFocused().getType()==TYPE_TOOL && inventory.getFocused().getId()==0){
 				   if(world.getWID(xx,yy)!=0){
 					   boolean drop = true;
 					   //CUSTOMS
@@ -1150,16 +1105,16 @@ public void mousePressed(MouseEvent e) {
 					   world.setWID(xx,yy,0);
 				   }
 			   }
-			   if(inventory.get(inventoryFocus).getType()==TYPE_TOOL && inventory.get(inventoryFocus).getId()==1){
+			   if(inventory.getFocused().getType()==TYPE_TOOL && inventory.getFocused().getId()==1){
 				   if(world.getBID(xx,yy)!=0){
 					   ItemDropCreate(xxx, yyy, TYPE_BACK, world.getBID(xx, yy));
 					   world.setBID(xx,yy,0);
 				   }
 			   }
 			   
-			   if(inventory.get(inventoryFocus).getType()==TYPE_TOOL && inventory.get(inventoryFocus).getId()==2){
-				   double x = e.getX() + viewXFinal;
-				   double y = e.getY() + viewYFinal;
+			   if(inventory.getFocused().getType()==TYPE_TOOL && inventory.getFocused().getId()==2){
+				   double x = e.getX() + view.getViewXFinal();
+				   double y = e.getY() + view.getViewYFinal();
 				   for(int i = 0;i<objList.size();i++){
 					   WorldObject obj = objList.get(i);
 					   if(obj instanceof Animal){
@@ -1174,9 +1129,9 @@ public void mousePressed(MouseEvent e) {
 			   }
 			   
 			   //Eat Food
-			   if(inventory.get(inventoryFocus).getType()==TYPE_FOOD){
+			   if(inventory.getFocused().getType()==TYPE_FOOD){
 				   player.setHunger(player.getHungerMax());
-				   inventory.get(inventoryFocus).changeCount(-1);
+				   inventory.getFocused().changeCount(-1);
 			   }
 		   }
 		}
@@ -1184,7 +1139,7 @@ public void mousePressed(MouseEvent e) {
 	}
 	if(e.getButton() == MouseEvent.BUTTON3){
 		if(debug){
-			addWorldObject(new Enemy(e.getX()+viewX,e.getY()+viewY));
+			addWorldObject(new Enemy(e.getX()+view.getViewXFinal(),e.getY()+view.getViewYFinal()));
 		}
 	}
 	
@@ -1213,12 +1168,12 @@ public void mouseMoved(MouseEvent arg0) {
 public void mouseWheelMoved(MouseWheelEvent arg0) {
 	int notches = arg0.getWheelRotation();
 	if(notches>0){
-		inventoryFocus++;
-		if(inventoryFocus>=inventory.size()) inventoryFocus = 0;
+		inventory.setFocus(inventory.getFocus()+1);
+		if(inventory.getFocus()>=inventory.size()) inventory.setFocus(0);
 	}
 	else{
-		inventoryFocus--;
-		if(inventoryFocus<0) inventoryFocus = inventory.size()-1;
+		inventory.setFocus(inventory.getFocus()-1);
+		if(inventory.getFocus()<0) inventory.setFocus(inventory.size()-1);
 	}
 }
 
