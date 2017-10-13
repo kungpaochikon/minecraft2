@@ -27,85 +27,250 @@ import java.util.Timer;
 
 public class Game extends JFrame
 		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+	/**
+	 * 
+	 */
 	private GamePanel gamePanel = new GamePanel();
+	/**
+	 * 
+	 */
 	private boolean running = false;
+	/**
+	 * 
+	 */
 	private boolean debug = false;
+	/**
+	 * 
+	 */
 	private boolean paused = false;
+	/**
+	 * 
+	 */
 	private boolean playerControl;
+	/**
+	 * 
+	 */
 	private boolean menu_player;
+	/**
+	 * 
+	 */
 	private int fps = 60;
+	/**
+	 * 
+	 */
 	private int frameCount = 0;
 
 	// Player Instance
+	/**
+	 * 
+	 */
 	private Player player;
 
 	// instance list for game
+	/**
+	 * 
+	 */
 	public ArrayList<WorldObject> objList;
 
 	// Inventory
+	/**
+	 * 
+	 */
 	public ArrayList<Item> inventory;
+	/**
+	 * 
+	 */
 	public int inventoryFocus;
+	/**
+	 * 
+	 */
 	public int inventoryMax;
 
 	// View Handling
+	/**
+	 * 
+	 */
 	private double viewX;
+	/**
+	 * 
+	 */
 	private double viewY;
+	/**
+	 * 
+	 */
 	private double viewXFinal;
+	/**
+	 * 
+	 */
 	private double viewYFinal;
+	/**
+	 * 
+	 */
 	private int viewW;
+	/**
+	 * 
+	 */
 	private int viewH;
+	/**
+	 * 
+	 */
 	private int viewShakeX;
+	/**
+	 * 
+	 */
 	private int viewShakeY;
+	/**
+	 * 
+	 */
 	private int viewShakeTime;
+	/**
+	 * 
+	 */
 	private int viewShakeMag;
+	/**
+	 * 
+	 */
 	private boolean viewShaking;
 
 	private Timer t;
 
 	// Control booleans
+	/**
+	 * 
+	 */
 	private boolean moveL;
+	/**
+	 * 
+	 */
 	private boolean moveR;
+	/**
+	 * 
+	 */
 	private boolean mousePressed;
+	/**
+	 * 
+	 */
 	private double mouseX;
+	/**
+	 * 
+	 */
 	private double mouseY;
 
 	// random
+	/**
+	 * 
+	 */
 	private Random random;
 
 	// Sprites
+	/**
+	 * 
+	 */
 	private BufferedImage spr_player;
+	/**
+	 * 
+	 */
 	private BufferedImage bg_sky;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_black;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_diamond;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_heart;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_chicken;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_cow;
+	/**
+	 * 
+	 */
 	private BufferedImage spr_zombie;
 	// private BufferedImage spr_block;
+	/**
+	 * 
+	 */
 	private BufferedImage[][] sprites;
 	// Sounds
+	/**
+	 * 
+	 */
 	private File snd_jump;
+	/**
+	 * 
+	 */
 	private File snd_death;
+	/**
+	 * 
+	 */
 	private File snd_explosion;
+	/**
+	 * 
+	 */
 	public File snd_bop;
+	/**
+	 * 
+	 */
 	public File snd_mus_overworld;
+	/**
+	 * 
+	 */
 	public File snd_mus_overworldNight;
+	/**
+	 * 
+	 */
 	public File snd_mus_underground;
 
 	// World Grid
+	/**
+	 * 
+	 */
 	public WorldGrid world;
+	/**
+	 * 
+	 */
 	public int wGridSizeX = 256;
+	/**
+	 * 
+	 */
 	public int wGridSizeY = 256;
+	/**
+	 * 
+	 */
 	public int wBlockSize = 48;
+	/**
+	 * 
+	 */
 	public int wBlockLen = 256;
+	/**
+	 * 
+	 */
 	public int bBlockLen = 256;
+	/**
+	 * 
+	 */
 	public int lBlockLen = 5;
+	/**
+	 * 
+	 */
 	public int updateInterval = 1;
+	/**
+	 * 
+	 */
 	public int updateIntervalCount = 0;
 
 	/*******************************************************************
 	 * 
-	 * Game ---- Set the panel and all other meta things
+	 * Game ---- Set the panel and all other meta things.
 	 * 
 	 *******************************************************************/
 	public Game() {
@@ -186,8 +351,9 @@ public class Game extends JFrame
 	 * 
 	 * Main ---- Main Method, basically just run the game.
 	 * 
+	 * @param args DESCRIPTION
 	 *******************************************************************/
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Game game = new Game();
 		game.setVisible(true);
 	}
@@ -197,8 +363,10 @@ public class Game extends JFrame
 	 * Add World Object ---------------- Add instance to the world objects list.
 	 * There is probably a better way to do this.
 	 * 
+	 * @param obj DESCRIPTION
+	 * @return 	DESCRIPTION	
 	 *******************************************************************/
-	private WorldObject addWorldObject(WorldObject obj) {
+	private WorldObject addWorldObject(final WorldObject obj) {
 		objList.add(obj);
 		sortWorldObjectDepth();
 		return obj;
@@ -219,8 +387,9 @@ public class Game extends JFrame
 	 * Remove World Object ---------------- Remove instance from the world objects
 	 * list. There is probably a better way to do this.
 	 * 
+	 * @param obj DESCRIPTION
 	 *******************************************************************/
-	public void removeWorldObject(WorldObject obj) {
+	public void removeWorldObject(final WorldObject obj) {
 		objList.remove(obj);
 	}
 
@@ -229,6 +398,7 @@ public class Game extends JFrame
 	 * Remove World Object index ---------------- Remove instance from the world
 	 * objects list at index. There is probably a better way to do this.
 	 * 
+	 * @param i DESCRIPTION
 	 *******************************************************************/
 	private void removeWorldObject(final int i) {
 		objList.remove(i);
@@ -236,7 +406,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Game Set -------- Set the game with standard values
+	 * Game Set -------- Set the game with standard values.
 	 * 
 	 *******************************************************************/
 	private void setGame() {
@@ -299,20 +469,25 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Game Reset ---------- Reset the game
+	 * Game Reset ---------- Reset the game.
 	 * 
 	 *******************************************************************/
 	private void reset() {
 		setGame();
 	}
 
+	/** 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * 
+	 * @param e DESCRIPTION
+	 */
 	public void actionPerformed(final ActionEvent e) {
 
 	}
 
 	/*******************************************************************
 	 * 
-	 * Game Input ---------- Get the keyboard input and respond
+	 * Game Input ---------- Get the keyboard input and respond.
 	 * 
 	 *******************************************************************/
 	@Override
@@ -328,13 +503,15 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_E && playerControl) {
 			inventoryFocus++;
-			if (inventoryFocus >= inventory.size())
+			if (inventoryFocus >= inventory.size()) {
 				inventoryFocus = 0;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_Q && playerControl) {
 			inventoryFocus--;
-			if (inventoryFocus < 0)
+			if (inventoryFocus < 0) {
 				inventoryFocus = inventory.size() - 1;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
@@ -355,23 +532,27 @@ public class Game extends JFrame
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
 			int num = 0;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventoryFocus = num;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_2 && playerControl) {
 			int num = 1;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventoryFocus = num;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_3 && playerControl) {
 			int num = 2;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventoryFocus = num;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_4 && playerControl) {
 			int num = 3;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventoryFocus = num;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_M) {
 			debug = !debug;
@@ -386,7 +567,7 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(final KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = false;
 		}
@@ -397,7 +578,7 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(final KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
