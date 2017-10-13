@@ -10,8 +10,26 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+=======
+		<buildCommand>
+			<name>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
+		<nature>net.sf.eclipsecs.core.CheckstyleNature</nature>
+>>>>>>> 4f7bfb7e869ece17d898350ba3b3462c23fd44e3
 	</natures>
 </projectDescription>

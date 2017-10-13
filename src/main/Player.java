@@ -8,7 +8,10 @@ public class Player extends Entity{
 	private double jumpSequenceCooldown;
 	private double hunger;
 	private double hunger_max;
-	public Player(double xx, double yy){
+	private static boolean swinging;
+	private long lastSwing;
+	
+	public Player(double xx, double yy) {
 		super(xx,yy);
 		width = 32;
 		height = 32;
@@ -25,6 +28,8 @@ public class Player extends Entity{
 		jumpSequence = 0;
 		jumpHeight = 10;
 		jumpSequenceCooldown = 0;
+		swinging = true;
+		lastSwing = 0;
 	}
 	
 	public double getJumpSequence(){
@@ -159,7 +164,7 @@ public class Player extends Entity{
 			   //General Collision
 			   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
 				ay1+aysp < by2 && ay2+aysp > by1 && isAlive()){
-				   if(g.inventoryCheck(drop.getType(), drop.getId()) || g.inventory.size()<g.inventoryMax){
+				   if(g.inventoryCheck(drop.getType(), drop.getId()) || g.inventory.size()<g.inventory.getMax()){
 					   g.inventoryAdd((drop).getType(), (drop).getId());
 					   g.removeWorldObject(drop);
 					   g.playSound(g.snd_bop);
@@ -213,7 +218,29 @@ public class Player extends Entity{
 		
 	}
 	
-	public double getHunger(){ return hunger;}
-	public void setHunger(double h){ hunger = h;}
-	public double getHungerMax(){ return hunger_max;}
+	public double getHunger() { 
+		return hunger;
+	}
+	public void setHunger(double h) {
+		hunger = h;
+	}
+	public double getHungerMax() {
+		return hunger_max;
+	}
+	
+	static public boolean isSwinging() {
+		return swinging;
+	}
+	
+	static public void setSwinging(boolean s) {
+		swinging = s;
+	}
+	
+	public void setLastSwing(long ls) {
+		lastSwing = ls;
+	}
+	
+	public long getLastSwing() {
+		return lastSwing;
+	}
 }
