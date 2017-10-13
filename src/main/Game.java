@@ -585,7 +585,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Save Game ------------- Save game to file
+	 * Save Game ------------- Save game to file.
 	 * 
 	 *******************************************************************/
 	public void saveGame() {
@@ -594,9 +594,7 @@ public class Game extends JFrame
 
 			out = new PrintWriter(new BufferedWriter(new FileWriter("save")));
 
-		}
-
-		catch (IOException e) {
+		} catch (IOException e) {
 
 			e.printStackTrace();
 
@@ -611,6 +609,9 @@ public class Game extends JFrame
 		out.close();
 	}
 
+	/**
+	 * 
+	 */
 	public void loadGame() {
 		try {
 			Scanner fileReader = new Scanner(new File("save"));
@@ -632,7 +633,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Run Game Loop ------------- Simple init of the game loop itself
+	 * Run Game Loop ------------- Simple init of the game loop itself.
 	 * 
 	 *******************************************************************/
 	public void runGameLoop() {
@@ -647,7 +648,7 @@ public class Game extends JFrame
 	/*******************************************************************
 	 * 
 	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain old
-	 * while loop and has measures in place to smooth out the updates and renders
+	 * while loop and has measures in place to smooth out the updates and renders.
 	 * 
 	 *******************************************************************/
 	// Only run this in another Thread!
@@ -871,6 +872,9 @@ public class Game extends JFrame
 	 * View Shake ----------- Init the camera shake. Will change to a list later to
 	 * allow for multiple shakes
 	 * 
+	 * @param time DESCRIPTION
+	 * @param mag DESCRIPTION
+	 * 
 	 *******************************************************************/
 	private void viewShake(final int time, final int mag) {
 		viewShakeTime = time;
@@ -880,7 +884,9 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Draw Game --------- Repaint the game
+	 * Draw Game --------- Repaint the game.
+	 * 
+	 * @param interpolation DESCRIPTION
 	 * 
 	 *******************************************************************/
 	private void drawGame(final float interpolation) {
@@ -888,21 +894,38 @@ public class Game extends JFrame
 		gamePanel.repaint();
 	}
 
+	/**
+	 * @author gary
+	 *
+	 */
 	private class GamePanel extends JPanel {
 
+		/**
+		 * 
+		 */
 		float interpolation;
+		/**
+		 * 
+		 */
 		AffineTransform at = new AffineTransform();
 
+		/**
+		 * 
+		 */
 		public GamePanel() {
 			interpolation = 0;
 		}
 
-		// ???????????????????????
-		public void setInterpolation(float interp) {
+		/**
+		 * @param interp DESCRIPTION
+		 */
+		public void setInterpolation(final float interp) {
 			interpolation = interp;
 		}
 
-		// ?????????????????????
+		/**
+		 * 
+		 */
 		public void update() {
 
 		}
@@ -912,7 +935,12 @@ public class Game extends JFrame
 		 * Paint Component --------------- Update the game draw
 		 * 
 		 *******************************************************************/
-		public void paintComponent(Graphics g) {
+		/** 
+		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+		 * 
+		 * @param g DESCRIPTION
+		 */
+		public void paintComponent(final Graphics g) {
 			// Draw Back
 			// g.setColor(Color.blue);
 			// g.fillRect(0, 0, 1280, 720);
@@ -938,13 +966,14 @@ public class Game extends JFrame
 								wBlockSize, null);
 					}
 					if (wGridBounds(i, j) && world.getWID(i, j) != 0) {
-						if (!world.isWater(i, j))
+						if (!world.isWater(i, j)) {
 							g.drawImage(sprites[Constants.TYPE_BLOCK][world.getWID(i, j)],
 									(int) (i * wBlockSize - viewXFinal), (int) (j * wBlockSize - viewYFinal),
 									wBlockSize, wBlockSize, null);
-						else
+						} else {
 							drawTile(i, j, sprites[Constants.TYPE_BLOCK][world.getWID(i, j)], g,
 									(float) world.getWaterLevel(i, j) / 4);
+						}
 					}
 
 				}
@@ -973,7 +1002,7 @@ public class Game extends JFrame
 						img = sprites[inventory.get(inventoryFocus).getType()][inventory.get(inventoryFocus).getId()];
 						at.translate((int) (obj.getX() - viewXFinal + 10), (int) (obj.getY() - viewYFinal + 10));
 						if (mousePressed) {
-							if(System.currentTimeMillis() - player.getLastSwing() <= Constants.SWING_COOL_DOWN / 2) {
+							if (System.currentTimeMillis() - player.getLastSwing() <= Constants.SWING_COOL_DOWN / 2) {
 								at.rotate(Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / 500);
 							} else {
 								at.rotate(Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / -500 + 0.628);
@@ -1108,7 +1137,12 @@ public class Game extends JFrame
 			frameCount++;
 		}
 
-		public void drawSprite(WorldObject obj, BufferedImage img, Graphics g) {
+		/**
+		 * @param obj DESCRIPTION
+		 * @param img DESCRIPTION
+		 * @param g DESCRIPTION
+		 */
+		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g) {
 			int vx = (int) Math.round(viewXFinal);
 			int vy = (int) Math.round(viewYFinal);
 			// int vw = viewW;
@@ -1147,7 +1181,14 @@ public class Game extends JFrame
 			g2d.setTransform(backup); // restore previous transform
 		}
 
-		public void drawTile(int x, int y, BufferedImage img, Graphics g, float opacity) {
+		/**
+		 * @param x DESCRIPTION
+		 * @param y DESCRIPTION
+		 * @param img DESCRIPTION
+		 * @param g DESCRIPTION
+		 * @param opacity DESCRIPTION
+		 */
+		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(viewXFinal);
 			int vy = (int) Math.round(viewYFinal);
 			int xx = (int) (Math.round(x * wBlockSize) - vx);
@@ -1160,7 +1201,10 @@ public class Game extends JFrame
 
 	}
 
-	public void playSound(File snd) {
+	/**
+	 * @param snd DESCRIPTION
+	 */
+	public void playSound(final File snd) {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(snd);
 			Clip clip = AudioSystem.getClip();
@@ -1172,15 +1216,28 @@ public class Game extends JFrame
 		}
 	}
 
+	/**
+	 * @param val DESCRIPTION
+	 * @param min DESCRIPTION
+	 * @param max DESCRIPTION
+	 * @return DESCRIPTION
+	 */
 	private double bindDouble(double val, int min, int max) {
-		if (val < min)
+		if (val < min) {
 			val = min;
-		if (val > max)
+		}
+		if (val > max) {
 			val = max;
+		}
 		return val;
 	}
 
-	public boolean wGridBounds(int i, int j) {
+	/**
+	 * @param i DESCRIPTION
+	 * @param j DESCRIPTION
+	 * @return DESCRIPTION
+	 */
+	public boolean wGridBounds(final int i, final int j) {
 		return i >= 0 && i < wGridSizeX && j >= 0 && j < wGridSizeY;
 	}
 
