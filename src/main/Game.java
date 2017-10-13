@@ -662,10 +662,11 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 			   //Y Collision
 			   int xLow = Math.floorDiv((int) ax1, wBlockSize);
 			   int xHi = Math.floorDiv((int) ax2, wBlockSize);
-			   int yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
-			   for(xx = xLow;xx<=xHi;xx++){
-				   if(wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-					   int yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize);
+			   int yy = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + aysp), wBlockSize);
+			   for (xx = xLow; xx <= xHi; xx++) {
+				   if (wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
+					   int yy2 = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2
+							   + Math.signum(aysp)), wBlockSize);
 					   /*
 					   while(wGridBounds(xx,yy) && (world.getWID(xx,yy2)==0 || world.getWID(xx,yy2)==4)){
 						   ay1+=Math.signum(aysp);
@@ -673,8 +674,8 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 					   }
 					   */
 					   //obj.setY(ay1);
-					   obj.setXsp(obj.getXsp()*0.5);
-					   obj.setYsp(-obj.getYsp()*0.5);
+					   obj.setXsp(obj.getXsp() * 0.5);
+					   obj.setYsp(-obj.getYsp() * 0.5);
 					   yCol = true;
 				   }
 			   }
@@ -686,9 +687,9 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 				   xLow = Math.floorDiv((int) ((int) ax1 + axsp), wBlockSize);
 				   xHi = Math.floorDiv((int) ((int) ax2 + axsp), wBlockSize);
 				   //yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
-				   for(xx = xLow;xx<=xHi;xx++){
-					   for(yy = yLow;yy<=yHi;yy++){
-						   if(wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
+				   for (xx = xLow; xx <= xHi; xx++) {
+					   for (yy = yLow; yy <= yHi; yy++) {
+						   if (wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
 							   obj.setXsp(0);
 						   }
 					   }
@@ -699,10 +700,10 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	   }
 	   view.step();
 	  //View Follow Player
-      view.setViewX(view.getViewX()+(player.getX()-view.getViewW()/2 - view.getViewX())*0.3);
-      view.setViewY(view.getViewY()+(player.getY()-view.getViewH()/2 - view.getViewY())*0.1);
-      view.setViewX(bindDouble(view.getViewX(),0,(wGridSizeX-1)*wBlockSize-view.getViewW()));
-      view.setViewY(bindDouble(view.getViewY(),0,(wGridSizeX-1)*wBlockSize-view.getViewH()));
+      view.setViewX(view.getViewX() + (player.getX() - view.getViewW() / 2 - view.getViewX()) * 0.3);
+      view.setViewY(view.getViewY() + (player.getY() - view.getViewH() / 2 - view.getViewY()) * 0.1);
+      view.setViewX(bindDouble(view.getViewX(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewW()));
+      view.setViewY(bindDouble(view.getViewY(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewH()));
       gamePanel.update();
    }
    /*******************************************************************
@@ -712,8 +713,7 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     * Repaint the game
     * 
     *******************************************************************/
-   private void drawGame(float interpolation)
-   {
+   private void drawGame(float interpolation) {
       gamePanel.setInterpolation(interpolation);
       gamePanel.repaint();
    }
@@ -758,19 +758,29 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     	  g.drawImage(bg_sky, (int) (0-view.getViewXFinal()*0.2+1280),0,1280*3,720,null);
     	  
          //Draw Terrain
-         for(int i = (int) Math.floor(view.getViewX()/wBlockSize);i<Math.floor((view.getViewX() + view.getViewW()+128)/wBlockSize);i++){
-        	 for(int j = (int) Math.floor(view.getViewY()/wBlockSize);j<Math.floor((view.getViewY() + view.getViewH()+128)/wBlockSize);j++){
+         for (int i = (int) Math.floor(view.getViewX() / wBlockSize);
+        		 i < Math.floor((view.getViewX() + view.getViewW() + 128) / wBlockSize); i++) {
+        	 for (int j = (int) Math.floor(view.getViewY() / wBlockSize);
+        			 j < Math.floor((view.getViewY() + view.getViewH() + 128) / wBlockSize); j++) {
         		 
         		 //if(i<0) i = 0;
         		 //if(j<0) j = 0;
         		 //if(i>wGridSizeX-1) i = wGridSizeX-1;
         		 //if(j>wGridSizeY-1) j = wGridSizeY-1;
-        		 if(wGridBounds(i,j) && world.getBID(i,j)!=0 && world.getWID(i,j)==0 || world.isWater(i, j)){
-        			 g.drawImage(sprites[TYPE_BACK][world.getBID(i,j)], (int)(i*wBlockSize-view.getViewXFinal()), (int)(j*wBlockSize-view.getViewYFinal()), wBlockSize, wBlockSize, null);
+        		 if (wGridBounds(i, j) && world.getBID(i, j) != 0 && world.getWID(i, j) == 0 || world.isWater(i, j)) {
+        			 g.drawImage(sprites[TYPE_BACK][world.getBID(i, j)], (int)(i * wBlockSize - view.getViewXFinal()),
+        					 (int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
         		 }
-        		 if(wGridBounds(i,j) && world.getWID(i,j)!=0){
-        			 if(!world.isWater(i, j)) g.drawImage(sprites[TYPE_BLOCK][world.getWID(i,j)], (int)(i*wBlockSize-view.getViewXFinal()), (int)(j*wBlockSize-view.getViewYFinal()), wBlockSize, wBlockSize, null);
-        			 else drawTile(i,j,sprites[TYPE_BLOCK][world.getWID(i, j)],g,(float)world.getWaterLevel(i, j)/4);
+        		 if(wGridBounds(i, j) && world.getWID(i, j) != 0){
+        			 if (!world.isWater(i, j)) {
+        				 g.drawImage(sprites[TYPE_BLOCK][world.getWID(i, j)],
+        						 (int) (i * wBlockSize - view.getViewXFinal()),
+        						 (int) (j * wBlockSize - view.getViewYFinal()),
+        						 wBlockSize, wBlockSize, null);
+        			 } else {
+        				 drawTile(i, j, sprites[TYPE_BLOCK][world.getWID(i, j)], g,
+        						 (float) world.getWaterLevel(i, j) / 4);
+        			 }
         		 }
         		 
         	 }
@@ -779,19 +789,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          
          
          //Draw
-         for(int i = 0;i<objList.size();i++){
+         for(int i = 0; i < objList.size(); i++) {
         	 WorldObject obj = objList.get(i);
         	 int vx = (int) Math.round(view.getViewXFinal());
         	 int vy = (int) Math.round(view.getViewYFinal());
         	 int vw = view.getViewW();
         	 int vh = view.getViewH();
-        	 int xx = (int) (Math.round(obj.getX())-vx);
-        	 int yy = (int) (Math.round(obj.getY())-vy);
+        	 int xx = (int) (Math.round(obj.getX()) - vx);
+        	 int yy = (int) (Math.round(obj.getY()) - vy);
         	 int ww = (int) Math.round(obj.getWidth());
         	 int hh = (int) Math.round(obj.getHeight());
-			 if (xx+vx < vx+vw && xx+ww+vx > vx &&
-				yy+vy < vy+vh && yy+hh+vy > vy){
-	        	 if(obj instanceof Particle){
+			 if (xx + vx < vx + vw && xx + ww + vx > vx
+					 && yy + vy < vy + vh && yy + hh + vy > vy) {
+	        	 if (obj instanceof Particle) {
 	        		 g.setColor(Color.WHITE);
 	        		 g.fillRect(xx, yy, ww, hh);
 	        	 }
@@ -818,17 +828,19 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
 	        	 }
 	        	 if(obj instanceof Item_Drop){
 	            	 BufferedImage image = null;
-	            	 image = sprites[((Item_Drop)obj).getType()][((Item_Drop)obj).getId()];
-	            	 g.drawImage(image, (int)(obj.getX()-view.getViewXFinal()), (int)(obj.getY()-view.getViewYFinal()), (int)obj.getWidth(), (int)obj.getHeight(), null);
+	            	 image = sprites[((Item_Drop) obj).getType()][((Item_Drop) obj).getId()];
+	            	 g.drawImage(image, (int) (obj.getX() - view.getViewXFinal()),
+	            			 (int) (obj.getY() - view.getViewYFinal()),
+	            			 (int) obj.getWidth(), (int) obj.getHeight(), null);
 	        	 }
-	        	 if(obj instanceof Chicken){
-	        		 drawSprite(obj,spr_chicken,g);
+	        	 if (obj instanceof Chicken) {
+	        		 drawSprite(obj, spr_chicken, g);
 	        	 }
-	        	 if(obj instanceof Cow){
-	        		 drawSprite(obj,spr_cow,g);
+	        	 if (obj instanceof Cow) {
+	        		 drawSprite(obj, spr_cow, g);
 	        	 }
-	        	 if(obj instanceof Enemy){
-	        		 drawSprite(obj,spr_zombie,g);
+	        	 if (obj instanceof Enemy) {
+	        		 drawSprite(obj, spr_zombie, g);
 	        	 }
 			 }
          }
@@ -844,28 +856,38 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
     		}
          }
          */
-         int xx = (int) (Math.floorDiv((int) (mouseX + view.getViewXFinal()),wBlockSize)*wBlockSize - view.getViewXFinal());
-         int yy = (int) (Math.floorDiv((int) (mouseY + view.getViewYFinal()),wBlockSize)*wBlockSize - view.getViewYFinal());
-         if(world.getWID(Math.floorDiv((int) (mouseX + view.getViewXFinal()),wBlockSize),Math.floorDiv((int) (mouseY + view.getViewYFinal()),wBlockSize))!=0){
+         int xx = (int) (Math.floorDiv((int)
+        		 (mouseX + view.getViewXFinal()), wBlockSize)
+        		 * wBlockSize - view.getViewXFinal());
+         int yy = (int) (Math.floorDiv((int)
+        		 (mouseY + view.getViewYFinal()), wBlockSize)
+        		 * wBlockSize - view.getViewYFinal());
+         if (world.getWID(Math.floorDiv((int)
+        		 (mouseX + view.getViewXFinal()), wBlockSize),
+        		 Math.floorDiv((int) (mouseY + view.getViewYFinal()),
+        		 wBlockSize)) != 0) {
 	         g.setColor(Color.white);
 	         g.drawRect(xx, yy, wBlockSize, wBlockSize); 
          }
-         g.drawImage(spr_black, (int)mouseX, (int)mouseY, 16, 16, null);
+         g.drawImage(spr_black, (int) mouseX, (int) mouseY, 16, 16, null);
          
          //Player Menu
-         if(menu_player){
-        	 g.setColor(new Color(0,0,(float)0.4,(float) 0.9));
-        	 g.fillRect(1280/4, 720/4, 1280/2, 720/2);
+         if (menu_player) {
+        	 g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
+        	 g.fillRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
         	 g.setColor(Color.white);
-        	 g.drawRect(1280/4, 720/4, 1280/2, 720/2);
-             for(int i = 0;i<inventory.size();i++){
+        	 g.drawRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
+             for (int i = 0; i < inventory.size(); i++) {
             	 BufferedImage image = null;
-            	 image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
-            	 g.drawImage(image, 1280/4+54*i, 720/2-48*2, 48, 48, null);
+            	 image = sprites[inventory.get(i).getType()]
+            			 [inventory.get(i).getId()];
+            	 g.drawImage(image, 1280 / 4 + 54 * i, 720
+            			 / 2 - 48 * 2, 48, 48, null);
             	 g.setColor(Color.black);
-            	 g.fillRect(1280/4+54*i+40, 720/2-48-12, 12, 12);
+            	 g.fillRect(1280 / 4 + 54 * i + 40, 720 / 2 - 48 - 12, 12, 12);
             	 g.setColor(Color.white);
-                 g.drawString(Integer.toString(inventory.get(i).getCount()), 1280/4+54*i+40,720/2-48);
+                 g.drawString(Integer.toString(inventory.get(i).getCount()),
+                		 1280 / 4 + 54 * i + 40, 720 / 2 - 48);
                  //g.drawString((inventory.get(i).getType().name()), 54*i+40,720-48);
                  
              }
@@ -874,69 +896,81 @@ public class Game extends JFrame implements ActionListener, KeyListener, MouseLi
          //Draw HUD
 
          //Hearts
-         for(int i=0;i<player.getHP();i++){
-        	 g.drawImage(spr_heart,32*i,0,32,32,null);
+         for (int i = 0; i < player.getHP(); i++) {
+        	 g.drawImage(spr_heart, 32 * i, 0, 32, 32, null);
          }
          //Hunger
          g.setColor(Color.ORANGE);
-         g.fillRect(0, 32, (int) ((player.getHunger()/player.getHungerMax())*96), 32);
+         g.fillRect(0, 32, (int) ((player.getHunger()
+        		 / player.getHungerMax()) * 96), 32);
          g.setColor(Color.white);
          g.drawRect(0, 32, 96, 32);
          
          //Inventory Bar
-         g.setColor(new Color(0,0,(float)0.4,(float) 0.5));
-         g.fillRect(0, 720-64-40, inventory.getMax()*54+4, 64);
-         for(int i = 0;i<inventory.getMax();i++){
+         g.setColor(new Color(0, 0, (float) 0.4, (float) 0.5));
+         g.fillRect(0, 720 - 64 - 40, inventory.getMax() * 54 + 4, 64);
+         for (int i = 0; i < inventory.getMax(); i++) {
         	 g.setColor(Color.white);
-        	 g.drawRect(i*54, 720-64-40+8, 48, 48);
+        	 g.drawRect(i * 54, 720 - 64 - 40 + 8, 48, 48);
          }
-         for(int i = 0;i<inventory.size();i++){
+         for (int i = 0; i < inventory.size(); i++) {
         	 BufferedImage image = null;
-        	 image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
-        	 g.drawImage(image, 54*i, 720-48*2, 48, 48, null);
+        	 image = sprites[inventory.get(i).getType()]
+        			 [inventory.get(i).getId()];
+        	 g.drawImage(image, 54 * i, 720 - 48 * 2, 48, 48, null);
         	 g.setColor(Color.black);
-        	 g.fillRect(54*i+40, 720-48-12, 12, 12);
+        	 g.fillRect(54 * i + 40, 720 - 48 - 12, 12, 12);
         	 g.setColor(Color.white);
-             g.drawString(Integer.toString(inventory.get(i).getCount()), 54*i+40,720-48);
+             g.drawString(Integer.toString(inventory.get(i).getCount()),
+            		 54 * i + 40, 720 - 48);
              //g.drawString((inventory.get(i).getType().name()), 54*i+40,720-48);
              
          }
          g.setColor(Color.cyan);
-         g.drawRect(54*inventory.getFocus(), 720-48*2, 48, 48);
+         g.drawRect(54 * inventory.getFocus(), 720 - 48 * 2, 48, 48);
          
          
          //DRAW DEBUG
-         if(debug){
+         if (debug) {
         	 //Info
-        	 g.setColor(new Color((float)0.1,(float)0.1,(float)0.1,(float) 0.5));
-        	 g.fillRect(1280-256, 0, 256, 256);
+        	 g.setColor(new Color((float) 0.1, (float) 0.1,
+        			 (float) 0.1, (float) 0.5));
+        	 g.fillRect(1280 - 256, 0, 256, 256);
         	 g.setColor(Color.white);
-        	 g.drawRect(1280-256, 0, 256, 256);
-        	 int i = 1280-256+2;
+        	 g.drawRect(1280 - 256, 0, 256, 256);
+        	 int i = 1280 - 256 + 2;
         	 int j = 1;
         	 int h = 16;
-        	 g.drawString("DEBUG MENU", i, j*h);
+        	 g.drawString("DEBUG MENU", i, j * h);
         	 j++;
-             g.drawString("FPS: "+Double.toString(fps), i, j*h);
+             g.drawString("FPS: " + Double.toString(fps), i, j * h);
              j++;
-             g.drawString("X: " + Double.toString(player.getX()), i, j*h);
+             g.drawString("X: " + Double.toString(player.getX()), i, j * h);
              j++;
-             g.drawString("Y: " + Double.toString(player.getY()), i, j*h);
+             g.drawString("Y: " + Double.toString(player.getY()), i, j * h);
              j++;
-             g.drawString("X Grid: " + Integer.toString(Math.floorDiv((int) player.getX(),wBlockSize)), i, j*h);
+             g.drawString("X Grid: " + Integer.toString(Math.floorDiv((int)
+            		 player.getX(), wBlockSize)), i, j * h);
              j++;
-             g.drawString("Y Grid: " + Integer.toString(Math.floorDiv((int) player.getY(),wBlockSize)), i, j*h);
+             g.drawString("Y Grid: " + Integer.toString(Math.floorDiv((int)
+            		 player.getY(), wBlockSize)), i, j * h);
              j++;
-             g.drawString("objList Size: " + Integer.toString(objList.size()), i, j*h);
+             g.drawString("objList Size: " + Integer.toString(objList.size()),
+            		 i, j * h);
              j++;
-             g.drawString("ViewX: " + Double.toString(view.getViewX()), i, j*h);
+             g.drawString("ViewX: " + Double.toString(view.getViewX()), 
+            		 i, j * h);
              j++;
-             g.drawString("ViewY: " + Double.toString(view.getViewY()), i, j*h);
+             g.drawString("ViewY: " + Double.toString(view.getViewY()),
+            		 i, j * h);
              j++;
-             g.drawString("ViewW: " + Integer.toString(view.getViewW()), i, j*h);
+             g.drawString("ViewW: " + Integer.toString(view.getViewW()),
+            		 i, j * h);
              j++;
-             g.drawString("ViewH: " + Integer.toString(view.getViewH()), i, j*h);
+             g.drawString("ViewH: " + Integer.toString(view.getViewH()),
+            		 i, j * h);
              j++;
+                                                                                
              
              //Mouse
              i = (int)mouseX;
