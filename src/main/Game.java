@@ -1222,14 +1222,15 @@ public void mouseReleased(MouseEvent e) {
 
 @Override
 public void mouseDragged(MouseEvent arg0) {
-	// TODO Auto-generated method stub
+	mouseX = arg0.getX();
+	mouseY = arg0.getY() - 24;
 	
 }
 
 @Override
 public void mouseMoved(MouseEvent arg0) {
 	mouseX = arg0.getX();
-	mouseY = arg0.getY()-24;
+	mouseY = arg0.getY() - 24;
 	
 }
 
