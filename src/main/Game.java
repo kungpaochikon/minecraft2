@@ -55,38 +55,6 @@ public class Game extends JFrame
 	// random
 	private Random random;
 
-	// Constants
-	// Types
-	private int TYPE_BLOCK = 0;
-	private int TYPE_BACK = 1;
-	private int TYPE_TOOL = 2;
-	private int TYPE_ITEM = 3;
-	private int TYPE_FOOD = 4;
-	private int TYPE_ENTITY = 5;
-
-	// IDS
-	// BLOCKS
-	private int BLOCK_DIRT = 1;
-	private int BLOCK_GRASS = 2;
-	private int BLOCK_LEAVES = 3;
-	private int BLOCK_WATER = 4;
-	private int BLOCK_DIAMOND = 5;
-	private int BLOCK_STONE = 6;
-	private int BLOCK_COBBLESTONE = 7;
-	// BACKS
-
-	// TOOLS
-
-	// ITEMS
-
-	// FOODS
-
-	// ENTITIES
-	private int ENTITY_PLAYER = 0;
-	private int ENTITY_CHICKEN = 1;
-	private int ENTITY_COW = 1;
-	private int ENTITY_ZOMBIE = 1;
-
 	// Sprites
 	private BufferedImage spr_player;
 	private BufferedImage bg_sky;
@@ -152,33 +120,33 @@ public class Game extends JFrame
 			spr_cow = ImageIO.read(new File("images\\spr_cow.png"));
 			spr_zombie = ImageIO.read(new File("images\\spr_zombie.png"));
 			// Terrain
-			sprites[TYPE_BLOCK][BLOCK_DIRT] = ImageIO.read(new File("images\\spr_dirt.png"));
-			sprites[TYPE_BLOCK][BLOCK_GRASS] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
-			sprites[TYPE_BLOCK][BLOCK_LEAVES] = ImageIO.read(new File("images\\spr_leaves.png"));
-			sprites[TYPE_BLOCK][BLOCK_WATER] = ImageIO.read(new File("images\\spr_water.png"));
-			sprites[TYPE_BLOCK][BLOCK_DIAMOND] = ImageIO.read(new File("images\\spr_diamond_ore.png"));
-			sprites[TYPE_BLOCK][BLOCK_STONE] = ImageIO.read(new File("images\\spr_stone.png"));
-			sprites[TYPE_BLOCK][BLOCK_COBBLESTONE] = ImageIO.read(new File("images\\spr_cobblestone.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] = ImageIO.read(new File("images\\spr_dirt.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_GRASS] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_LEAVES] = ImageIO.read(new File("images\\spr_leaves.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_WATER] = ImageIO.read(new File("images\\spr_water.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIAMOND_ORE] = ImageIO.read(new File("images\\spr_diamond_ore.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_STONE] = ImageIO.read(new File("images\\spr_stone.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_COBBLESTONE] = ImageIO.read(new File("images\\spr_cobblestone.png"));
 			// Backs
-			sprites[TYPE_BACK][1] = ImageIO.read(new File("images\\spr_wood.png"));
-			sprites[TYPE_BACK][2] = ImageIO.read(new File("images\\spr_back_cave.png"));
-			sprites[TYPE_BACK][3] = ImageIO.read(new File("images\\spr_back_cave_stone.png"));
+			sprites[Constants.TYPE_BACK][Constants.BACK_WOOD] = ImageIO.read(new File("images\\spr_wood.png"));
+			sprites[Constants.TYPE_BACK][Constants.BACK_DIRT] = ImageIO.read(new File("images\\spr_back_cave.png"));
+			sprites[Constants.TYPE_BACK][Constants.BACK_STONE] = ImageIO.read(new File("images\\spr_back_cave_stone.png"));
 			// Tools
-			sprites[TYPE_TOOL][0] = ImageIO.read(new File("images\\spr_pickaxe.png"));
-			sprites[TYPE_TOOL][1] = ImageIO.read(new File("images\\spr_axe.png"));
-			sprites[TYPE_TOOL][2] = ImageIO.read(new File("images\\spr_sword.png"));
+			sprites[Constants.TYPE_TOOL][Constants.PICKAXE] = ImageIO.read(new File("images\\spr_pickaxe.png"));
+			sprites[Constants.TYPE_TOOL][Constants.AXE] = ImageIO.read(new File("images\\spr_axe.png"));
+			sprites[Constants.TYPE_TOOL][Constants.SWORD] = ImageIO.read(new File("images\\spr_sword.png"));
 			// Items
-			sprites[TYPE_ITEM][0] = ImageIO.read(new File("images\\spr_diamond.png"));
+			sprites[Constants.TYPE_ITEM][Constants.ITEM_DIAMOND] = ImageIO.read(new File("images\\spr_diamond.png"));
 			// Food
-			sprites[TYPE_FOOD][0] = ImageIO.read(new File("images\\spr_apple.png"));
-			sprites[TYPE_FOOD][1] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
-			sprites[TYPE_FOOD][2] = ImageIO.read(new File("images\\spr_beef_raw.png"));
+			sprites[Constants.TYPE_FOOD][Constants.APPLE] = ImageIO.read(new File("images\\spr_apple.png"));
+			sprites[Constants.TYPE_FOOD][Constants.RAW_CHICKEN] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
+			sprites[Constants.TYPE_FOOD][Constants.RAW_BEEF] = ImageIO.read(new File("images\\spr_beef_raw.png"));
 
 			// Entities
-			sprites[TYPE_ENTITY][ENTITY_PLAYER] = ImageIO.read(new File("images\\spr_player.png"));
-			sprites[TYPE_ENTITY][ENTITY_CHICKEN] = ImageIO.read(new File("images\\spr_chicken.png"));
-			sprites[TYPE_ENTITY][ENTITY_COW] = ImageIO.read(new File("images\\spr_cow.png"));
-			sprites[TYPE_ENTITY][ENTITY_ZOMBIE] = ImageIO.read(new File("images\\spr_zombie.png"));
+			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_PLAYER] = ImageIO.read(new File("images\\spr_player.png"));
+			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_CHICKEN] = ImageIO.read(new File("images\\spr_chicken.png"));
+			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_COW] = ImageIO.read(new File("images\\spr_cow.png"));
+			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_ZOMBIE] = ImageIO.read(new File("images\\spr_zombie.png"));
 			// Sounds
 			snd_jump = new File("sounds\\jump.wav").getAbsoluteFile();
 			snd_death = new File("sounds\\death.wav").getAbsoluteFile();
@@ -254,9 +222,9 @@ public class Game extends JFrame
 		menu_player = false;
 		objList = new ArrayList<WorldObject>();
 		inventory = new Inventory();
-		inventory.add(new Item(TYPE_TOOL, 0, 1));
-		inventory.add(new Item(TYPE_TOOL, 1, 1));
-		inventory.add(new Item(TYPE_TOOL, 2, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL, Constants.PICKAXE, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL, Constants.AXE, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL, Constants.SWORD, 1));
 		// inventoryFocus = 0;
 		running = true;
 		moveL = false;
@@ -738,17 +706,17 @@ public class Game extends JFrame
 					// if(j>wGridSizeY-1) j = wGridSizeY-1;
 					if (wGridBounds(i, j) && world.getBID(i, j) != 0 && world.getWID(i, j) == 0
 							|| world.isWater(i, j)) {
-						g.drawImage(sprites[TYPE_BACK][world.getBID(i, j)],
+						g.drawImage(sprites[Constants.TYPE_BACK][world.getBID(i, j)],
 								(int) (i * wBlockSize - view.getViewXFinal()),
 								(int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
 					}
 					if (wGridBounds(i, j) && world.getWID(i, j) != 0) {
 						if (!world.isWater(i, j)) {
-							g.drawImage(sprites[TYPE_BLOCK][world.getWID(i, j)],
+							g.drawImage(sprites[Constants.TYPE_BLOCK][world.getWID(i, j)],
 									(int) (i * wBlockSize - view.getViewXFinal()),
 									(int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
 						} else {
-							drawTile(i, j, sprites[TYPE_BLOCK][world.getWID(i, j)], g,
+							drawTile(i, j, sprites[Constants.TYPE_BLOCK][world.getWID(i, j)], g,
 									(float) world.getWaterLevel(i, j) / 4);
 						}
 					}
