@@ -525,10 +525,6 @@ public class Game extends JFrame
 	private void updateGame() {
 		// Update inventory
 		inventoryUpdate();
-		if (mousePressed) {
-			pressMouse(mouseX, mouseY);
-		}
-
 		// Player Movement
 		if (moveL) {
 			player.setXsp(player.getXsp() - 1);
@@ -1031,111 +1027,108 @@ public class Game extends JFrame
 		drop.setYsp(randomRange(-5, 5));
 		return (Item_Drop) drop;
 	}
-
-	public void pressMouse(double pX, double pY) {
-		if (System.currentTimeMillis() - player.getLastSwing() >= Constants.SWING_COOL_DOWN) {
-			player.setLastSwing(System.currentTimeMillis());
-			if (Math.abs(pX + view.getViewXFinal() - player.getX()) < 128
-					&& Math.abs(pY + view.getViewYFinal() - player.getY()) < 128) {
-				int xx = Math.floorDiv((int) ((int) pX + view.getViewXFinal()), wBlockSize);
-				int yy = Math.floorDiv((int) ((int) pY - 24 + view.getViewYFinal()), wBlockSize);
-				int xxx = xx * wBlockSize + wBlockSize / 4;
-				int yyy = yy * wBlockSize + wBlockSize / 4;
-				if (inventory.size() > 0 && inventory.getFocused().getCount() > 0) {
-					// Place Block
-					if (inventory.getFocused().getType() == Constants.TYPE_BLOCK) {
-						if (world.getWID(xx, yy) == Constants.BLOCK_AIR || world.getWID(xx, yy) == Constants.BLOCK_WATER
-								|| world.getWID(xx, yy) == 5) {
-							world.setWID(xx, yy, inventory.getFocused().getId());
-							inventory.getFocused().changeCount(-1);
-						}
-					}
-					// Place Back
-					if (inventory.getFocused().getType() == Constants.TYPE_BACK) {
-						if (world.getBID(xx, yy) == Constants.BACK_AIR) {
-							world.setBID(xx, yy, inventory.getFocused().getId());
-							inventory.getFocused().changeCount(-1);
-						}
-					}
-					// Use Tool
-					if (inventory.getFocused().getType() == Constants.TYPE_TOOL
-							&& inventory.getFocused().getId() == Constants.PICKAXE) {
-						Player.setSwinging(true);
-						if (world.getWID(xx, yy) != Constants.BLOCK_AIR) {
-							boolean drop = true;
-							// CUSTOMS
-							int myType = Constants.TYPE_BLOCK;
-							int myID = world.getWID(xx, yy);
-							world.getBlock(xx, yy).hitBlock(30);
-							if (world.getBlock(xx, yy).getIntegrity() < 0) {
-								if (myID == Constants.BLOCK_GRASS) {
-									myID = Constants.BLOCK_DIRT;
-								}
-								if (myID == Constants.BLOCK_STONE) {
-									myID = Constants.BLOCK_COBBLESTONE;
-								}
-								if (myID == Constants.BLOCK_DIAMOND_ORE) {
-									myID = Constants.ITEM_DIAMOND;
-									myType = Constants.TYPE_ITEM;
-								}
-								if (myID == Constants.BLOCK_LEAVES) {
-									drop = false;
-									if (random.nextInt(10) == 1) {
-										ItemDropCreate(xxx, yyy, Constants.TYPE_FOOD, Constants.APPLE);
-									}
-								}
-								if (drop) {
-									ItemDropCreate(xxx, yyy, myType, myID);
-								}
-								world.setWID(xx, yy, Constants.BLOCK_AIR);
+	@Override
+	public void mousePressed(MouseEvent e) {
+		double pX = e.getX();
+		double pY = e.getY();
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			if (System.currentTimeMillis() - player.getLastSwing() >= Constants.SWING_COOL_DOWN) {
+				player.setLastSwing(System.currentTimeMillis());
+				if (Math.abs(pX + view.getViewXFinal() - player.getX()) < 128
+						&& Math.abs(pY + view.getViewYFinal() - player.getY()) < 128) {
+					int xx = Math.floorDiv((int) ((int) pX + view.getViewXFinal()), wBlockSize);
+					int yy = Math.floorDiv((int) ((int) pY - 24 + view.getViewYFinal()), wBlockSize);
+					int xxx = xx * wBlockSize + wBlockSize / 4;
+					int yyy = yy * wBlockSize + wBlockSize / 4;
+					if (inventory.size() > 0 && inventory.getFocused().getCount() > 0) {
+						// Place Block
+						if (inventory.getFocused().getType() == Constants.TYPE_BLOCK) {
+							if (world.getWID(xx, yy) == Constants.BLOCK_AIR || world.getWID(xx, yy) == Constants.BLOCK_WATER
+									|| world.getWID(xx, yy) == 5) {
+								world.setWID(xx, yy, inventory.getFocused().getId());
+								inventory.getFocused().changeCount(-1);
 							}
 						}
-					}
-					if (inventory.getFocused().getType() == Constants.TYPE_TOOL
-							&& inventory.getFocused().getId() == Constants.AXE) {
-						Player.setSwinging(true);
-						if (world.getBID(xx, yy) != Constants.BACK_AIR) {
-							ItemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
-							world.setBID(xx, yy, Constants.BACK_AIR);
+						// Place Back
+						if (inventory.getFocused().getType() == Constants.TYPE_BACK) {
+							if (world.getBID(xx, yy) == Constants.BACK_AIR) {
+								world.setBID(xx, yy, inventory.getFocused().getId());
+								inventory.getFocused().changeCount(-1);
+							}
 						}
-					}
-
-					if (inventory.getFocused().getType() == Constants.TYPE_TOOL
-							&& inventory.getFocused().getId() == Constants.SWORD) {
-						Player.setSwinging(true);
-						double x = pX + view.getViewXFinal();
-						double y = pY + view.getViewYFinal();
-						for (int i = 0; i < objList.size(); i++) {
-							WorldObject obj = objList.get(i);
-							if (obj instanceof Animal) {
-								if (x > obj.getX() && x < obj.getX() + obj.getWidth() && y > obj.getY()
-										&& y < obj.getY() + obj.getHeight()) {
-									if (obj instanceof Chicken) {
-										ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_CHICKEN);
+						// Use Tool
+						if (inventory.getFocused().getType() == Constants.TYPE_TOOL
+								&& inventory.getFocused().getId() == Constants.PICKAXE) {
+							Player.setSwinging(true);
+							if (world.getWID(xx, yy) != Constants.BLOCK_AIR) {
+								boolean drop = true;
+								// CUSTOMS
+								int myType = Constants.TYPE_BLOCK;
+								int myID = world.getWID(xx, yy);
+								world.getBlock(xx, yy).hitBlock(30);
+								if (world.getBlock(xx, yy).getIntegrity() < 0) {
+									if (myID == Constants.BLOCK_GRASS) {
+										myID = Constants.BLOCK_DIRT;
 									}
-									if (obj instanceof Cow) {
-										ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_BEEF);
+									if (myID == Constants.BLOCK_STONE) {
+										myID = Constants.BLOCK_COBBLESTONE;
 									}
-									obj.destroy();
+									if (myID == Constants.BLOCK_DIAMOND_ORE) {
+										myID = Constants.ITEM_DIAMOND;
+										myType = Constants.TYPE_ITEM;
+									}
+									if (myID == Constants.BLOCK_LEAVES) {
+										drop = false;
+										if (random.nextInt(10) == 1) {
+											ItemDropCreate(xxx, yyy, Constants.TYPE_FOOD, Constants.APPLE);
+										}
+									}
+									if (drop) {
+										ItemDropCreate(xxx, yyy, myType, myID);
+									}
+									world.setWID(xx, yy, Constants.BLOCK_AIR);
 								}
 							}
 						}
-					}
+						if (inventory.getFocused().getType() == Constants.TYPE_TOOL
+								&& inventory.getFocused().getId() == Constants.AXE) {
+							Player.setSwinging(true);
+							if (world.getBID(xx, yy) != Constants.BACK_AIR) {
+								ItemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
+								world.setBID(xx, yy, Constants.BACK_AIR);
+							}
+						}
 
-					// Eat Food
-					if (inventory.getFocused().getType() == Constants.TYPE_FOOD) {
-						player.setHunger(player.getHungerMax());
-						inventory.getFocused().changeCount(-1);
+						if (inventory.getFocused().getType() == Constants.TYPE_TOOL
+								&& inventory.getFocused().getId() == Constants.SWORD) {
+							Player.setSwinging(true);
+							double x = pX + view.getViewXFinal();
+							double y = pY + view.getViewYFinal();
+							for (int i = 0; i < objList.size(); i++) {
+								WorldObject obj = objList.get(i);
+								if (obj instanceof Animal) {
+									if (x > obj.getX() && x < obj.getX() + obj.getWidth() && y > obj.getY()
+											&& y < obj.getY() + obj.getHeight()) {
+										if (obj instanceof Chicken) {
+											ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_CHICKEN);
+										}
+										if (obj instanceof Cow) {
+											ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_BEEF);
+										}
+										obj.destroy();
+									}
+								}
+							}
+						}
+
+						// Eat Food
+						if (inventory.getFocused().getType() == Constants.TYPE_FOOD) {
+							player.setHunger(player.getHungerMax());
+							inventory.getFocused().changeCount(-1);
+						}
 					}
 				}
 			}
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			mousePressed = true;
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			if (debug) {
