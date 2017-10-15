@@ -25,6 +25,7 @@ import java.util.Scanner;
 public class Game extends JFrame
 		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	private GamePanel gamePanel = new GamePanel();
+	private Menu menu;
 	private boolean running = false;
 	private boolean debug = false;
 	private boolean paused = false;
@@ -92,11 +93,12 @@ public class Game extends JFrame
 	 * 
 	 *******************************************************************/
 	public Game() {
+		menu = new Menu(this);
 		Container cp = getContentPane();
 		cp.setLayout(new BorderLayout());
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(1, 2));
-		cp.add(gamePanel, BorderLayout.CENTER);
+		cp.add(menu, BorderLayout.CENTER);
 		cp.add(p, BorderLayout.SOUTH);
 		setSize(1280, 720);
 		setLocationRelativeTo(null);
@@ -160,8 +162,6 @@ public class Game extends JFrame
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setGame();
-		runGameLoop();
 	}
 
 	/*******************************************************************
@@ -279,7 +279,25 @@ public class Game extends JFrame
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
+		if(e.getSource() == menu.getNewGameButton()) {
+			Container cp = getContentPane();
+			cp.remove(menu);
+			cp.add(gamePanel, BorderLayout.CENTER);
+			setGame();
+			runGameLoop();
+			cp.revalidate();
+			this.requestFocusInWindow();
+		}
+		if(e.getSource() == menu.getLoadGameButton()) {
+			Container cp = getContentPane();
+			cp.remove(menu);
+			cp.add(gamePanel, BorderLayout.CENTER);
+			setGame();
+			runGameLoop();
+			loadGame();
+			cp.revalidate();
+			this.requestFocusInWindow();
+		}
 	}
 
 	/*******************************************************************
