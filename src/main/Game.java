@@ -167,17 +167,17 @@ public class Game extends JFrame
 	/**
 	 * The sky background picture.
 	 */
-	private BufferedImage bg_sky;
+	private BufferedImage bgSky;
 
 	/**
 	 * A black block.
 	 */
-	private BufferedImage spr_black;
+	private BufferedImage sprBlack;
 
 	/**
 	 * The diamond sprite.
 	 */
-	private BufferedImage spr_diamond;
+	private BufferedImage sprDiamond;
 
 	/**
 	 * The heart sprite for the health bar.
@@ -207,7 +207,7 @@ public class Game extends JFrame
 	/**
 	 * The sound of a jump.
 	 */
-	private File snd_jump;
+	private File sndJump;
 
 	/**
 	 * The death sound.
@@ -318,8 +318,8 @@ public class Game extends JFrame
 		try {
 			sprites = new BufferedImage[10][256];
 			sprPlayer = ImageIO.read(new File("images\\spr_player.png"));
-			bg_sky = ImageIO.read(new File("images\\bg_clouds.png"));
-			spr_black = ImageIO.read(new File("images\\spr_black.png"));
+			bgSky = ImageIO.read(new File("images\\bg_clouds.png"));
+			sprBlack = ImageIO.read(new File("images\\sprBlack.png"));
 			spr_heart = ImageIO.read(new File("images\\spr_heart.png"));
 			spr_chicken = ImageIO.read(new File("images\\spr_chicken.png"));
 			spr_cow = ImageIO.read(new File("images\\spr_cow.png"));
@@ -344,7 +344,7 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_TOOL][Constants.AXE] = ImageIO.read(new File("images\\spr_axe.png"));
 			sprites[Constants.TYPE_TOOL][Constants.SWORD] = ImageIO.read(new File("images\\spr_sword.png"));
 			// Items
-			sprites[Constants.TYPE_ITEM][Constants.ITEM_DIAMOND] = ImageIO.read(new File("images\\spr_diamond.png"));
+			sprites[Constants.TYPE_ITEM][Constants.ITEM_DIAMOND] = ImageIO.read(new File("images\\sprDiamond.png"));
 			// Food
 			sprites[Constants.TYPE_FOOD][Constants.APPLE] = ImageIO.read(new File("images\\spr_apple.png"));
 			sprites[Constants.TYPE_FOOD][Constants.RAW_CHICKEN] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
@@ -357,7 +357,7 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_COW] = ImageIO.read(new File("images\\spr_cow.png"));
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_ZOMBIE] = ImageIO.read(new File("images\\spr_zombie.png"));
 			// Sounds
-			snd_jump = new File("sounds\\jump.wav").getAbsoluteFile();
+			sndJump = new File("sounds\\jump.wav").getAbsoluteFile();
 			snd_death = new File("sounds\\death.wav").getAbsoluteFile();
 			snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
 			snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
@@ -542,7 +542,7 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
-				playSound(snd_jump);
+				playSound(sndJump);
 			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_R && playerControl) {
@@ -980,10 +980,10 @@ public class Game extends JFrame
 			// Draw Back
 			// g.setColor(Color.blue);
 			// g.fillRect(0, 0, 1280, 720);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2), 0, 1280, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 2, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 3, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2), 0, 1280, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 2, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 3, 720, null);
 
 			// Draw Terrain
 			for (int i = (int) Math.floor(view.getViewX() / wBlockSize); i < Math
@@ -1093,7 +1093,7 @@ public class Game extends JFrame
 				g.setColor(Color.white);
 				g.drawRect(xx, yy, wBlockSize, wBlockSize);
 			}
-			g.drawImage(spr_black, (int) mouseX, (int) mouseY, 16, 16, null);
+			g.drawImage(sprBlack, (int) mouseX, (int) mouseY, 16, 16, null);
 
 			// Player Menu
 			if (menu_player) {
