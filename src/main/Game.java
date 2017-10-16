@@ -223,7 +223,7 @@ public class Game extends JFrame
 	 * The sound of a bop.
 	 */
 	public File snd_bop;
-	
+
 	/**
 	 * The sound of a block getting hit.
 	 */
@@ -408,6 +408,8 @@ public class Game extends JFrame
 	 * Remove World Object ---------------- Remove instance from the world
 	 * objects list.
 =======
+	 * Remove World Object ---------------- Remove instance from the world objects
+	 * list.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param obj
@@ -496,6 +498,9 @@ public class Game extends JFrame
 	 * main menu. If load game is clicked, it loads a game from the save file.
 	 * If new game is clicked, it creates a new game.
 =======
+	 * Called when either the load game or new game button are clicked on the main
+	 * menu. If load game is clicked, it loads a game from the save file. If new
+	 * game is clicked, it creates a new game.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	@Override
@@ -527,6 +532,8 @@ public class Game extends JFrame
 	 * Get the keyboard input and respond. Space makes the player jump. R resets
 	 * the game. E
 =======
+	 * Get the keyboard input and respond. Space makes the player jump. R resets the
+	 * game. E
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
@@ -549,8 +556,9 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_Q && playerControl) {
 			inventory.setFocus(inventory.getFocus() - 1);
-			if (inventory.getFocus() < 0)
+			if (inventory.getFocus() < 0) {
 				inventory.setFocus(inventory.size() - 1);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
@@ -571,23 +579,27 @@ public class Game extends JFrame
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
 			int num = 0;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_2 && playerControl) {
 			int num = 1;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_3 && playerControl) {
 			int num = 2;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_4 && playerControl) {
 			int num = 3;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_M) {
 			debug = !debug;
@@ -602,7 +614,7 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(final KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = false;
 		}
@@ -613,14 +625,14 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(final KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/*******************************************************************
 	 * 
-	 * Save Game ------------- Save game to file
+	 * Save Game ------------- Save game to file.
 	 * 
 	 *******************************************************************/
 	public void saveGame() {
@@ -629,9 +641,7 @@ public class Game extends JFrame
 
 			out = new PrintWriter(new BufferedWriter(new FileWriter("save")));
 
-		}
-
-		catch (IOException e) {
+		} catch (IOException e) {
 
 			e.printStackTrace();
 
@@ -646,6 +656,9 @@ public class Game extends JFrame
 		out.close();
 	}
 
+	/**
+	 * 
+	 */
 	public void loadGame() {
 		try {
 			Scanner fileReader = new Scanner(new File("save"));
@@ -667,7 +680,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Run Game Loop ------------- Simple init of the game loop itself
+	 * Run Game Loop ------------- Simple init of the game loop itself.
 	 * 
 	 *******************************************************************/
 	public void runGameLoop() {
@@ -686,6 +699,8 @@ public class Game extends JFrame
 	 * old while loop and has measures in place to smooth out the updates and
 	 * renders
 =======
+	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain old
+	 * while loop and has measures in place to smooth out the updates and renders.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
@@ -919,10 +934,12 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Draw Game --------- Repaint the game
+	 * Draw Game --------- Repaint the game.
+	 * 
+	 * @param interpolation DESCRIPTION
 	 * 
 	 *******************************************************************/
-	private void drawGame(float interpolation) {
+	private void drawGame(final float interpolation) {
 		gamePanel.setInterpolation(interpolation);
 		gamePanel.repaint();
 	}
@@ -931,23 +948,32 @@ public class Game extends JFrame
 
 		float interpolation;
 
+		/**
+		 * 
+		 */
 		public GamePanel() {
 			interpolation = 0;
 		}
 
-		// ???????????????????????
-		public void setInterpolation(float interp) {
+		/**
+		 * @param interp description
+		 */
+		public void setInterpolation(final float interp) {
 			interpolation = interp;
 		}
 
-		// ?????????????????????
+		/**
+		 * 
+		 */
 		public void update() {
 
 		}
 
 		/*******************************************************************
 		 * 
-		 * Paint Component --------------- Update the game draw
+		 * Paint Component --------------- Update the game draw.
+		 * 
+		 * @param g description
 		 * 
 		 *******************************************************************/
 		public void paintComponent(final Graphics g) {
@@ -1005,10 +1031,7 @@ public class Game extends JFrame
 						Particle part = (Particle) obj;
 						// g.setColor(Color.WHITE);
 						// g.fillRect(xx, yy, ww, hh);
-<<<<<<< HEAD
 						drawSprite(part, part.getSprite(), g, true);
-=======
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
@@ -1213,7 +1236,14 @@ public class Game extends JFrame
 			g2d.setTransform(backup); // restore previous transform
 		}
 
-		public void drawTile(int x, int y, BufferedImage img, Graphics g, float opacity) {
+		/**
+		 * @param x DESCRIPTION
+		 * @param y DESCRIPTION
+		 * @param img DESCRIPTION
+		 * @param g DESCRIPTION
+		 * @param opacity DESCRIPTION
+		 */
+		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
 			int xx = (int) (Math.round(x * wBlockSize) - vx);
@@ -1226,7 +1256,10 @@ public class Game extends JFrame
 
 	}
 
-	public void playSound(File snd) {
+	/**
+	 * @param snd description
+	 */
+	public void playSound(final File snd) {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(snd);
 			Clip clip = AudioSystem.getClip();
@@ -1243,6 +1276,8 @@ public class Game extends JFrame
 	 * Give a value a floor and a ceiling. Set the value to the floor if it is
 	 * less than the floor. Set it to ceiling if it is greater than the ceiling.
 =======
+	 * Give a value a floor and a ceiling. Set the value to the floor if it is less
+	 * than the floor. Set it to ceiling if it is greater than the ceiling.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param val
@@ -1255,10 +1290,12 @@ public class Game extends JFrame
 	 */
 	private double bindDouble(final double val, final int min, final int max) {
 		double newVal = val;
-		if (val < min)
+		if (val < min) {
 			newVal = min;
-		if (val > max)
+		}
+		if (val > max) {
 			newVal = max;
+		}
 		return newVal;
 	}
 
@@ -1281,6 +1318,9 @@ public class Game extends JFrame
 	 * from the inventory. Also, make sure that the inventory focus is not
 	 * greater than the size of the inventory.
 =======
+	 * Updates the player inventory. If the player has 0 of an item, remove it from
+	 * the inventory. Also, make sure that the inventory focus is not greater than
+	 * the size of the inventory.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	private void inventoryUpdate() {
@@ -1291,8 +1331,9 @@ public class Game extends JFrame
 				continue;
 			}
 		}
-		if (inventory.getFocus() >= inventory.size())
+		if (inventory.getFocus() >= inventory.size()) {
 			inventory.setFocus(inventory.size() - 1);
+		}
 	}
 
 	/**
@@ -1353,6 +1394,13 @@ public class Game extends JFrame
 
 	}
 
+	/**
+	 * @param xx DESCRIPTION
+	 * @param yy DESCRIPTION
+	 * @param type DESCRIPTION
+	 * @param id DESCRIPTION
+	 * @return DESCRIPTION
+	 */
 	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
 		drop.setGrav(1);
@@ -1370,6 +1418,11 @@ public class Game extends JFrame
 	 * sword, kill an entity. If the player is holding a block place the block
 	 * down.
 =======
+	 * The method called when the mouse is being pressed. If swing is still in cool
+	 * down do nothing. Otherwise, if the player is using a pickaxe, hit a block.
+	 * When the block loses all integrity, break the block. If the player is using
+	 * an axe, break a background block. If the player is using a sword, kill an
+	 * entity. If the player is holding a block place the block down.
 >>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param mouseX2
