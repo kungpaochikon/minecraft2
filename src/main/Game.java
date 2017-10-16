@@ -177,7 +177,7 @@ public class Game extends JFrame
 	/**
 	 * The diamond sprite.
 	 */
-	private BufferedImage spr_diamond;
+	private BufferedImage sprDiamond;
 
 	/**
 	 * The heart sprite for the health bar.
@@ -404,13 +404,10 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-<<<<<<< HEAD
-	 * Remove World Object ---------------- Remove instance from the world
-	 * objects list.
-=======
-	 * Remove World Object ---------------- Remove instance from the world objects
-	 * list.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD Remove World Object ---------------- Remove instance from
+	 * the world objects list. ======= Remove World Object ----------------
+	 * Remove instance from the world objects list. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param obj
 	 *            the world object to be removed.
@@ -493,15 +490,13 @@ public class Game extends JFrame
 	}
 
 	/**
-<<<<<<< HEAD
+	 * <<<<<<< HEAD Called when either the load game or new game button are
+	 * clicked on the main menu. If load game is clicked, it loads a game from
+	 * the save file. If new game is clicked, it creates a new game. =======
 	 * Called when either the load game or new game button are clicked on the
 	 * main menu. If load game is clicked, it loads a game from the save file.
-	 * If new game is clicked, it creates a new game.
-=======
-	 * Called when either the load game or new game button are clicked on the main
-	 * menu. If load game is clicked, it loads a game from the save file. If new
-	 * game is clicked, it creates a new game.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * If new game is clicked, it creates a new game. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
@@ -528,13 +523,10 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-<<<<<<< HEAD
-	 * Get the keyboard input and respond. Space makes the player jump. R resets
-	 * the game. E
-=======
-	 * Get the keyboard input and respond. Space makes the player jump. R resets the
-	 * game. E
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD Get the keyboard input and respond. Space makes the player
+	 * jump. R resets the game. E ======= Get the keyboard input and respond.
+	 * Space makes the player jump. R resets the game. E >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
 	@Override
@@ -694,14 +686,12 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-<<<<<<< HEAD
-	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain
-	 * old while loop and has measures in place to smooth out the updates and
-	 * renders
-=======
-	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain old
-	 * while loop and has measures in place to smooth out the updates and renders.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD Game Loop --------- Better game loop, doesn't max out cpu
+	 * like a plain old while loop and has measures in place to smooth out the
+	 * updates and renders ======= Game Loop --------- Better game loop, doesn't
+	 * max out cpu like a plain old while loop and has measures in place to
+	 * smooth out the updates and renders. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
 	// Only run this in another Thread!
@@ -831,7 +821,8 @@ public class Game extends JFrame
 		}
 		updateIntervalCount++;
 		if (player.getJumpSequence() > 2) {
-			addWorldObject(new Particle(player.getX()+player.getWidth()/2, player.getY()+player.getHeight()/2, 0, 0, 30));
+			addWorldObject(new Particle(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2,
+					0, 0, 30));
 		}
 		// if(!player.isGrounded())
 		// player.setAngle(player.getAngle()+player.getXsp());
@@ -936,7 +927,8 @@ public class Game extends JFrame
 	 * 
 	 * Draw Game --------- Repaint the game.
 	 * 
-	 * @param interpolation DESCRIPTION
+	 * @param interpolation
+	 *            DESCRIPTION
 	 * 
 	 *******************************************************************/
 	private void drawGame(final float interpolation) {
@@ -956,7 +948,8 @@ public class Game extends JFrame
 		}
 
 		/**
-		 * @param interp description
+		 * @param interp
+		 *            description
 		 */
 		public void setInterpolation(final float interp) {
 			interpolation = interp;
@@ -973,7 +966,8 @@ public class Game extends JFrame
 		 * 
 		 * Paint Component --------------- Update the game draw.
 		 * 
-		 * @param g description
+		 * @param g
+		 *            description
 		 * 
 		 *******************************************************************/
 		public void paintComponent(final Graphics g) {
@@ -1221,8 +1215,11 @@ public class Game extends JFrame
 			at.translate(getWidth() / 2, getHeight() / 2);
 			at.rotate(Math.toRadians(obj.getAngle()));
 			at.translate(-img.getWidth() / 2, -img.getHeight() / 2);
-			//at.scale(obj.getWidth()/img.getWidth(), obj.getHeight()/img.getHeight());
-			//at = AffineTransform.getScaleInstance(obj.getWidth()/img.getWidth(), obj.getHeight()/img.getHeight());
+			// at.scale(obj.getWidth()/img.getWidth(),
+			// obj.getHeight()/img.getHeight());
+			// at =
+			// AffineTransform.getScaleInstance(obj.getWidth()/img.getWidth(),
+			// obj.getHeight()/img.getHeight());
 			// draw the image
 			Graphics2D g2d = (Graphics2D) g;
 			AffineTransform backup = g2d.getTransform();
@@ -1237,11 +1234,16 @@ public class Game extends JFrame
 		}
 
 		/**
-		 * @param x DESCRIPTION
-		 * @param y DESCRIPTION
-		 * @param img DESCRIPTION
-		 * @param g DESCRIPTION
-		 * @param opacity DESCRIPTION
+		 * @param x
+		 *            DESCRIPTION
+		 * @param y
+		 *            DESCRIPTION
+		 * @param img
+		 *            DESCRIPTION
+		 * @param g
+		 *            DESCRIPTION
+		 * @param opacity
+		 *            DESCRIPTION
 		 */
 		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
@@ -1257,7 +1259,8 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * @param snd description
+	 * @param snd
+	 *            description
 	 */
 	public void playSound(final File snd) {
 		try {
@@ -1272,13 +1275,12 @@ public class Game extends JFrame
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Give a value a floor and a ceiling. Set the value to the floor if it is
-	 * less than the floor. Set it to ceiling if it is greater than the ceiling.
-=======
-	 * Give a value a floor and a ceiling. Set the value to the floor if it is less
-	 * than the floor. Set it to ceiling if it is greater than the ceiling.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD Give a value a floor and a ceiling. Set the value to the
+	 * floor if it is less than the floor. Set it to ceiling if it is greater
+	 * than the ceiling. ======= Give a value a floor and a ceiling. Set the
+	 * value to the floor if it is less than the floor. Set it to ceiling if it
+	 * is greater than the ceiling. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param val
 	 *            the number to be bound.
@@ -1313,15 +1315,13 @@ public class Game extends JFrame
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Updates the player inventory. If the player has 0 of an item, remove it
-	 * from the inventory. Also, make sure that the inventory focus is not
-	 * greater than the size of the inventory.
-=======
-	 * Updates the player inventory. If the player has 0 of an item, remove it from
-	 * the inventory. Also, make sure that the inventory focus is not greater than
-	 * the size of the inventory.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD Updates the player inventory. If the player has 0 of an
+	 * item, remove it from the inventory. Also, make sure that the inventory
+	 * focus is not greater than the size of the inventory. ======= Updates the
+	 * player inventory. If the player has 0 of an item, remove it from the
+	 * inventory. Also, make sure that the inventory focus is not greater than
+	 * the size of the inventory. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
@@ -1395,10 +1395,14 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * @param xx DESCRIPTION
-	 * @param yy DESCRIPTION
-	 * @param type DESCRIPTION
-	 * @param id DESCRIPTION
+	 * @param xx
+	 *            DESCRIPTION
+	 * @param yy
+	 *            DESCRIPTION
+	 * @param type
+	 *            DESCRIPTION
+	 * @param id
+	 *            DESCRIPTION
 	 * @return DESCRIPTION
 	 */
 	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
@@ -1410,20 +1414,18 @@ public class Game extends JFrame
 	}
 
 	/**
-<<<<<<< HEAD
-	 * The method called when the mouse is being pressed. If swing is still in
-	 * cool down do nothing. Otherwise, if the player is using a pickaxe, hit a
-	 * block. When the block loses all integrity, break the block. If the player
-	 * is using an axe, break a background block. If the player is using a
-	 * sword, kill an entity. If the player is holding a block place the block
-	 * down.
-=======
-	 * The method called when the mouse is being pressed. If swing is still in cool
-	 * down do nothing. Otherwise, if the player is using a pickaxe, hit a block.
-	 * When the block loses all integrity, break the block. If the player is using
-	 * an axe, break a background block. If the player is using a sword, kill an
-	 * entity. If the player is holding a block place the block down.
->>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * <<<<<<< HEAD The method called when the mouse is being pressed. If swing
+	 * is still in cool down do nothing. Otherwise, if the player is using a
+	 * pickaxe, hit a block. When the block loses all integrity, break the
+	 * block. If the player is using an axe, break a background block. If the
+	 * player is using a sword, kill an entity. If the player is holding a block
+	 * place the block down. ======= The method called when the mouse is being
+	 * pressed. If swing is still in cool down do nothing. Otherwise, if the
+	 * player is using a pickaxe, hit a block. When the block loses all
+	 * integrity, break the block. If the player is using an axe, break a
+	 * background block. If the player is using a sword, kill an entity. If the
+	 * player is holding a block place the block down. >>>>>>>
+	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param mouseX2
 	 *            the x location of the mouse.
@@ -1465,8 +1467,10 @@ public class Game extends JFrame
 							int myType = Constants.TYPE_BLOCK;
 							int myID = world.getWID(xx, yy);
 							world.getBlock(xx, yy).hitBlock(30);
-							for(int i = 0;i<5;i++){
-								Particle myPart = (Particle) addWorldObject(new Particle(mouseX+view.getViewX(),mouseY+view.getViewY(),random.nextInt(10)-5,-random.nextInt(10),500,sprites[Constants.TYPE_BLOCK][myID]));
+							for (int i = 0; i < 5; i++) {
+								Particle myPart = (Particle) addWorldObject(new Particle(mouseX + view.getViewX(),
+										mouseY + view.getViewY(), random.nextInt(10) - 5, -random.nextInt(10), 500,
+										sprites[Constants.TYPE_BLOCK][myID]));
 								myPart.setGrav(0.5);
 							}
 							playSound(sndBlockHit);
@@ -1498,8 +1502,10 @@ public class Game extends JFrame
 							&& inventory.getFocused().getId() == Constants.AXE) {
 						Player.setSwinging(true);
 						if (world.getBID(xx, yy) != Constants.BACK_AIR) {
-							for(int i = 0;i<5;i++){
-								Particle myPart = (Particle) addWorldObject(new Particle(mouseX+view.getViewX(),mouseY+view.getViewY(),random.nextInt(10)-5,-random.nextInt(10),500,sprites[Constants.TYPE_BACK][world.getBID(xx, yy)]));
+							for (int i = 0; i < 5; i++) {
+								Particle myPart = (Particle) addWorldObject(new Particle(mouseX + view.getViewX(),
+										mouseY + view.getViewY(), random.nextInt(10) - 5, -random.nextInt(10), 500,
+										sprites[Constants.TYPE_BACK][world.getBID(xx, yy)]));
 								myPart.setGrav(0.5);
 							}
 							playSound(sndBlockHit);
