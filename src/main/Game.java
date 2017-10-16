@@ -534,8 +534,9 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_Q && playerControl) {
 			inventory.setFocus(inventory.getFocus() - 1);
-			if (inventory.getFocus() < 0)
+			if (inventory.getFocus() < 0) {
 				inventory.setFocus(inventory.size() - 1);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
@@ -556,23 +557,27 @@ public class Game extends JFrame
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
 			int num = 0;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_2 && playerControl) {
 			int num = 1;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_3 && playerControl) {
 			int num = 2;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_4 && playerControl) {
 			int num = 3;
-			if (inventory.size() > num)
+			if (inventory.size() > num) {
 				inventory.setFocus(num);
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_M) {
 			debug = !debug;
@@ -587,7 +592,7 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(final KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = false;
 		}
@@ -598,14 +603,14 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(final KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	/*******************************************************************
 	 * 
-	 * Save Game ------------- Save game to file
+	 * Save Game ------------- Save game to file.
 	 * 
 	 *******************************************************************/
 	public void saveGame() {
