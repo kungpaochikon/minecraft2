@@ -35,64 +35,63 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
+
 /**
  * The main controller class for Minecraft 2. Is a JFrame that holds a panel
- * inside that runs the game. Game is a listens to the buttons on the main
- * menu, the mouse, the mouse buttons, and the mouse wheel for events and
- * acts accordingly.
+ * inside that runs the game. Game is a listens to the buttons on the main menu,
+ * the mouse, the mouse buttons, and the mouse wheel for events and acts
+ * accordingly.
+ * 
  * @author Gary Fleming, Logun DeLeon, Alexander Duncanson
  *
  */
 public class Game extends JFrame
-		implements ActionListener, KeyListener, MouseListener,
-		MouseMotionListener, MouseWheelListener {
+		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	/**
 	 * The panel that runs the game.
 	 */
 	private GamePanel gamePanel = new GamePanel();
-	
+
 	/**
 	 * The main menu panel.
 	 */
 	private Menu menu;
-	
+
 	/**
 	 * Determines if the game is running.
 	 */
 	private boolean running = false;
-	
+
 	/**
 	 * If the game is being debugged.
 	 */
 	private boolean debug = false;
-	
+
 	/**
 	 * If the game is currently paused.
 	 */
 	private boolean paused = false;
-	
+
 	/**
-	 * If the player has control of his
-	 * character.
+	 * If the player has control of his character.
 	 */
 	private boolean playerControl;
-	
+
 	/**
 	 * TODO: FIND OUT WHAT THIS DOES!!!
 	 */
 	private boolean menu_player;
-	
+
 	/**
-	 * The number of frames the game plays
-	 * per second.
+	 * The number of frames the game plays per second.
 	 */
 	private int fps = 60;
-	
+
 	/**
 	 * TODO: FIND OUT WHAT THIS DOES!!!
 	 */
 	private int frameCount = 0;
-	
+
 	/**
 	 * The instance of the player character.
 	 */
@@ -118,32 +117,32 @@ public class Game extends JFrame
 	 * If the player is moving left.
 	 */
 	private boolean moveL;
-	
+
 	/**
 	 * If the player is facing left.
 	 */
 	private boolean faceL;
-	
+
 	/**
 	 * If the player is moving right.
 	 */
 	private boolean moveR;
-	
+
 	/**
 	 * If the player is facing right.
 	 */
 	private boolean faceR;
-	
+
 	/**
 	 * If the left mouse button is being pressed.
 	 */
 	private boolean mousePressed;
-	
+
 	/**
 	 * The x coordinate of the mouse.
 	 */
 	private double mouseX;
-	
+
 	/**
 	 * The y coordinate of the mouse.
 	 */
@@ -153,7 +152,7 @@ public class Game extends JFrame
 	 * The y offset for the window bar
 	 */
 	private double mouseYOffset = -24;
-	
+
 	/**
 	 * A random number generator.
 	 */
@@ -164,37 +163,37 @@ public class Game extends JFrame
 	 * The player sprite.
 	 */
 	private BufferedImage sprPlayer;
-	
+
 	/**
 	 * The sky background picture.
 	 */
 	private BufferedImage bg_sky;
-	
+
 	/**
 	 * A black block.
 	 */
 	private BufferedImage spr_black;
-	
+
 	/**
 	 * The diamond sprite.
 	 */
 	private BufferedImage spr_diamond;
-	
+
 	/**
 	 * The heart sprite for the health bar.
 	 */
 	private BufferedImage spr_heart;
-	
+
 	/**
 	 * The sprite for a chicken.
 	 */
 	private BufferedImage spr_chicken;
-	
+
 	/**
 	 * The sprite for a cow.
 	 */
 	private BufferedImage spr_cow;
-	
+
 	/**
 	 * The sprite for a zombie.
 	 */
@@ -209,36 +208,39 @@ public class Game extends JFrame
 	 * The sound of a jump.
 	 */
 	private File snd_jump;
-	
+
 	/**
 	 * The death sound.
 	 */
 	private File snd_death;
-	
+
 	/**
 	 * The sound of an explosion.
 	 */
 	private File snd_explosion;
-	
+
 	/**
 	 * The sound of a bop.
 	 */
 	public File snd_bop;
 	
 	/**
+	 * The sound of a block getting hit.
+	 */
+	public File sndBlockHit;
+
+	/**
 	 * The background music for the main world.
 	 */
 	public File snd_mus_overworld;
-	
+
 	/**
-	 * The background music for the main world at
-	 * night.
+	 * The background music for the main world at night.
 	 */
 	public File snd_mus_overworldNight;
-	
+
 	/**
-	 * The background music for when the player is
-	 * underground.
+	 * The background music for when the player is underground.
 	 */
 	public File snd_mus_underground;
 
@@ -247,42 +249,42 @@ public class Game extends JFrame
 	 * The instance of the main world.
 	 */
 	public WorldGrid world;
-	
+
 	/**
 	 * The width of the world.
 	 */
 	public int wGridSizeX = 256;
-	
+
 	/**
 	 * The height of the world.
 	 */
 	public int wGridSizeY = 256;
-	
+
 	/**
 	 * The size of blocks.
 	 */
 	public int wBlockSize = 48;
-	
+
 	/**
 	 * TODO: FIX THESE JAVADOC COMMENTS BELOW
 	 */
 	public int wBlockLen = 256;
-	
+
 	/**
 	 * 
 	 */
 	public int bBlockLen = 256;
-	
+
 	/**
 	 * 
 	 */
 	public int lBlockLen = 5;
-	
+
 	/**
 	 * 
 	 */
 	public int updateInterval = 1;
-	
+
 	/**
 	 * 
 	 */
@@ -359,6 +361,7 @@ public class Game extends JFrame
 			snd_death = new File("sounds\\death.wav").getAbsoluteFile();
 			snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
 			snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
+			sndBlockHit = new File("sounds\\hit.wav").getAbsoluteFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -368,7 +371,9 @@ public class Game extends JFrame
 	/*******************************************************************
 	 * 
 	 * Main ---- Main Method, basically just run the game.
-	 * @param args command line arguments for the app. Not applicable here.
+	 * 
+	 * @param args
+	 *            command line arguments for the app. Not applicable here.
 	 *******************************************************************/
 	public static void main(final String[] args) {
 		Game game = new Game();
@@ -376,9 +381,10 @@ public class Game extends JFrame
 	}
 
 	/*******************************************************************
-	 * Add instance to the world objects
-	 * list.
-	 * @param obj the world object to be added to the world.
+	 * Add instance to the world objects list.
+	 * 
+	 * @param obj
+	 *            the world object to be added to the world.
 	 * @return the world object added to the world.
 	 *******************************************************************/
 	private WorldObject addWorldObject(final WorldObject obj) {
@@ -398,9 +404,11 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Remove World Object ---------------- Remove instance from the 
-	 * world objects list.
-	 * @param obj the world object to be removed.
+	 * Remove World Object ---------------- Remove instance from the world
+	 * objects list.
+	 * 
+	 * @param obj
+	 *            the world object to be removed.
 	 *******************************************************************/
 	public void removeWorldObject(final WorldObject obj) {
 		objList.remove(obj);
@@ -408,7 +416,9 @@ public class Game extends JFrame
 
 	/**
 	 * Remove instance from the world objects list at index.
-	 * @param i the index to remove from.
+	 * 
+	 * @param i
+	 *            the index to remove from.
 	 */
 	private void removeWorldObject(final int i) {
 		objList.remove(i);
@@ -422,11 +432,9 @@ public class Game extends JFrame
 		menu_player = false;
 		objList = new ArrayList<WorldObject>();
 		inventory = new Inventory();
-		inventory.add(new Item(Constants.TYPE_TOOL,
-				Constants.PICKAXE, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL, Constants.PICKAXE, 1));
 		inventory.add(new Item(Constants.TYPE_TOOL, Constants.AXE, 1));
-		inventory.add(new Item(Constants.TYPE_TOOL,
-				Constants.SWORD, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL, Constants.SWORD, 1));
 		// inventoryFocus = 0;
 		running = true;
 		moveL = false;
@@ -452,7 +460,7 @@ public class Game extends JFrame
 				if (world.getWID(i, j + 1) != 0) {
 					if (random.nextInt(25) == 1) {
 						if (random.nextInt(2) == 1) {
-							addWorldObject(new Chicken (i * wBlockSize, (j) * wBlockSize));
+							addWorldObject(new Chicken(i * wBlockSize, (j) * wBlockSize));
 						} else {
 							addWorldObject(new Cow(i * wBlockSize, (j) * wBlockSize));
 						}
@@ -466,8 +474,8 @@ public class Game extends JFrame
 		view = new View();
 		view.setViewW(1280);
 		view.setViewH(720);
-		view.setViewX(player.getX()-view.getViewW()/2);
-		view.setViewY(player.getY()-view.getViewH()/2);
+		view.setViewX(player.getX() - view.getViewW() / 2);
+		view.setViewY(player.getY() - view.getViewH() / 2);
 	}
 
 	/*******************************************************************
@@ -478,11 +486,11 @@ public class Game extends JFrame
 	private void reset() {
 		setGame();
 	}
-	
+
 	/**
-	 * Called when either the load game or new game button are clicked 
-	 * on the main menu. If load game is clicked, it loads a game from
-	 * the save file. If new game is clicked, it creates a new game.
+	 * Called when either the load game or new game button are clicked on the
+	 * main menu. If load game is clicked, it loads a game from the save file.
+	 * If new game is clicked, it creates a new game.
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
@@ -509,8 +517,8 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Get the keyboard input and respond. Space makes the player jump.
-	 * R resets the game. E 
+	 * Get the keyboard input and respond. Space makes the player jump. R resets
+	 * the game. E
 	 * 
 	 *******************************************************************/
 	@Override
@@ -664,18 +672,22 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain old
-	 * while loop and has measures in place to smooth out the updates and renders
+	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain
+	 * old while loop and has measures in place to smooth out the updates and
+	 * renders
 	 * 
 	 *******************************************************************/
 	// Only run this in another Thread!
 	private void gameLoop() {
 		// This value would probably be stored elsewhere.
 		final double GAME_HERTZ = 60.0;
-		// Calculate how many ns each frame should take for our target game hertz.
+		// Calculate how many ns each frame should take for our target game
+		// hertz.
 		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
-		// At the very most we will update the game this many times before a new render.
-		// If you're worried about visual hitches more than perfect timing, set this to
+		// At the very most we will update the game this many times before a new
+		// render.
+		// If you're worried about visual hitches more than perfect timing, set
+		// this to
 		// 1.
 		final int MAX_UPDATES_BEFORE_RENDER = 100;
 		// We will need the last update time.
@@ -694,22 +706,26 @@ public class Game extends JFrame
 			double now = System.nanoTime();
 			int updateCount = 0;
 			if (!paused) {
-				// Do as many game updates as we need to, potentially playing catchup.
+				// Do as many game updates as we need to, potentially playing
+				// catchup.
 				while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
 					updateGame();
 					lastUpdateTime += TIME_BETWEEN_UPDATES;
 					updateCount++;
 				}
 
-				// If for some reason an update takes forever, we don't want to do an insane
+				// If for some reason an update takes forever, we don't want to
+				// do an insane
 				// number of catchups.
-				// If you were doing some sort of game that needed to keep EXACT time, you would
+				// If you were doing some sort of game that needed to keep EXACT
+				// time, you would
 				// get rid of this.
 				if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
 					lastUpdateTime = now - TIME_BETWEEN_UPDATES;
 				}
 
-				// Render. To do so, we need to calculate interpolation for a smooth render.
+				// Render. To do so, we need to calculate interpolation for a
+				// smooth render.
 				float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES));
 				drawGame(interpolation);
 				lastRenderTime = now;
@@ -717,23 +733,28 @@ public class Game extends JFrame
 				// Update the frames we got.
 				int thisSecond = (int) (lastUpdateTime / 1000000000);
 				if (thisSecond > lastSecondTime) {
-					// System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+					// System.out.println("NEW SECOND " + thisSecond + " " +
+					// frameCount);
 					fps = frameCount;
 					frameCount = 0;
 					lastSecondTime = thisSecond;
 				}
 
-				// Yield until it has been at least the target time between renders. This saves
+				// Yield until it has been at least the target time between
+				// renders. This saves
 				// the CPU from hogging.
 				while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
 						&& now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 					Thread.yield();
 
-					// This stops the app from consuming all your CPU. It makes this slightly less
+					// This stops the app from consuming all your CPU. It makes
+					// this slightly less
 					// accurate, but is worth it.
-					// You can remove this line and it will still work (better), your CPU just
+					// You can remove this line and it will still work (better),
+					// your CPU just
 					// climbs on certain OSes.
-					// FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a
+					// FYI on some OS's this can cause pretty bad stuttering.
+					// Scroll down and have a
 					// look at different peoples' solutions to this.
 					try {
 						Thread.sleep(1);
@@ -783,9 +804,10 @@ public class Game extends JFrame
 		}
 		updateIntervalCount++;
 		if (player.getJumpSequence() > 2) {
-			addWorldObject(new Particle(player.getX() + 8, player.getY() + 8, 0, 0, 30));
+			addWorldObject(new Particle(player.getX()+player.getWidth()/2, player.getY()+player.getHeight()/2, 0, 0, 30));
 		}
-		// if(!player.isGrounded()) player.setAngle(player.getAngle()+player.getXsp());
+		// if(!player.isGrounded())
+		// player.setAngle(player.getAngle()+player.getXsp());
 		// else player.setAngle(Math.round(player.getAngle()/90)*90);
 		for (int i = 0; i < objList.size(); i++) {
 			WorldObject obj = objList.get(i);
@@ -819,9 +841,11 @@ public class Game extends JFrame
 						int xx2 = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + Math.signum(axsp)),
 								wBlockSize);
 						/*
-						 * while(wGridBounds(xx,yy) && (world.getWID(xx2,yy)==0 ||
-						 * world.getWID(xx2,yy)==4)){ ax1+=Math.signum(axsp); xx2 = Math.floorDiv((int)
-						 * (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)), wBlockSize); }
+						 * while(wGridBounds(xx,yy) && (world.getWID(xx2,yy)==0
+						 * || world.getWID(xx2,yy)==4)){ ax1+=Math.signum(axsp);
+						 * xx2 = Math.floorDiv((int)
+						 * (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)),
+						 * wBlockSize); }
 						 */
 						// obj.setX((ax1));
 						obj.setXsp(-obj.getXsp() * 0.5);
@@ -840,9 +864,11 @@ public class Game extends JFrame
 						int yy2 = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + Math.signum(aysp)),
 								wBlockSize);
 						/*
-						 * while(wGridBounds(xx,yy) && (world.getWID(xx,yy2)==0 ||
-						 * world.getWID(xx,yy2)==4)){ ay1+=Math.signum(aysp); yy2 = Math.floorDiv((int)
-						 * (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize); }
+						 * while(wGridBounds(xx,yy) && (world.getWID(xx,yy2)==0
+						 * || world.getWID(xx,yy2)==4)){ ay1+=Math.signum(aysp);
+						 * yy2 = Math.floorDiv((int)
+						 * (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)),
+						 * wBlockSize); }
 						 */
 						// obj.setY(ay1);
 						obj.setXsp(obj.getXsp() * 0.5);
@@ -857,7 +883,8 @@ public class Game extends JFrame
 					yHi = Math.floorDiv((int) ((int) ay2 + aysp), wBlockSize);
 					xLow = Math.floorDiv((int) ((int) ax1 + axsp), wBlockSize);
 					xHi = Math.floorDiv((int) ((int) ax2 + axsp), wBlockSize);
-					// yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
+					// yy = Math.floorDiv((int)
+					// (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
 					for (xx = xLow; xx <= xHi; xx++) {
 						for (yy = yLow; yy <= yHi; yy++) {
 							if (wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
@@ -963,14 +990,14 @@ public class Game extends JFrame
 				int hh = (int) Math.round(obj.getHeight());
 				if (xx + vx < vx + vw && xx + ww + vx > vx && yy + vy < vy + vh && yy + hh + vy > vy) {
 					if (obj instanceof Particle) {
-						Particle part = (Particle)obj;
-						//g.setColor(Color.WHITE);
-						//g.fillRect(xx, yy, ww, hh);
-						drawSprite(part,part.getSprite(),g);
+						Particle part = (Particle) obj;
+						// g.setColor(Color.WHITE);
+						// g.fillRect(xx, yy, ww, hh);
+						drawSprite(part, part.getSprite(), g, true);
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						drawSprite(obj, sprPlayer, g);
+						drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
 						img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
 						at.translate((int) (obj.getX() - view.getViewXFinal() + 10),
@@ -999,24 +1026,25 @@ public class Game extends JFrame
 								null);
 					}
 					if (obj instanceof Chicken) {
-						drawSprite(obj, spr_chicken, g);
+						drawSprite(obj, spr_chicken, g, false);
 					}
 					if (obj instanceof Cow) {
-						drawSprite(obj, spr_cow, g);
+						drawSprite(obj, spr_cow, g, false);
 					}
 					if (obj instanceof Enemy) {
-						drawSprite(obj, spr_zombie, g);
+						drawSprite(obj, spr_zombie, g, false);
 					}
 				}
 			}
 			/*
 			 * //Draw Lighitng for(int i = (int)
-			 * Math.floor(viewX/lBlockSize);i<Math.floor((viewX + viewW)/lBlockSize);i++){
-			 * for(int j = (int) Math.floor(viewY/lBlockSize);j<Math.floor((viewY +
+			 * Math.floor(viewX/lBlockSize);i<Math.floor((viewX +
+			 * viewW)/lBlockSize);i++){ for(int j = (int)
+			 * Math.floor(viewY/lBlockSize);j<Math.floor((viewY +
 			 * viewH)/lBlockSize);j++){ //if(wGridBounds(i,j)){ Color c = new
 			 * Color(0,0,0,255*lGrid[i][j]/lBlockLen); g.setColor(c);
-			 * g.fillRect((int)(i*wBlockSize-viewXFinal), (int)(j*wBlockSize-viewYFinal),
-			 * wBlockSize, wBlockSize); //} } }
+			 * g.fillRect((int)(i*wBlockSize-viewXFinal),
+			 * (int)(j*wBlockSize-viewYFinal), wBlockSize, wBlockSize); //} } }
 			 */
 			int xx = (int) (Math.floorDiv((int) (mouseX + view.getViewXFinal()), wBlockSize) * wBlockSize
 					- view.getViewXFinal());
@@ -1043,7 +1071,8 @@ public class Game extends JFrame
 					g.fillRect(1280 / 4 + 54 * i + 40, 720 / 2 - 48 - 12, 12, 12);
 					g.setColor(Color.white);
 					g.drawString(Integer.toString(inventory.get(i).getCount()), 1280 / 4 + 54 * i + 40, 720 / 2 - 48);
-					// g.drawString((inventory.get(i).getType().name()), 54*i+40,720-48);
+					// g.drawString((inventory.get(i).getType().name()),
+					// 54*i+40,720-48);
 
 				}
 			}
@@ -1075,7 +1104,8 @@ public class Game extends JFrame
 				g.fillRect(54 * i + 40, 720 - 48 - 12, 12, 12);
 				g.setColor(Color.white);
 				g.drawString(Integer.toString(inventory.get(i).getCount()), 54 * i + 40, 720 - 48);
-				// g.drawString((inventory.get(i).getType().name()), 54*i+40,720-48);
+				// g.drawString((inventory.get(i).getType().name()),
+				// 54*i+40,720-48);
 
 			}
 			g.setColor(Color.cyan);
@@ -1123,16 +1153,26 @@ public class Game extends JFrame
 
 			frameCount++;
 		}
-		
+
 		/**
 		 * Draws a the sprite of a world object.
-		 * @param obj the world object to be drawn.
-		 * @param img the object's sprite.
-		 * @param g the graphics that will draw it.
+		 * 
+		 * @param obj
+		 *            the world object to be drawn.
+		 * @param img
+		 *            the object's sprite.
+		 * @param g
+		 *            the graphics that will draw it.
 		 */
-		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g) {
+		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g, boolean centered) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
+			int xOff = 0;
+			int yOff = 0;
+			if (centered) {
+				xOff = (int) (-obj.getWidth() / 2);
+				yOff = (int) (-obj.getHeight() / 2);
+			}
 			// int vw = viewW;
 			// int vh = viewH;
 			int xx = (int) (Math.round(obj.getX()) - vx);
@@ -1143,29 +1183,18 @@ public class Game extends JFrame
 			at.translate(getWidth() / 2, getHeight() / 2);
 			at.rotate(Math.toRadians(obj.getAngle()));
 			at.translate(-img.getWidth() / 2, -img.getHeight() / 2);
+			//at.scale(obj.getWidth()/img.getWidth(), obj.getHeight()/img.getHeight());
+			//at = AffineTransform.getScaleInstance(obj.getWidth()/img.getWidth(), obj.getHeight()/img.getHeight());
 			// draw the image
 			Graphics2D g2d = (Graphics2D) g;
 			AffineTransform backup = g2d.getTransform();
 			AffineTransform trans = new AffineTransform();
-			trans.rotate(Math.toRadians(obj.getAngle()), xx + img.getWidth() / 2, yy + img.getHeight() / 2); // the
-																												// points
-																												// to
-																												// rotate
-																												// around
-																												// (the
-																												// center
-																												// in my
-																												// example,
-																												// your
-																												// left
-																												// side
-																												// for
-																												// your
-																												// problem)
-			// g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)
+			trans.rotate(Math.toRadians(obj.getAngle()), xx + img.getWidth() / 2, yy + img.getHeight() / 2);
+			// g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+			// (float)
 			// 0.5));
 			g2d.transform(trans);
-			g2d.drawImage(img, xx, yy, null);
+			g2d.drawImage(img, xx + xOff, yy + yOff, (int) obj.getWidth(), (int) obj.getHeight(), null);
 			g2d.setTransform(backup); // restore previous transform
 		}
 
@@ -1195,12 +1224,15 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * Give a value a floor and a ceiling. Set the value to the floor if
-	 * it is less than the floor. Set it to ceiling if it is greater than
-	 * the ceiling.
-	 * @param val the number to be bound.
-	 * @param min the minimum value of the number.
-	 * @param max the maximum value of the number.
+	 * Give a value a floor and a ceiling. Set the value to the floor if it is
+	 * less than the floor. Set it to ceiling if it is greater than the ceiling.
+	 * 
+	 * @param val
+	 *            the number to be bound.
+	 * @param min
+	 *            the minimum value of the number.
+	 * @param max
+	 *            the maximum value of the number.
 	 * @return the value after it has been bound by min and max.
 	 */
 	private double bindDouble(final double val, final int min, final int max) {
@@ -1214,18 +1246,20 @@ public class Game extends JFrame
 
 	/**
 	 * Determines if a coordinate is within the world grid.
-	 * @param i the x coordinate.
-	 * @param j the y coordinate.
+	 * 
+	 * @param i
+	 *            the x coordinate.
+	 * @param j
+	 *            the y coordinate.
 	 * @return if (i, j) is in the world grid.
 	 */
 	public boolean wGridBounds(final int i, final int j) {
 		return i >= 0 && i < wGridSizeX && j >= 0 && j < wGridSizeY;
 	}
-	
+
 	/**
-	 * Updates the player inventory. If the player has
-	 * 0 of an item, remove it from the inventory.
-	 * Also, make sure that the inventory focus is not
+	 * Updates the player inventory. If the player has 0 of an item, remove it
+	 * from the inventory. Also, make sure that the inventory focus is not
 	 * greater than the size of the inventory.
 	 */
 	private void inventoryUpdate() {
@@ -1239,11 +1273,14 @@ public class Game extends JFrame
 		if (inventory.getFocus() >= inventory.size())
 			inventory.setFocus(inventory.size() - 1);
 	}
-	
+
 	/**
 	 * Add an item to the player inventory.
-	 * @param type the type of item to be added.
-	 * @param id the item id.
+	 * 
+	 * @param type
+	 *            the type of item to be added.
+	 * @param id
+	 *            the item id.
 	 */
 	public void inventoryAdd(final int type, final int id) {
 		boolean found = false;
@@ -1258,11 +1295,14 @@ public class Game extends JFrame
 			inventory.add(new Item(type, id, 1));
 		}
 	}
-	
+
 	/**
 	 * Determines if an item is in the player inventory.
-	 * @param type the item type that the method looks for.
-	 * @param id the id of the item.
+	 * 
+	 * @param type
+	 *            the item type that the method looks for.
+	 * @param id
+	 *            the id of the item.
 	 * @return if the item is in the player inventory.
 	 */
 	public boolean inventoryCheck(final int type, final int id) {
@@ -1299,16 +1339,19 @@ public class Game extends JFrame
 		drop.setYsp(randomRange(-5, 5));
 		return (Item_Drop) drop;
 	}
-	
+
 	/**
-	 * The method called when the mouse is being pressed. If swing is still
-	 * in cool down do nothing. Otherwise, if the player is using a
-	 * pickaxe, hit a block. When the block loses all integrity, break the
-	 * block. If the player is using an axe, break a background block.
-	 * If the player is using a sword, kill an entity. If the player is
-	 * holding a block place the block down.
-	 * @param mouseX2 the x location of the mouse.
-	 * @param mouseY2 the y location of the mouse.
+	 * The method called when the mouse is being pressed. If swing is still in
+	 * cool down do nothing. Otherwise, if the player is using a pickaxe, hit a
+	 * block. When the block loses all integrity, break the block. If the player
+	 * is using an axe, break a background block. If the player is using a
+	 * sword, kill an entity. If the player is holding a block place the block
+	 * down.
+	 * 
+	 * @param mouseX2
+	 *            the x location of the mouse.
+	 * @param mouseY2
+	 *            the y location of the mouse.
 	 */
 	private void pressMouse(final double mouseX2, final double mouseY2) {
 		if (System.currentTimeMillis() - player.getLastSwing() >= Constants.SWING_COOL_DOWN) {
@@ -1345,6 +1388,11 @@ public class Game extends JFrame
 							int myType = Constants.TYPE_BLOCK;
 							int myID = world.getWID(xx, yy);
 							world.getBlock(xx, yy).hitBlock(30);
+							for(int i = 0;i<5;i++){
+								Particle myPart = (Particle) addWorldObject(new Particle(mouseX+view.getViewX(),mouseY+view.getViewY(),random.nextInt(10)-5,-random.nextInt(10),500,sprites[Constants.TYPE_BLOCK][myID]));
+								myPart.setGrav(0.5);
+							}
+							playSound(sndBlockHit);
 							if (world.getBlock(xx, yy).getIntegrity() < 0) {
 								if (myID == Constants.BLOCK_GRASS) {
 									myID = Constants.BLOCK_DIRT;
@@ -1373,6 +1421,11 @@ public class Game extends JFrame
 							&& inventory.getFocused().getId() == Constants.AXE) {
 						Player.setSwinging(true);
 						if (world.getBID(xx, yy) != Constants.BACK_AIR) {
+							for(int i = 0;i<5;i++){
+								Particle myPart = (Particle) addWorldObject(new Particle(mouseX+view.getViewX(),mouseY+view.getViewY(),random.nextInt(10)-5,-random.nextInt(10),500,sprites[Constants.TYPE_BACK][world.getBID(xx, yy)]));
+								myPart.setGrav(0.5);
+							}
+							playSound(sndBlockHit);
 							ItemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
 							world.setBID(xx, yy, Constants.BACK_AIR);
 						}
@@ -1458,20 +1511,24 @@ public class Game extends JFrame
 			}
 		}
 	}
-	
+
 	/**
 	 * Prints a message to help with debugging.
-	 * @param message the message to be printed.
+	 * 
+	 * @param message
+	 *            the message to be printed.
 	 */
 	public void debugMsg(final String message) {
 		System.out.println(message);
 	}
-	
+
 	/**
-	 * Generates a random number between a set
-	 * maximum and minimum.
-	 * @param min the minimum value of the random number.
-	 * @param max the maximum value of the random number.
+	 * Generates a random number between a set maximum and minimum.
+	 * 
+	 * @param min
+	 *            the minimum value of the random number.
+	 * @param max
+	 *            the maximum value of the random number.
 	 * @return a random number between min and max.
 	 */
 	public int randomRange(final int min, final int max) {
