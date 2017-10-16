@@ -902,23 +902,32 @@ public class Game extends JFrame
 
 		float interpolation;
 
+		/**
+		 * 
+		 */
 		public GamePanel() {
 			interpolation = 0;
 		}
 
-		// ???????????????????????
-		public void setInterpolation(float interp) {
+		/**
+		 * @param interp description
+		 */
+		public void setInterpolation(final float interp) {
 			interpolation = interp;
 		}
 
-		// ?????????????????????
+		/**
+		 * 
+		 */
 		public void update() {
 
 		}
 
 		/*******************************************************************
 		 * 
-		 * Paint Component --------------- Update the game draw
+		 * Paint Component --------------- Update the game draw.
+		 * 
+		 * @param g description
 		 * 
 		 *******************************************************************/
 		public void paintComponent(final Graphics g) {
