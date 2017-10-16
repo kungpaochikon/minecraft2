@@ -619,9 +619,7 @@ public class Game extends JFrame
 
 			out = new PrintWriter(new BufferedWriter(new FileWriter("save")));
 
-		}
-
-		catch (IOException e) {
+		} catch (IOException e) {
 
 			e.printStackTrace();
 
@@ -636,6 +634,9 @@ public class Game extends JFrame
 		out.close();
 	}
 
+	/**
+	 * 
+	 */
 	public void loadGame() {
 		try {
 			Scanner fileReader = new Scanner(new File("save"));
@@ -657,7 +658,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Run Game Loop ------------- Simple init of the game loop itself
+	 * Run Game Loop ------------- Simple init of the game loop itself.
 	 * 
 	 *******************************************************************/
 	public void runGameLoop() {
@@ -672,7 +673,7 @@ public class Game extends JFrame
 	/*******************************************************************
 	 * 
 	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain old
-	 * while loop and has measures in place to smooth out the updates and renders
+	 * while loop and has measures in place to smooth out the updates and renders.
 	 * 
 	 *******************************************************************/
 	// Only run this in another Thread!
@@ -887,10 +888,12 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Draw Game --------- Repaint the game
+	 * Draw Game --------- Repaint the game.
+	 * 
+	 * @param interpolation DESCRIPTION
 	 * 
 	 *******************************************************************/
-	private void drawGame(float interpolation) {
+	private void drawGame(final float interpolation) {
 		gamePanel.setInterpolation(interpolation);
 		gamePanel.repaint();
 	}
