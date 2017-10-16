@@ -1192,7 +1192,14 @@ public class Game extends JFrame
 			g2d.setTransform(backup); // restore previous transform
 		}
 
-		public void drawTile(int x, int y, BufferedImage img, Graphics g, float opacity) {
+		/**
+		 * @param x DESCRIPTION
+		 * @param y DESCRIPTION
+		 * @param img DESCRIPTION
+		 * @param g DESCRIPTION
+		 * @param opacity DESCRIPTION
+		 */
+		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
 			int xx = (int) (Math.round(x * wBlockSize) - vx);
@@ -1205,7 +1212,10 @@ public class Game extends JFrame
 
 	}
 
-	public void playSound(File snd) {
+	/**
+	 * @param snd description
+	 */
+	public void playSound(final File snd) {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(snd);
 			Clip clip = AudioSystem.getClip();
@@ -1231,10 +1241,12 @@ public class Game extends JFrame
 	 */
 	private double bindDouble(final double val, final int min, final int max) {
 		double newVal = val;
-		if (val < min)
+		if (val < min) {
 			newVal = min;
-		if (val > max)
+		}
+		if (val > max) {
 			newVal = max;
+		}
 		return newVal;
 	}
 
