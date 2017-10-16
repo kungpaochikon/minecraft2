@@ -1276,8 +1276,9 @@ public class Game extends JFrame
 				continue;
 			}
 		}
-		if (inventory.getFocus() >= inventory.size())
+		if (inventory.getFocus() >= inventory.size()) {
 			inventory.setFocus(inventory.size() - 1);
+		}
 	}
 
 	/**
@@ -1338,6 +1339,13 @@ public class Game extends JFrame
 
 	}
 
+	/**
+	 * @param xx DESCRIPTION
+	 * @param yy DESCRIPTION
+	 * @param type DESCRIPTION
+	 * @param id DESCRIPTION
+	 * @return DESCRIPTION
+	 */
 	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
 		drop.setGrav(1);
