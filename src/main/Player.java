@@ -204,7 +204,7 @@ public class Player extends Entity{
 			   }
 		   }
 	   }
-	   if(xCol || yCol){
+	   if(yCol){
 		   ((Player) obj).setGrounded(true);
 	   }
 	   else{

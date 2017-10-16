@@ -1037,10 +1037,10 @@ public class Game extends JFrame
 						if (mousePressed) {
 							pressMouse(mouseX, mouseY);
 							if (System.currentTimeMillis() - player.getLastSwing() <= Constants.SWING_COOL_DOWN / 2) {
-								at.rotate(Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / 500);
+								at.rotate(Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / 800);
 							} else {
 								at.rotate(
-										Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / -500 + 0.628);
+										Math.PI * (System.currentTimeMillis() - player.getLastSwing()) / -800 + 0.628);
 							}
 						}
 						Graphics2D g2d = (Graphics2D) g;
