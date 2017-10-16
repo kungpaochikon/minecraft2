@@ -35,75 +35,257 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * The main controller class for Minecraft 2. Is a JFrame that holds a panel
+ * inside that runs the game. Game is a listens to the buttons on the main
+ * menu, the mouse, the mouse buttons, and the mouse wheel for events and
+ * acts accordingly.
+ * @author Gary Fleming, Logun DeLeon, Alexander Duncanson
+ *
+ */
 public class Game extends JFrame
-		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+		implements ActionListener, KeyListener, MouseListener,
+		MouseMotionListener, MouseWheelListener {
+	/**
+	 * The panel that runs the game.
+	 */
 	private GamePanel gamePanel = new GamePanel();
+	
+	/**
+	 * The main menu panel.
+	 */
 	private Menu menu;
+	
+	/**
+	 * Determines if the game is running.
+	 */
 	private boolean running = false;
+	
+	/**
+	 * If the game is being debugged.
+	 */
 	private boolean debug = false;
+	
+	/**
+	 * If the game is currently paused.
+	 */
 	private boolean paused = false;
+	
+	/**
+	 * If the player has control of his
+	 * character.
+	 */
 	private boolean playerControl;
+	
+	/**
+	 * TODO: FIND OUT WHAT THIS DOES!!!
+	 */
 	private boolean menu_player;
+	
+	/**
+	 * The number of frames the game plays
+	 * per second.
+	 */
 	private int fps = 60;
+	
+	/**
+	 * TODO: FIND OUT WHAT THIS DOES!!!
+	 */
 	private int frameCount = 0;
-
-	// Player Instance
+	
+	/**
+	 * The instance of the player character.
+	 */
 	private Player player;
 
-	// instance list for game
+	/**
+	 * The list of objects in the world.
+	 */
 	public ArrayList<WorldObject> objList;
 
-	// Inventory
+	/**
+	 * The player's inventory.
+	 */
 	public Inventory inventory;
 
-	// View Handling
+	/**
+	 * Handles the view.
+	 */
 	private View view;
 
 	// Control booleans
+	/**
+	 * If the player is moving left.
+	 */
 	private boolean moveL;
+	
+	/**
+	 * If the player is facing left.
+	 */
+	private boolean faceL;
+	
+	/**
+	 * If the player is moving right.
+	 */
 	private boolean moveR;
+	
+	/**
+	 * If the player is facing right.
+	 */
+	private boolean faceR;
+	
+	/**
+	 * If the left mouse button is being pressed.
+	 */
 	private boolean mousePressed;
+	
+	/**
+	 * The x coordinate of the mouse.
+	 */
 	private double mouseX;
+	
+	/**
+	 * The y coordinate of the mouse.
+	 */
 	private double mouseY;
 
-	// random
+	/**
+	 * A random number generator.
+	 */
 	private Random random;
 
 	// Sprites
+	/**
+	 * The player sprite.
+	 */
 	private BufferedImage sprPlayer;
+	
+	/**
+	 * The sky background picture.
+	 */
 	private BufferedImage bg_sky;
+	
+	/**
+	 * A black block.
+	 */
 	private BufferedImage spr_black;
+	
+	/**
+	 * The diamond sprite.
+	 */
 	private BufferedImage spr_diamond;
+	
+	/**
+	 * The heart sprite for the health bar.
+	 */
 	private BufferedImage spr_heart;
+	
+	/**
+	 * The sprite for a chicken.
+	 */
 	private BufferedImage spr_chicken;
+	
+	/**
+	 * The sprite for a cow.
+	 */
 	private BufferedImage spr_cow;
+	
+	/**
+	 * The sprite for a zombie.
+	 */
 	private BufferedImage spr_zombie;
 	// private BufferedImage spr_block;
+	/**
+	 * The array that holds all sprites.
+	 */
 	private BufferedImage[][] sprites;
 	// Sounds
+	/**
+	 * The sound of a jump.
+	 */
 	private File snd_jump;
+	
+	/**
+	 * The death sound.
+	 */
 	private File snd_death;
+	
+	/**
+	 * The sound of an explosion.
+	 */
 	private File snd_explosion;
+	
+	/**
+	 * The sound of a bop.
+	 */
 	public File snd_bop;
+	
+	/**
+	 * The background music for the main world.
+	 */
 	public File snd_mus_overworld;
+	
+	/**
+	 * The background music for the main world at
+	 * night.
+	 */
 	public File snd_mus_overworldNight;
+	
+	/**
+	 * The background music for when the player is
+	 * underground.
+	 */
 	public File snd_mus_underground;
 
 	// World Grid
+	/**
+	 * The instance of the main world.
+	 */
 	public WorldGrid world;
+	
+	/**
+	 * The width of the world.
+	 */
 	public int wGridSizeX = 256;
+	
+	/**
+	 * The height of the world.
+	 */
 	public int wGridSizeY = 256;
+	
+	/**
+	 * The size of blocks.
+	 */
 	public int wBlockSize = 48;
+	
+	/**
+	 * TODO: FIX THESE JAVADOC COMMENTS BELOW
+	 */
 	public int wBlockLen = 256;
+	
+	/**
+	 * 
+	 */
 	public int bBlockLen = 256;
+	
+	/**
+	 * 
+	 */
 	public int lBlockLen = 5;
+	
+	/**
+	 * 
+	 */
 	public int updateInterval = 1;
+	
+	/**
+	 * 
+	 */
 	public int updateIntervalCount = 0;
 
 	/*******************************************************************
 	 * 
-	 * Game ---- Set the panel and all other meta things
+	 * Game ---- Set the panel and all other meta things.
 	 * 
 	 *******************************************************************/
 	public Game() {
@@ -181,20 +363,20 @@ public class Game extends JFrame
 	/*******************************************************************
 	 * 
 	 * Main ---- Main Method, basically just run the game.
-	 * 
+	 * @param args command line arguments for the app. Not applicable here.
 	 *******************************************************************/
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Game game = new Game();
 		game.setVisible(true);
 	}
 
 	/*******************************************************************
-	 * 
-	 * Add World Object ---------------- Add instance to the world objects list.
-	 * There is probably a better way to do this.
-	 * 
+	 * Add instance to the world objects
+	 * list.
+	 * @param obj the world object to be added to the world.
+	 * @return the world object added to the world.
 	 *******************************************************************/
-	private WorldObject addWorldObject(WorldObject obj) {
+	private WorldObject addWorldObject(final WorldObject obj) {
 		objList.add(obj);
 		sortWorldObjectDepth();
 		return obj;
@@ -202,8 +384,7 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Sort World Object Depth ----------------------- Sort the object list by
-	 * depth.
+	 * Sort the object list by depth.
 	 * 
 	 *******************************************************************/
 	private void sortWorldObjectDepth() {
@@ -212,37 +393,35 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Remove World Object ---------------- Remove instance from the world objects
-	 * list. There is probably a better way to do this.
-	 * 
+	 * Remove World Object ---------------- Remove instance from the 
+	 * world objects list.
+	 * @param obj the world object to be removed.
 	 *******************************************************************/
-	public void removeWorldObject(WorldObject obj) {
+	public void removeWorldObject(final WorldObject obj) {
 		objList.remove(obj);
 	}
 
-	/*******************************************************************
-	 * 
-	 * Remove World Object index ---------------- Remove instance from the world
-	 * objects list at index. There is probably a better way to do this.
-	 * 
-	 *******************************************************************/
-	private void removeWorldObject(int i) {
+	/**
+	 * Remove instance from the world objects list at index.
+	 * @param i the index to remove from.
+	 */
+	private void removeWorldObject(final int i) {
 		objList.remove(i);
 	}
 
-	/*******************************************************************
-	 * 
-	 * Game Set -------- Set the game with standard values
-	 * 
-	 *******************************************************************/
+	/**
+	 * Set the game with standard values.
+	 */
 	private void setGame() {
 		playerControl = true;
 		menu_player = false;
 		objList = new ArrayList<WorldObject>();
 		inventory = new Inventory();
-		inventory.add(new Item(Constants.TYPE_TOOL, Constants.PICKAXE, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL,
+				Constants.PICKAXE, 1));
 		inventory.add(new Item(Constants.TYPE_TOOL, Constants.AXE, 1));
-		inventory.add(new Item(Constants.TYPE_TOOL, Constants.SWORD, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL,
+				Constants.SWORD, 1));
 		// inventoryFocus = 0;
 		running = true;
 		moveL = false;
@@ -267,10 +446,11 @@ public class Game extends JFrame
 			for (int j = 0; j < wGridSizeY; j++) {
 				if (world.getWID(i, j + 1) != 0) {
 					if (random.nextInt(25) == 1) {
-						if (random.nextInt(2) == 1)
-							addWorldObject(new Chicken(i * wBlockSize, (j) * wBlockSize));
-						else
+						if (random.nextInt(2) == 1) {
+							addWorldObject(new Chicken (i * wBlockSize, (j) * wBlockSize));
+						} else {
 							addWorldObject(new Cow(i * wBlockSize, (j) * wBlockSize));
+						}
 					}
 					break;
 				}
@@ -285,15 +465,21 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Game Reset ---------- Reset the game
+	 * Reset the game.
 	 * 
 	 *******************************************************************/
 	private void reset() {
 		setGame();
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == menu.getNewGameButton()) {
+	
+	/**
+	 * Called when either the load game or new game button are clicked 
+	 * on the main menu. If load game is clicked, it loads a game from
+	 * the save file. If new game is clicked, it creates a new game.
+	 */
+	@Override
+	public void actionPerformed(final ActionEvent e) {
+		if (e.getSource() == menu.getNewGameButton()) {
 			Container cp = getContentPane();
 			cp.remove(menu);
 			cp.add(gamePanel, BorderLayout.CENTER);
@@ -302,7 +488,7 @@ public class Game extends JFrame
 			cp.revalidate();
 			this.requestFocusInWindow();
 		}
-		if(e.getSource() == menu.getLoadGameButton()) {
+		if (e.getSource() == menu.getLoadGameButton()) {
 			Container cp = getContentPane();
 			cp.remove(menu);
 			cp.add(gamePanel, BorderLayout.CENTER);
@@ -316,11 +502,12 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Game Input ---------- Get the keyboard input and respond
+	 * Get the keyboard input and respond. Space makes the player jump.
+	 * R resets the game. E 
 	 * 
 	 *******************************************************************/
 	@Override
-	public void keyPressed(KeyEvent arg0) {
+	public void keyPressed(final KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
@@ -332,9 +519,9 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_E && playerControl) {
 			inventory.setFocus(inventory.getFocus() + 1);
-			if (inventory.getFocus() >= inventory.size())
+			if (inventory.getFocus() >= inventory.size()) {
 				inventory.setFocus(0);
-			;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_Q && playerControl) {
 			inventory.setFocus(inventory.getFocus() - 1);
@@ -717,7 +904,7 @@ public class Game extends JFrame
 		 * Paint Component --------------- Update the game draw
 		 * 
 		 *******************************************************************/
-		public void paintComponent(Graphics g) {
+		public void paintComponent(final Graphics g) {
 			// Draw Back
 			// g.setColor(Color.blue);
 			// g.fillRect(0, 0, 1280, 720);
@@ -927,8 +1114,14 @@ public class Game extends JFrame
 
 			frameCount++;
 		}
-
-		public void drawSprite(WorldObject obj, BufferedImage img, Graphics g) {
+		
+		/**
+		 * Draws a the sprite of a world object.
+		 * @param obj the world object to be drawn.
+		 * @param img the object's sprite.
+		 * @param g the graphics that will draw it.
+		 */
+		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
 			// int vw = viewW;
@@ -992,18 +1185,40 @@ public class Game extends JFrame
 		}
 	}
 
-	private double bindDouble(double val, int min, int max) {
+	/**
+	 * Give a value a floor and a ceiling. Set the value to the floor if
+	 * it is less than the floor. Set it to ceiling if it is greater than
+	 * the ceiling.
+	 * @param val the number to be bound.
+	 * @param min the minimum value of the number.
+	 * @param max the maximum value of the number.
+	 * @return the value after it has been bound by min and max.
+	 */
+	private double bindDouble(final double val, final int min, final int max) {
+		double newVal = val;
 		if (val < min)
-			val = min;
+			newVal = min;
 		if (val > max)
-			val = max;
-		return val;
+			newVal = max;
+		return newVal;
 	}
 
-	public boolean wGridBounds(int i, int j) {
+	/**
+	 * Determines if a coordinate is within the world grid.
+	 * @param i the x coordinate.
+	 * @param j the y coordinate.
+	 * @return if (i, j) is in the world grid.
+	 */
+	public boolean wGridBounds(final int i, final int j) {
 		return i >= 0 && i < wGridSizeX && j >= 0 && j < wGridSizeY;
 	}
-
+	
+	/**
+	 * Updates the player inventory. If the player has
+	 * 0 of an item, remove it from the inventory.
+	 * Also, make sure that the inventory focus is not
+	 * greater than the size of the inventory.
+	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getCount() < 1) {
@@ -1015,8 +1230,13 @@ public class Game extends JFrame
 		if (inventory.getFocus() >= inventory.size())
 			inventory.setFocus(inventory.size() - 1);
 	}
-
-	public void inventoryAdd(int type, int id) {
+	
+	/**
+	 * Add an item to the player inventory.
+	 * @param type the type of item to be added.
+	 * @param id the item id.
+	 */
+	public void inventoryAdd(final int type, final int id) {
 		boolean found = false;
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
@@ -1029,8 +1249,14 @@ public class Game extends JFrame
 			inventory.add(new Item(type, id, 1));
 		}
 	}
-
-	public boolean inventoryCheck(int type, int id) {
+	
+	/**
+	 * Determines if an item is in the player inventory.
+	 * @param type the item type that the method looks for.
+	 * @param id the id of the item.
+	 * @return if the item is in the player inventory.
+	 */
+	public boolean inventoryCheck(final int type, final int id) {
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
 				return true;
@@ -1040,32 +1266,42 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	public void mouseClicked(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(final MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private Item_Drop ItemDropCreate(int xx, int yy, int type, int id) {
+	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
 		drop.setGrav(1);
 		drop.setXsp(randomRange(-5, 5));
 		drop.setYsp(randomRange(-5, 5));
 		return (Item_Drop) drop;
 	}
-
-	private void pressMouse(double mouseX2, double mouseY2) {
+	
+	/**
+	 * The method called when the mouse is being pressed. If swing is still
+	 * in cool down do nothing. Otherwise, if the player is using a
+	 * pickaxe, hit a block. When the block loses all integrity, break the
+	 * block. If the player is using an axe, break a background block.
+	 * If the player is using a sword, kill an entity. If the player is
+	 * holding a block place the block down.
+	 * @param mouseX2 the x location of the mouse.
+	 * @param mouseY2 the y location of the mouse.
+	 */
+	private void pressMouse(final double mouseX2, final double mouseY2) {
 		if (System.currentTimeMillis() - player.getLastSwing() >= Constants.SWING_COOL_DOWN) {
 			player.setLastSwing(System.currentTimeMillis());
 			if (Math.abs(mouseX2 + view.getViewXFinal() - player.getX()) < 128
@@ -1166,7 +1402,7 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			mousePressed = true;
 		}
@@ -1179,44 +1415,57 @@ public class Game extends JFrame
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 		mousePressed = false;
 
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
+	public void mouseDragged(final MouseEvent arg0) {
 		mouseX = arg0.getX();
 		mouseY = arg0.getY() - 24;
 
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseMoved(final MouseEvent arg0) {
 		mouseX = arg0.getX();
 		mouseY = arg0.getY() - 24;
 
 	}
 
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent arg0) {
+	public void mouseWheelMoved(final MouseWheelEvent arg0) {
 		int notches = arg0.getWheelRotation();
 		if (notches > 0) {
 			inventory.setFocus(inventory.getFocus() + 1);
-			if (inventory.getFocus() >= inventory.size())
+			if (inventory.getFocus() >= inventory.size()) {
 				inventory.setFocus(0);
+			}
 		} else {
 			inventory.setFocus(inventory.getFocus() - 1);
-			if (inventory.getFocus() < 0)
+			if (inventory.getFocus() < 0) {
 				inventory.setFocus(inventory.size() - 1);
+			}
 		}
 	}
-
-	public void debugMsg(String message) {
+	
+	/**
+	 * Prints a message to help with debugging.
+	 * @param message the message to be printed.
+	 */
+	public void debugMsg(final String message) {
 		System.out.println(message);
 	}
-
-	public int randomRange(int min, int max) {
+	
+	/**
+	 * Generates a random number between a set
+	 * maximum and minimum.
+	 * @param min the minimum value of the random number.
+	 * @param max the maximum value of the random number.
+	 * @return a random number between min and max.
+	 */
+	public int randomRange(final int min, final int max) {
 		int randomNum = random.nextInt((max - min) + 1) + min;
 		return randomNum;
 	}
