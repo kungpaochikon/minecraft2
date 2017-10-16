@@ -404,8 +404,11 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
+<<<<<<< HEAD
 	 * Remove World Object ---------------- Remove instance from the world
 	 * objects list.
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param obj
 	 *            the world object to be removed.
@@ -488,9 +491,12 @@ public class Game extends JFrame
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Called when either the load game or new game button are clicked on the
 	 * main menu. If load game is clicked, it loads a game from the save file.
 	 * If new game is clicked, it creates a new game.
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
@@ -517,8 +523,11 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
+<<<<<<< HEAD
 	 * Get the keyboard input and respond. Space makes the player jump. R resets
 	 * the game. E
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
 	@Override
@@ -672,9 +681,12 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
+<<<<<<< HEAD
 	 * Game Loop --------- Better game loop, doesn't max out cpu like a plain
 	 * old while loop and has measures in place to smooth out the updates and
 	 * renders
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 *******************************************************************/
 	// Only run this in another Thread!
@@ -993,7 +1005,10 @@ public class Game extends JFrame
 						Particle part = (Particle) obj;
 						// g.setColor(Color.WHITE);
 						// g.fillRect(xx, yy, ww, hh);
+<<<<<<< HEAD
 						drawSprite(part, part.getSprite(), g, true);
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
@@ -1224,8 +1239,11 @@ public class Game extends JFrame
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Give a value a floor and a ceiling. Set the value to the floor if it is
 	 * less than the floor. Set it to ceiling if it is greater than the ceiling.
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param val
 	 *            the number to be bound.
@@ -1258,9 +1276,12 @@ public class Game extends JFrame
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Updates the player inventory. If the player has 0 of an item, remove it
 	 * from the inventory. Also, make sure that the inventory focus is not
 	 * greater than the size of the inventory.
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
@@ -1341,12 +1362,15 @@ public class Game extends JFrame
 	}
 
 	/**
+<<<<<<< HEAD
 	 * The method called when the mouse is being pressed. If swing is still in
 	 * cool down do nothing. Otherwise, if the player is using a pickaxe, hit a
 	 * block. When the block loses all integrity, break the block. If the player
 	 * is using an axe, break a background block. If the player is using a
 	 * sword, kill an entity. If the player is holding a block place the block
 	 * down.
+=======
+>>>>>>> bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
 	 * 
 	 * @param mouseX2
 	 *            the x location of the mouse.

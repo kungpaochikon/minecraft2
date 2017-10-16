@@ -65,7 +65,7 @@ public class Enemy extends Entity{
 		   //Y Collision
 		   int xLow = Math.floorDiv((int) ax1, g.wBlockSize);
 		   int xHi = Math.floorDiv((int) ax2, g.wBlockSize);
-		   int yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), g.wBlockSize);
+		   int yy = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + aysp), g.wBlockSize);
 		   for(xx = xLow;xx<=xHi;xx++){
 			   if(g.wGridBounds(xx,yy) && g.world.getWID(xx,yy)!=0 && g.world.getWID(xx,yy)!=4){
 				   int yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), g.wBlockSize);
@@ -74,8 +74,8 @@ public class Enemy extends Entity{
 					   yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), g.wBlockSize);
 				   }
 				   //Damage
-				   if(getYsp()>28){
-					   setHP(getHP()-1);
+				   if(getYsp() > 28) {
+					   setHP(getHP() - 1);
 					   //viewShake(7, 20);
 				   }
 				   obj.setY(ay1);
@@ -129,7 +129,7 @@ public class Enemy extends Entity{
 					   g.playSound(g.snd_bop);
 				   }
 			   }
-			   if(objCol.isSolid()){
+			   if (objCol.isSolid()) {
 				   double bx1 = objCol.getX();
 				   double bx2 = objCol.getX() + objCol.getWidth();
 				   double by1 = objCol.getY();
