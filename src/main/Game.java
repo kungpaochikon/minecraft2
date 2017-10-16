@@ -150,6 +150,11 @@ public class Game extends JFrame
 	private double mouseY;
 
 	/**
+	 * The y offset for the window bar
+	 */
+	private double mouseYOffset = -24;
+	
+	/**
 	 * A random number generator.
 	 */
 	private Random random;
@@ -461,6 +466,8 @@ public class Game extends JFrame
 		view = new View();
 		view.setViewW(1280);
 		view.setViewH(720);
+		view.setViewX(player.getX()-view.getViewW()/2);
+		view.setViewY(player.getY()-view.getViewH()/2);
 	}
 
 	/*******************************************************************
@@ -956,8 +963,10 @@ public class Game extends JFrame
 				int hh = (int) Math.round(obj.getHeight());
 				if (xx + vx < vx + vw && xx + ww + vx > vx && yy + vy < vy + vh && yy + hh + vy > vy) {
 					if (obj instanceof Particle) {
-						g.setColor(Color.WHITE);
-						g.fillRect(xx, yy, ww, hh);
+						Particle part = (Particle)obj;
+						//g.setColor(Color.WHITE);
+						//g.fillRect(xx, yy, ww, hh);
+						drawSprite(part,part.getSprite(),g);
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
@@ -1307,7 +1316,7 @@ public class Game extends JFrame
 			if (Math.abs(mouseX2 + view.getViewXFinal() - player.getX()) < 128
 					&& Math.abs(mouseY2 + view.getViewYFinal() - player.getY()) < 128) {
 				int xx = Math.floorDiv((int) ((int) mouseX2 + view.getViewXFinal()), wBlockSize);
-				int yy = Math.floorDiv((int) ((int) mouseY2 - 24 + view.getViewYFinal()), wBlockSize);
+				int yy = Math.floorDiv((int) ((int) mouseY2 + view.getViewYFinal()), wBlockSize);
 				int xxx = xx * wBlockSize + wBlockSize / 4;
 				int yyy = yy * wBlockSize + wBlockSize / 4;
 				if (inventory.size() > 0 && inventory.getFocused().getCount() > 0) {
@@ -1423,14 +1432,14 @@ public class Game extends JFrame
 	@Override
 	public void mouseDragged(final MouseEvent arg0) {
 		mouseX = arg0.getX();
-		mouseY = arg0.getY() - 24;
+		mouseY = arg0.getY() + mouseYOffset;
 
 	}
 
 	@Override
 	public void mouseMoved(final MouseEvent arg0) {
 		mouseX = arg0.getX();
-		mouseY = arg0.getY() - 24;
+		mouseY = arg0.getY() + mouseYOffset;
 
 	}
 
