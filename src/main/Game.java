@@ -228,6 +228,11 @@ public class Game extends JFrame
 	 * The sound of a block getting hit.
 	 */
 	public File sndBlockHit;
+	
+	/**
+	 * The sound of eating food.
+	 */
+	public File sndEat;
 
 	/**
 	 * The background music for the main world.
@@ -362,6 +367,7 @@ public class Game extends JFrame
 			snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
 			snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
 			sndBlockHit = new File("sounds\\hit.wav").getAbsoluteFile();
+			sndEat = new File("sounds\\eat.wav").getAbsoluteFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -399,7 +405,8 @@ public class Game extends JFrame
 	 * 
 	 *******************************************************************/
 	private void sortWorldObjectDepth() {
-		Collections.sort(objList);
+		//Collections.sort(objList);
+		Collections.sort(objList ,Collections.reverseOrder());
 	}
 
 	/*******************************************************************
@@ -443,7 +450,7 @@ public class Game extends JFrame
 		moveR = false;
 		// Player
 		player = new Player(100, 100);
-		player.setDepth(2);
+		player.setDepth(-1);
 		addWorldObject(player);
 		world = new WorldGrid(wGridSizeX, wGridSizeY, wBlockSize);
 		world.generate();
@@ -1507,6 +1514,7 @@ public class Game extends JFrame
 										mouseY + view.getViewY(), random.nextInt(10) - 5, -random.nextInt(10), 500,
 										sprites[Constants.TYPE_BACK][world.getBID(xx, yy)]));
 								myPart.setGrav(0.5);
+								myPart.setDepth(-5);
 							}
 							playSound(sndBlockHit);
 							ItemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
@@ -1540,6 +1548,15 @@ public class Game extends JFrame
 					if (inventory.getFocused().getType() == Constants.TYPE_FOOD) {
 						player.setHunger(player.getHungerMax());
 						inventory.getFocused().changeCount(-1);
+						for (int i = 0; i < 5; i++) {
+							Particle myPart = (Particle) addWorldObject(new Particle(player.getX()+player.getWidth()/2,
+									player.getY() + player.getHeight()/2, random.nextInt(10) - 5, -random.nextInt(10), 500,
+									sprites[Constants.TYPE_FOOD][inventory.getFocused().getId()]));
+							myPart.setGrav(0.5);
+							
+							myPart.setDepth(-5);
+						}
+						playSound(sndEat);
 					}
 				}
 			}

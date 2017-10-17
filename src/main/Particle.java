@@ -16,7 +16,6 @@ public class Particle extends WorldObject{
 		xsp = xxx;
 		ysp = yyy;
 		life = l;
-		System.out.println("ELLO");
 		try {
 			img = ImageIO.read(new File("images\\spr_square.png"));
 		} catch (IOException e) {
@@ -43,7 +42,6 @@ public class Particle extends WorldObject{
 		width-=0.5;
 		height-=0.5;
 		super.step(g);
-		System.out.println("E");
 	}
 	
 	public BufferedImage getSprite(){
