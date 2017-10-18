@@ -1,6 +1,11 @@
 package main;
-
-public class Entity extends WorldObject{
+/**
+ * A moving and living object. It has hitpoints and can
+ * be killed. 
+ * @author Gary Fleming, Logun DeLeon, Alex Duncanson
+ *
+ */
+public class Entity extends WorldObject {
 	/**
 	 * The maximum number of hit points.
 	 * Max health.
