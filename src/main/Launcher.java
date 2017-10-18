@@ -2,8 +2,15 @@ package main;
 
 import javax.swing.JFrame;
 
+/**
+ * @author gary, logun, alex
+ *
+ */
 public class Launcher {
-	public static void main(String[] args) {
+	/**
+	 * @param args game launger arguments
+	 */
+	public static void main(final String[] args) {
 		JFrame obj = new JFrame();
 		Game game = new Game();
 		obj.setBounds(0, 0, 1280, 720);

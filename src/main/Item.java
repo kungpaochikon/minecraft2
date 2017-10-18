@@ -1,5 +1,9 @@
 package main;
 
+/**
+ * @author gary, logun, alex
+ *
+ */
 public class Item {
 	/**
 	 * The type of item.
