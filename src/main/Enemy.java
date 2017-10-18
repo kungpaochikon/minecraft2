@@ -1,18 +1,40 @@
 package main;
 
 import java.util.Random;
-
-public class Enemy extends Entity{
-	int state;
-	Random random;
-	public Enemy(double xx, double yy) {
+/**
+ * An enemy entity. This kind of entity will deal damage
+ * to the player.
+ * @author Gary Fleming, Logun DeLeon, Alex Duncanson
+ *
+ */
+public class Enemy extends Entity {
+	/**
+	 * The state of the enemy.
+	 */
+	private int state;
+	
+	/**
+	 * A random number generator.
+	 */
+	private Random random;
+	
+	/**
+	 * The constructor creates an enemy with a set x and y.
+	 * @param xx the x coordinate.
+	 * @param yy the y coordinate.
+	 */
+	public Enemy(final double xx, final double yy) {
 		super(xx, yy);
 		width = 32;
 		height = 32;
 		state = 0;
 		random = new Random();
 	}
-	
+	/**
+	 * The actions that an enemy takes during each iteration 
+	 * of the game loop.
+	 * @param g the game the enemy exists in.
+	 */
 	public void step(Game g) {
 		WorldGrid world = g.getWorld();
 		int wBlockSize = g.getwBlockSize();
@@ -50,11 +72,11 @@ public class Enemy extends Entity{
 		   //X Collision
 		   int yLow = Math.floorDiv((int) ay1, wBlockSize);
 		   int yHi = Math.floorDiv((int) ay2, wBlockSize);
-		   xx = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+axsp), wBlockSize);
+		   xx = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + axsp), wBlockSize);
 		   for (int yy = yLow; yy <= yHi; yy++) {
 			   if (g.wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
-				   int xx2 = Math.floorDiv((int) (ax1 + aw / 2 +aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
-				   while(g.wGridBounds(xx, yy) && (world.getWID(xx2, yy) == 0 || world.getWID(xx2, yy) == 4)) {
+				   int xx2 = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
+				   while (g.wGridBounds(xx, yy) && (world.getWID(xx2, yy) == 0 || world.getWID(xx2, yy) == 4)) {
 					   ax1 += Math.signum(axsp);
 					   xx2 = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
 				   }
@@ -147,8 +169,11 @@ public class Enemy extends Entity{
 				   //X collision
 				   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
 						   && ay1 < by2 && ay2 > by1) {
-					   while (!(ax1 + 1 * Math.signum(axsp) < bx2 && ax2 + 1 * Math.signum(axsp) > bx1
-							   && ay1 < by2 && ay2 > by1)) {
+					   while (!(ax1 + 1 * Math.signum(axsp)
+					   		   < bx2 && ax2 + 1
+					   		   * Math.signum(axsp)
+					   		   > bx1 && ay1 < by2
+					   		   && ay2 > by1)) {
 						   ax1 += Math.signum(axsp);
 						   ax2 += Math.signum(axsp);
 					   }
@@ -158,11 +183,16 @@ public class Enemy extends Entity{
 				   }
 				   //Y collision
 				   if (ax1 < bx2 && ax2 > bx1
-						   && ay1 + aysp < by2 && ay2 + aysp > by1) {
-					   while(!(ax1 < bx2 && ax2 > bx1 &&
-							ay1+1*Math.signum(aysp) < by2 && ay2+1*Math.signum(aysp) > by1)){
-						   ay1+=Math.signum(aysp);
-						   ay2+=Math.signum(aysp);
+						   && ay1 + aysp < by2
+						   && ay2 + aysp > by1) {
+					   while (!(ax1 < bx2 && ax2 > bx1
+							   && ay1 + 1
+							   * Math.signum(aysp)
+							   < by2 && ay2 + 1
+							   * Math.signum(aysp)
+							   > by1)) {
+						   ay1 += Math.signum(aysp);
+						   ay2 += Math.signum(aysp);
 					   }
 					   obj.setY(ay1);
 					   obj.setYsp(0);
