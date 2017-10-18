@@ -5,20 +5,61 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class WorldObject implements Comparable<WorldObject>{
+/**
+ * @author gary, logun, alex
+ *
+ */
+public class WorldObject implements Comparable<WorldObject> {
+	/**
+	 * 
+	 */
 	protected double x;
+	/**
+	 * 
+	 */
 	protected double y;
+	/**
+	 * 
+	 */
 	protected double xsp;
+	/**
+	 * 
+	 */
 	protected double ysp;
+	/**
+	 * 
+	 */
 	protected double grav;
+	/**
+	 * 
+	 */
 	protected double width;
+	/**
+	 * 
+	 */
 	protected double height;
+	/**
+	 * 
+	 */
 	protected boolean solid;
+	/**
+	 * 
+	 */
 	protected double angle;
+	/**
+	 * 
+	 */
 	protected boolean destroy;
+	/**
+	 * 
+	 */
 	protected int depth;
 	
-	public WorldObject(double xx, double yy){
+	/**
+	 * @param xx x coordinate
+	 * @param yy y coordinate
+	 */
+	public WorldObject(final double xx, final double yy) {
 		x = xx;
 		y = yy;
 		xsp = 0;
@@ -32,114 +73,192 @@ public class WorldObject implements Comparable<WorldObject>{
 		depth = 0;
 	}
 	
-	public int getDepth(){
+	/**
+	 * @return depth
+	 */
+	public int getDepth() {
 		return depth;
 	}
 	
-	public void setDepth(int d){
+	/**
+	 * @param d depth
+	 */
+	public void setDepth(final int d) {
 		depth = d;
 	}
 	
-	public boolean destroyed(){
+	/**
+	 * @return destroy
+	 */
+	public boolean destroyed() {
 		return destroy;
 	}
 	
-	public void destroy(){
+	/**
+	 * 
+	 */
+	public void destroy() {
 		destroy = true;
 	}
 	
-	public void setX(double xx){
+	/**
+	 * @param xx x coordinate
+	 */
+	public void setX(final double xx) {
 		x = xx;
 	}
 	
-	public void setY(double yy){
+	/**
+	 * @param yy y coordinate
+	 */
+	public void setY(final double yy) {
 		y = yy;
 	}
 	
-	public void setXsp(double xx){
+	/**
+	 * @param xx xsp
+	 */
+	public void setXsp(final double xx) {
 		xsp = xx;
 	}
 	
-	public void setYsp(double yy){
+	/**
+	 * @param yy ysp
+	 */
+	public void setYsp(final double yy) {
 		ysp = yy;
 	}
 	
-	public void moveX(double xx){
-		x+=xx;
+	/**
+	 * @param xx move x
+	 */
+	public void moveX(final double xx) {
+		x += xx;
 	}
 	
-	public void moveY(double yy){
-		y+=yy;
+	/**
+	 * @param yy move y
+	 */
+	public void moveY(final double yy) {
+		y += yy;
 	}
 	
-	public void doGrav(){
-		ysp+=grav;
+	/**
+	 * 
+	 */
+	public void doGrav() {
+		ysp += grav;
 	}
 	
-	public void step(Game g){
+	/**
+	 * @param g game step
+	 */
+	public void step(final Game g) {
 		//doGrav();
-		x+=xsp;
-		y+=ysp;
+		x += xsp;
+		y += ysp;
 	}
 	
-	public void setGrav(double g){
+	/**
+	 * @param g gravity
+	 */
+	public void setGrav(final double g) {
 		grav = g;
 	}
 	
-	public void setWidth(double ww){
+	/**
+	 * @param ww width
+	 */
+	public void setWidth(final double ww) {
 		width = ww;
 	}
 	
-	public void setHeight(double hh){
+	/**
+	 * @param hh height
+	 */
+	public void setHeight(final double hh) {
 		height = hh;
 	}
 	
-	public void setSolid(boolean ss){
+	/**
+	 * @param ss solid
+	 */
+	public void setSolid(final boolean ss) {
 		solid = ss;
 	}
 	
-	public void setAngle(double ang){
+	/**
+	 * @param ang angle
+	 */
+	public void setAngle(final double ang) {
 		angle = ang;
 	}
 	
-	public double getX(){
+	/**
+	 * @return x
+	 */
+	public double getX() {
 		return x;
 	}
 	
-	public double getY(){
+	/**
+	 * @return y
+	 */
+	public double getY() {
 		return y;
 	}
 	
-	public double getXsp(){
+	/**
+	 * @return xsp
+	 */
+	public double getXsp() {
 		return xsp;
 	}
 	
-	public double getYsp(){
+	/**
+	 * @return ysp
+	 */
+	public double getYsp() {
 		return ysp;
 	}
 	
-	public double getGrav(){
+	/**
+	 * @return gravity
+	 */
+	public double getGrav() {
 		return grav;
 	}
 	
-	public double getWidth(){
+	/**
+	 * @return width
+	 */
+	public double getWidth() {
 		return width;
 	}
 	
-	public double getHeight(){
+	/**
+	 * @return height
+	 */
+	public double getHeight() {
 		return height;
 	}
 	
-	public double getAngle(){
+	/**
+	 * @return angle
+	 */
+	public double getAngle() {
 		return angle;
 	}
 	
-	public boolean isSolid(){
+	/**
+	 * @return solid
+	 */
+	public boolean isSolid() {
 		return solid;
 	}
 
 	@Override
-	public int compareTo(WorldObject arg0) {
+	public int compareTo(final WorldObject arg0) {
 		return depth - arg0.depth;
 	}
 	
