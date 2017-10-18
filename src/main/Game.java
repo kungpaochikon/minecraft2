@@ -972,7 +972,7 @@ public class Game extends JFrame
 
 		/**
 		 * @param interp
-		 *            description
+		 * Sets interpolation for drawing, not used currently
 		 */
 		public void setInterpolation(final float interp) {
 			interpolation = interp;
