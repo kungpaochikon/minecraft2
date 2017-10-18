@@ -126,6 +126,9 @@ public class Block {
 		return integrity;
 	}
 	
+	/**
+	 * @param damage block damage
+	 */
 	public void hitBlock(final int damage) {
 		if (damage < 0) {
 			return;
