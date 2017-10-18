@@ -332,20 +332,37 @@ public class Game extends JFrame
 			sprChicken = ImageIO.read(new File(
 					"images\\spr_chicken.png"));
 			sprCow = ImageIO.read(new File("images\\spr_cow.png"));
-			sprZombie = ImageIO.read(new File("images\\spr_zombie.png"));
+			sprZombie = ImageIO.read(new File(
+					"images\\spr_zombie.png"));
 			// Terrain
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] = ImageIO.read(new File("images\\spr_dirt.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_GRASS] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_LEAVES] = ImageIO.read(new File("images\\spr_leaves.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_WATER] = ImageIO.read(new File("images\\spr_water.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIAMOND_ORE] = ImageIO
-					.read(new File("images\\spr_diamond_ore.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_STONE] = ImageIO.read(new File("images\\spr_stone.png"));
-			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_COBBLESTONE] = ImageIO
-					.read(new File("images\\spr_cobblestone.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] =
+					ImageIO.read(new File(
+					"images\\spr_dirt.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_GRASS] =
+					ImageIO.read(new File(
+					"images\\spr_dirt_grass.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_LEAVES] =
+					ImageIO.read(new File(
+					"images\\spr_leaves.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_WATER] =
+					ImageIO.read(new File(
+					"images\\spr_water.png"));
+			sprites[Constants.TYPE_BLOCK]
+					[Constants.BLOCK_DIAMOND_ORE] = 
+					ImageIO.read(new File(
+					"images\\spr_diamond_ore.png"));
+			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_STONE] =
+					ImageIO.read(new File(
+					"images\\spr_stone.png"));
+			sprites[Constants.TYPE_BLOCK]
+					[Constants.BLOCK_COBBLESTONE] = ImageIO.read(
+					new File("images\\spr_cobblestone.png"));
 			// Backs
-			sprites[Constants.TYPE_BACK][Constants.BACK_WOOD] = ImageIO.read(new File("images\\spr_wood.png"));
-			sprites[Constants.TYPE_BACK][Constants.BACK_DIRT] = ImageIO.read(new File("images\\spr_back_cave.png"));
+			sprites[Constants.TYPE_BACK][Constants.BACK_WOOD] =
+					ImageIO.read(new File(
+					"images\\spr_wood.png"));
+			sprites[Constants.TYPE_BACK][Constants.BACK_DIRT] =
+					ImageIO.read(new File("images\\spr_back_cave.png"));
 			sprites[Constants.TYPE_BACK][Constants.BACK_STONE] = ImageIO
 					.read(new File("images\\spr_back_cave_stone.png"));
 			// Tools
@@ -410,16 +427,11 @@ public class Game extends JFrame
 	 *******************************************************************/
 	private void sortWorldObjectDepth() {
 		//Collections.sort(objList);
-		Collections.sort(objList ,Collections.reverseOrder());
+		Collections.sort(objList, Collections.reverseOrder());
 	}
 
 	/*******************************************************************
-	 * 
-	 * <<<<<<< HEAD Remove World Object ---------------- Remove instance from
-	 * the world objects list. ======= Remove World Object ----------------
-	 * Remove instance from the world objects list. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
-	 * 
+	 * Remove instance from the world objects list.
 	 * @param obj
 	 *            the world object to be removed.
 	 *******************************************************************/
@@ -445,9 +457,11 @@ public class Game extends JFrame
 		menuPlayer = false;
 		objList = new ArrayList<WorldObject>();
 		inventory = new Inventory();
-		inventory.add(new Item(Constants.TYPE_TOOL, Constants.PICKAXE, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL,
+				Constants.PICKAXE, 1));
 		inventory.add(new Item(Constants.TYPE_TOOL, Constants.AXE, 1));
-		inventory.add(new Item(Constants.TYPE_TOOL, Constants.SWORD, 1));
+		inventory.add(new Item(Constants.TYPE_TOOL,
+				Constants.SWORD, 1));
 		// inventoryFocus = 0;
 		running = true;
 		moveL = false;
@@ -473,7 +487,8 @@ public class Game extends JFrame
 				if (world.getWID(i, j + 1) != 0) {
 					if (random.nextInt(25) == 1) {
 						if (random.nextInt(2) == 1) {
-							addWorldObject(new Chicken(i * wBlockSize, (j) * wBlockSize));
+							addWorldObject(
+									new Chicken(i * wBlockSize, (j) * wBlockSize));
 						} else {
 							addWorldObject(new Cow(i * wBlockSize, (j) * wBlockSize));
 						}
@@ -501,13 +516,10 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * <<<<<<< HEAD Called when either the load game or new game button are
-	 * clicked on the main menu. If load game is clicked, it loads a game from
-	 * the save file. If new game is clicked, it creates a new game. =======
-	 * Called when either the load game or new game button are clicked on the
-	 * main menu. If load game is clicked, it loads a game from the save file.
-	 * If new game is clicked, it creates a new game. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * Called when either the load game or new game button are
+	 * clicked on the main menu. If load game is clicked, it loads 
+	 * a game from the save file. If new game is clicked, it creates
+	 * a new game.
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
