@@ -2,14 +2,41 @@ package main;
 
 import java.util.Random;
 
+/**
+ * @author gary, logun, alex
+ *
+ */
 public class WorldGrid {
+	/**
+	 * 
+	 */
+	/**
+	 * 
+	 */
 	private int sizeX;
+	/**
+	 * 
+	 */
 	private int sizeY;
+	/**
+	 * 
+	 */
 	private int blockSize;
+	/**
+	 * 
+	 */
 	private Random random;
+	/**
+	 * 
+	 */
 	private Block[][] wGrid;
 	
-	public WorldGrid(int x, int y, int bSize) {
+	/**
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param bSize block size
+	 */
+	public WorldGrid(final int x, final int y, final int bSize) {
 		//Create array of empty blocks
 		sizeX = x;
 		sizeY = y;
@@ -25,7 +52,7 @@ public class WorldGrid {
 	
 	/******************************************************************
 	 * 
-	 * Generate World
+	 * Generate World.
 	 * --------------
 	 * Generates the world on the grid
 	 * 
@@ -98,7 +125,9 @@ public class WorldGrid {
 	    		  if (j > dirtBackDepth) {
 	    			  if (j < stoneDepth) {
 	    				  wGrid[i][j].setBID(Constants.BACK_DIRT);
-	    			  } else wGrid[i][j].setBID(Constants.BACK_STONE);
+	    			  } else {
+						wGrid[i][j].setBID(Constants.BACK_STONE);
+					}
 	    		  }
 	    	  }
 	      }
@@ -123,17 +152,23 @@ public class WorldGrid {
 	    	  }
 	      }
 	      //Update
-	      for (int i = 0; i < 16; i++) {
+	      /*for (int i = 0; i < 16; i++) {
 		      //wUpdateLighting(0, sizeX, 0, sizeY);
 		      //wUpdateWater(0,sizeX,0,sizeY);
-	      }
+	      }*/
 	}
 	
    /*******************************************************************
     * 
-    * Spawn Tree
+    * Spawn Tree.
     * ----------
     * Spawns Tree
+    * 
+    * @param x x coordinate
+    * @param y y coordinate
+    * @param w w coordinate
+    * @param h h coordinate
+    * @param r radius
     * 
     *******************************************************************/
    private void wGenTree(final int x, final int y, final int w, final int h, final int r) {
@@ -149,15 +184,28 @@ public class WorldGrid {
 	   wPlaceCircle(x + (w / 2), y - h, r, 3, 1, 1, 1, 0);
    }
    
-   public Block getBlock(final int x, final int y) {
+/**
+ * @param x grid width
+ * @param y grid height
+ * @return size of world grid
+ */
+public Block getBlock(final int x, final int y) {
 	   return wGrid[x][y];
    }
    
    /*******************************************************************
     * 
-    * Delete Circle
+    * Delete Circle.
     * ----------
     * Deletes things in a circle of radius r
+    * 
+    * @param x x coordinate
+    * @param y y coordinate
+    * @param r radius
+    * @param x1Off offset
+    * @param x2Off offset
+    * @param y1Off offset
+    * @param y2Off offset
     * 
     *******************************************************************/
    private void wDeleteCircle(final int x, final int y, final int r, final int x1Off,
@@ -179,9 +227,18 @@ public class WorldGrid {
    
    /*******************************************************************
     * 
-    * Place Circle
+    * Place Circle.
     * ----------
     * Deletes things in a circle of radius r
+    * 
+    * @param x x coordinate
+    * @param y y coordinate
+    * @param r radius
+    * @param wid world ID
+    * @param x1Off offset
+    * @param x2Off offset
+    * @param y1Off offset
+    * @param y2Off offset
     * 
     *******************************************************************/
    private void wPlaceCircle(final int x, final int y, final int r, final int wid, final int x1Off, final int x2Off,
@@ -203,9 +260,14 @@ public class WorldGrid {
    
    /*******************************************************************
     * 
-    * Update Lighting
+    * Update Lighting.
     * ----------
     * Deletes things in a circle of radius r
+    * 
+    * @param x1 x1 coordinate
+    * @param x2 x2 coordinate
+    * @param y1 y1 coordinate
+    * @param y2 y2 coordinate
     * 
     *******************************************************************/
    @SuppressWarnings("unused")
@@ -231,9 +293,12 @@ public class WorldGrid {
    
    /*******************************************************************
     * 
-    * Update Water
+    * Update Water.
     * ----------
     * Updates water in a given area
+    * 
+    * @param i horizontal block in world grid
+    * @param j vertical block in world grid
     * 
     *******************************************************************/
    private void wUpdateWater(final int i, final int j) {
@@ -258,9 +323,9 @@ public class WorldGrid {
 	      		 }
 	      		 //Right
 	      		 if (wGridBounds(i, j + 1) && wGrid[i][j + 1].getWID() != Constants.BLOCK_AIR) {
-	      			 if (wGridBounds(i + 1, j) && wGrid[i +1 ][j].getWID() == Constants.BLOCK_AIR) {
+	      			 if (wGridBounds(i + 1, j) && wGrid[i + 1 ][j].getWID() == Constants.BLOCK_AIR) {
 	      				setWID(i + 1, j, Constants.BLOCK_WATER);
-	      				((Block_Water) wGrid[i+1][j]).setWaterLevel(1);
+	      				((Block_Water) wGrid[i + 1][j]).setWaterLevel(1);
 	      				((Block_Water) wGrid[i][j]).decWaterLevel();
 	      			 }
 	      			 if (wGridBounds(i + 1, j) && wGrid[i + 1][j].isWater()) {
@@ -289,13 +354,18 @@ public class WorldGrid {
     				((Block_Water) wGrid[i][j]).decWaterLevel();
 				}
 			 }
-			 if(((Block_Water) wGrid[i][j]).getWaterLevel()<1){
+			 if (((Block_Water) wGrid[i][j]).getWaterLevel() < 1) {
 				 setWID(i, j, Constants.BLOCK_AIR);
 			 }
 		 }
    }
 	
-	public void setWID(final int x, final int y, final int wid){
+	/**
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param wid world ID
+	 */
+	public void setWID(final int x, final int y, final int wid) {
 		//wGrid[x][y].setWID(wid);
 		if (!wGridBounds(x, y)) {
 			return;
@@ -309,6 +379,11 @@ public class WorldGrid {
 		}
 	}
 	
+	/**
+	 * @param x x bound coordinate
+	 * @param y y bound coordinate
+	 * @param bid boundary ID
+	 */
 	public void setBID(final int x, final int y, final int bid) {
 		if (!wGridBounds(x, y)) {
 			return;
@@ -316,6 +391,11 @@ public class WorldGrid {
 		wGrid[x][y].setBID(bid);
 	}
 	
+	/**
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param ll ll
+	 */
 	public void setLight(final int x, final int y, final int ll) {
 		if (!wGridBounds(x, y)) {
 			return;
@@ -323,6 +403,11 @@ public class WorldGrid {
 		wGrid[x][y].setLight(ll);
 	}
 	
+	/**
+	 * @param x x coordiante
+	 * @param y y coordiante
+	 * @return the world grid
+	 */
 	public int getWID(final int x, final int y) {
 		if (!wGridBounds(x, y)) {
 			return 0;
@@ -330,6 +415,11 @@ public class WorldGrid {
 		return wGrid[x][y].getWID();
 	}
 	
+	/**
+	 * @param x x bound coordinate
+	 * @param y y bound coordinate
+	 * @return the boundary id
+	 */
 	public int getBID(final int x, final int y) {
 		if (!wGridBounds(x, y)) {
 			return 0;
@@ -337,6 +427,11 @@ public class WorldGrid {
 		return wGrid[x][y].getBID();
 	}
 	
+	/**
+	 * @param x x light coordinate
+	 * @param y y light coordinate
+	 * @return the world grid where the light should be 
+	 */
 	public int getLight(final int x, final int y) {
 		if (!wGridBounds(x, y)) {
 			return 0;
@@ -344,13 +439,23 @@ public class WorldGrid {
 		return wGrid[x][y].getLight();
 	}
 	
-	public boolean isWater (final int x, final int y) {
+	/**
+	 * @param x x water coordinate
+	 * @param y y water coordinate
+	 * @return where water should be on the world grid
+	 */
+	public boolean isWater(final int x, final int y) {
 		if (!wGridBounds(x, y)) {
 			return false;
 		}
 		return wGrid[x][y].isWater();
 	}
 	
+	/**
+	 * @param x x waterlevel coordinate
+	 * @param y y waterlevel coordinate
+	 * @return the water level
+	 */
 	public int getWaterLevel(final int x, final int y) {
 		if (!wGridBounds(x, y)) {
 			return 0;
@@ -358,18 +463,33 @@ public class WorldGrid {
 		return ((Block_Water) wGrid[x][y]).getWaterLevel();
 	}
 	
+	/**
+	 * @return size of block
+	 */
 	public int blockSize() {
 		return blockSize;
 	}
 	
+	/**
+	 * @return x size
+	 */
 	public int sizeX() {
 		return sizeX;
 	}
 	
+	/**
+	 * @return y size
+	 */
 	public int sizeY() {
 		return sizeY;
 	}
 	
+	/**
+	 * @param x1 grid coordinate
+	 * @param x2 grid coordinate
+	 * @param y1 grid coordinate
+	 * @param y2 grid coordinate
+	 */
 	public void update(final int x1, final int x2, final int y1, final int y2) {
        for (int i = x1; i < x2; i++) {
       	 for (int j = y1; j < y2; j++) {
@@ -381,7 +501,12 @@ public class WorldGrid {
        }
 	}
 	
-   private boolean wGridBounds(final int i, final int j) {
+   /**
+ * @param i x grid boundary coordinate
+ * @param j y grid boundary coordinate
+ * @return the grid boundaries
+ */
+private boolean wGridBounds(final int i, final int j) {
 	   return i >= 0 && i < sizeX && j >= 0 && j < sizeY;
    }
 }
