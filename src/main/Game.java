@@ -546,10 +546,8 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * <<<<<<< HEAD Get the keyboard input and respond. Space makes the player
-	 * jump. R resets the game. E ======= Get the keyboard input and respond.
-	 * Space makes the player jump. R resets the game. E >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * Get the keyboard input and respond. Space makes the player
+	 * jump. R resets the game.
 	 * 
 	 *******************************************************************/
 	@Override
@@ -709,13 +707,9 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * <<<<<<< HEAD Game Loop --------- Better game loop, doesn't max out cpu
-	 * like a plain old while loop and has measures in place to smooth out the
-	 * updates and renders ======= Game Loop --------- Better game loop, doesn't
-	 * max out cpu like a plain old while loop and has measures in place to
-	 * smooth out the updates and renders. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
-	 * 
+	 * Game Loop --------- Better game loop, doesn't max out cpu
+	 * like a plain old while loop and has measures in place to
+	 * smooth out the updates and renders.
 	 *******************************************************************/
 	// Only run this in another Thread!
 	private void gameLoop() {
@@ -950,8 +944,7 @@ public class Game extends JFrame
 	 * 
 	 * Draw Game --------- Repaint the game.
 	 * 
-	 * @param interpolation
-	 *            DESCRIPTION
+	 * @param interpolation Resampling.
 	 * 
 	 *******************************************************************/
 	private void drawGame(final float interpolation) {
@@ -997,7 +990,7 @@ public class Game extends JFrame
 		 * Paint Component --------------- Update the game draw.
 		 * 
 		 * @param g
-		 *            description
+		 *            The graphics that paint the component.
 		 * 
 		 *******************************************************************/
 		public void paintComponent(final Graphics g) {
@@ -1266,16 +1259,12 @@ public class Game extends JFrame
 		}
 
 		/**
-		 * @param x
-		 *            DESCRIPTION
-		 * @param y
-		 *            DESCRIPTION
-		 * @param img
-		 *            DESCRIPTION
-		 * @param g
-		 *            DESCRIPTION
-		 * @param opacity
-		 *            DESCRIPTION
+		 * Draw a block at (x,y) given a sprite and opacity.
+		 * @param x the x coordinate
+		 * @param y the y coordinate
+		 * @param img the sprite
+		 * @param g the graphics that draw it.
+		 * @param opacity the opacity of the image.
 		 */
 		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
@@ -1291,8 +1280,8 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * @param snd
-	 *            description
+	 * Plays a sound.
+	 * @param snd the sound to be played.
 	 */
 	public void playSound(final File snd) {
 		try {
@@ -1347,13 +1336,9 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * <<<<<<< HEAD Updates the player inventory. If the player has 0 of an
-	 * item, remove it from the inventory. Also, make sure that the inventory
-	 * focus is not greater than the size of the inventory. ======= Updates the
-	 * player inventory. If the player has 0 of an item, remove it from the
-	 * inventory. Also, make sure that the inventory focus is not greater than
-	 * the size of the inventory. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * Updates the player inventory. If the player has 0 of an
+	 * item, remove it from the inventory. Also, make sure that the 
+	 * inventory focus is not greater than the size of the inventory.
 	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
@@ -1424,15 +1409,12 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * @param xx
-	 *            DESCRIPTION
-	 * @param yy
-	 *            DESCRIPTION
-	 * @param type
-	 *            DESCRIPTION
-	 * @param id
-	 *            DESCRIPTION
-	 * @return DESCRIPTION
+	 * Create an item drop at (xx, yy) of a certain type and id.
+	 * @param xx the x coordinate.
+	 * @param yy the y coordinate.
+	 * @param type the type.
+	 * @param id the id.
+	 * @return The item drop created.
 	 */
 	private Item_Drop itemDropCreate(final int xx, final int yy, final int type, final int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
@@ -1443,18 +1425,12 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * <<<<<<< HEAD The method called when the mouse is being pressed. If swing
+	 * The method called when the mouse is being pressed. If swing
 	 * is still in cool down do nothing. Otherwise, if the player is using a
 	 * pickaxe, hit a block. When the block loses all integrity, break the
 	 * block. If the player is using an axe, break a background block. If the
 	 * player is using a sword, kill an entity. If the player is holding a block
-	 * place the block down. ======= The method called when the mouse is being
-	 * pressed. If swing is still in cool down do nothing. Otherwise, if the
-	 * player is using a pickaxe, hit a block. When the block loses all
-	 * integrity, break the block. If the player is using an axe, break a
-	 * background block. If the player is using a sword, kill an entity. If the
-	 * player is holding a block place the block down. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * place the block down.
 	 * 
 	 * @param mouseX2
 	 *            the x location of the mouse.
