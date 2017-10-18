@@ -19,7 +19,8 @@ public class Cow extends Animal {
 	private Random random;
 	
 	/**
-	 * This constructor creates a cow with a set x and y.
+	 * This constructor creates a cow with a set x and y
+	 * location.
 	 * @param xx the x coordinate of the cow.
 	 * @param yy the y coordinate of the cow.
 	 */
