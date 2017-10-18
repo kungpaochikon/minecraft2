@@ -49,12 +49,12 @@ public class Enemy extends Entity{
 		   int yLow = Math.floorDiv((int) ay1, wBlockSize);
 		   int yHi = Math.floorDiv((int) ay2, wBlockSize);
 		   xx = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+axsp), wBlockSize);
-		   for(int yy = yLow;yy<=yHi;yy++){
-			   if(g.wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-				   int xx2 = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)), wBlockSize);
-				   while(g.wGridBounds(xx,yy) && (world.getWID(xx2,yy)==0 || world.getWID(xx2,yy)==4)){
-					   ax1+=Math.signum(axsp);
-					   xx2 = Math.floorDiv((int) (ax1+aw/2+aw*Math.signum(axsp)/2+Math.signum(axsp)), wBlockSize);
+		   for (int yy = yLow; yy <= yHi; yy++) {
+			   if (g.wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
+				   int xx2 = Math.floorDiv((int) (ax1 + aw / 2 +aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
+				   while(g.wGridBounds(xx, yy) && (world.getWID(xx2, yy) == 0 || world.getWID(xx2, yy) == 4)) {
+					   ax1 += Math.signum(axsp);
+					   xx2 = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
 				   }
 				   obj.setX((ax1));
 				   obj.setXsp(0);
@@ -68,15 +68,15 @@ public class Enemy extends Entity{
 		   int xLow = Math.floorDiv((int) ax1, wBlockSize);
 		   int xHi = Math.floorDiv((int) ax2, wBlockSize);
 		   int yy = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + aysp), wBlockSize);
-		   for(xx = xLow;xx<=xHi;xx++){
-			   if(g.wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
-				   int yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize);
-				   while(g.wGridBounds(xx,yy) && (world.getWID(xx,yy2)==0 || world.getWID(xx,yy2)==4)){
-					   ay1+=Math.signum(aysp);
-					   yy2 = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+Math.signum(aysp)), wBlockSize);
+		   for (xx = xLow; xx <= xHi; xx++) {
+			   if (g.wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
+				   int yy2 = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + Math.signum(aysp)), wBlockSize);
+				   while (g.wGridBounds(xx, yy) && (world.getWID(xx, yy2) == 0 || world.getWID(xx, yy2) == 4)) {
+					   ay1 += Math.signum(aysp);
+					   yy2 = Math.floorDiv((int) (ay1 + ah / 2 + ah * Math.signum(aysp) / 2 + Math.signum(aysp)), wBlockSize);
 				   }
 				   //Damage
-				   if(getYsp() > 28) {
+				   if (getYsp() > 28) {
 					   setHP(getHP() - 1);
 					   //viewShake(7, 20);
 				   }
@@ -87,15 +87,19 @@ public class Enemy extends Entity{
 		   }
 		   
 		   //Corner Collision
-		   if(!xCol && !yCol){
-			   yLow = Math.floorDiv((int) ((int) ay1 + aysp), wBlockSize);
-			   yHi = Math.floorDiv((int) ((int) ay2 + aysp), wBlockSize);
-			   xLow = Math.floorDiv((int) ((int) ax1 + axsp), wBlockSize);
-			   xHi = Math.floorDiv((int) ((int) ax2 + axsp), wBlockSize);
+		   if (!xCol && !yCol) {
+			   yLow = Math.floorDiv((int) ((int) ay1 + aysp),
+					   wBlockSize);
+			   yHi = Math.floorDiv((int) ((int) ay2 + aysp),
+					   wBlockSize);
+			   xLow = Math.floorDiv((int) ((int) ax1 + axsp),
+					   wBlockSize);
+			   xHi = Math.floorDiv((int) ((int) ax2 + axsp),
+					   wBlockSize);
 			   //yy = Math.floorDiv((int) (ay1+ah/2+ah*Math.signum(aysp)/2+aysp), wBlockSize);
-			   for(xx = xLow;xx<=xHi;xx++){
-				   for(yy = yLow;yy<=yHi;yy++){
-					   if(g.wGridBounds(xx,yy) && world.getWID(xx,yy)!=0 && world.getWID(xx,yy)!=4){
+			   for (xx = xLow; xx <= xHi; xx++) {
+				   for (yy = yLow; yy <= yHi; yy++) {
+					   if (g.wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
 						   obj.setXsp(0);
 					   }
 				   }
@@ -115,17 +119,17 @@ public class Enemy extends Entity{
 		   //yCol = false;
 		   //Solid Object Collision
 		   
-		   for(int o = 0;o<g.getObjList().size();o++){
+		   for (int o = 0; o < g.getObjList().size(); o++) {
 			   WorldObject objCol = g.getObjList().get(o);
-			   if(objCol instanceof Item_Drop){
+			   if (objCol instanceof Item_Drop) {
 				   double bx1 = objCol.getX();
 				   double bx2 = objCol.getX() + objCol.getWidth();
 				   double by1 = objCol.getY();
 				   double by2 = objCol.getY() + objCol.getHeight();
 				   
 				   //General Collision
-				   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
-					ay1+aysp < by2 && ay2+aysp > by1 && isAlive()){
+				   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
+						   && ay1 + aysp < by2 && ay2 + aysp > by1 && isAlive()) {
 					   g.inventoryAdd(((Item_Drop) objCol).getType(), ((Item_Drop) objCol).getId());
 					   g.removeWorldObject(objCol);
 					   g.playSound(g.getSndBop());
@@ -139,20 +143,20 @@ public class Enemy extends Entity{
 				   //double bxsp = objCol.getXsp();
 				   //double bysp = objCol.getYsp();
 				   //X collision
-				   if (ax1+axsp < bx2 && ax2+axsp > bx1 &&
-					ay1 < by2 && ay2 > by1){
-					   while(!(ax1+1*Math.signum(axsp) < bx2 && ax2+1*Math.signum(axsp) > bx1 &&
-								ay1 < by2 && ay2 > by1)){
-						   ax1+=Math.signum(axsp);
-						   ax2+=Math.signum(axsp);
+				   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
+						   && ay1 < by2 && ay2 > by1) {
+					   while (!(ax1 + 1 * Math.signum(axsp) < bx2 && ax2 + 1 * Math.signum(axsp) > bx1
+							   && ay1 < by2 && ay2 > by1)) {
+						   ax1 += Math.signum(axsp);
+						   ax2 += Math.signum(axsp);
 					   }
 					   obj.setX(ax1);
 					   obj.setXsp(0);
 					   xCol = true;
 				   }
 				   //Y collision
-				   if (ax1 < bx2 && ax2 > bx1 &&
-					ay1+aysp < by2 && ay2+aysp > by1){
+				   if (ax1 < bx2 && ax2 > bx1
+						   && ay1 + aysp < by2 && ay2 + aysp > by1) {
 					   while(!(ax1 < bx2 && ax2 > bx1 &&
 							ay1+1*Math.signum(aysp) < by2 && ay2+1*Math.signum(aysp) > by1)){
 						   ay1+=Math.signum(aysp);
