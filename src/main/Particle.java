@@ -12,14 +12,15 @@ import javax.imageio.ImageIO;
  */
 public class Particle extends WorldObject {
 	/**
-	 * 
+	 * The life span of the particle.
 	 */
 	private int life;
 	/**
-	 * 
+	 * The image of the particle.
 	 */
 	private BufferedImage img;
 	/**
+	 * The constructor sets x, y, change in x, change in y, and lifespan.
 	 * @param xx particle x
 	 * @param yy particle y
 	 * @param xxx particle xsp
@@ -42,6 +43,8 @@ public class Particle extends WorldObject {
 	}
 	
 	/**
+	 * The constructor sets x, y, change in x, change in y,
+	 * lifespan and sprite.
 	 * @param xx particle x
 	 * @param yy particle y
 	 * @param xxx particle xsp
@@ -74,6 +77,10 @@ public class Particle extends WorldObject {
 		super.step(g);
 	}
 	
+	/**
+	 * Gets the sprite of the particle.
+	 * @return the particle sprite.
+	 */
 	public BufferedImage getSprite() {
 		return img;
 	}
