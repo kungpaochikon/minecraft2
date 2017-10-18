@@ -92,7 +92,7 @@ public class WorldGrid {
 		    		       for (int jj = (int) (yy - rr); jj < yy + rr; jj++) {
 		    		           if ((ii - xx) * (ii - xx) + (jj - yy) * (jj - yy) <= rr * rr) {
 		    		               if (wGridBounds((int) ii, (int) jj) && jj >= ground) {
-		    		            	   setWID(ii, jj, Constants.Block_Water);
+		    		            	   setWID(ii, jj, Constants.BLOCK_WATER);
 		    		               }
 		    		           }
 		    		       }
@@ -107,7 +107,7 @@ public class WorldGrid {
 	    	  }
 	    	  //Gen Tree
 	    	  r = random.nextInt(12);
-	    	  if (r == 0 && wGrid[i][ground].getWID() != Constants.Block_Water && wGrid[i][ground].getWID()
+	    	  if (r == 0 && wGrid[i][ground].getWID() != Constants.BLOCK_WATER && wGrid[i][ground].getWID()
 	    			  != Constants.BLOCK_AIR) {
 	    		  wGenTree(i, ground, random.nextInt(3) + 1, random.nextInt(5) + 7, 4);
 	    	  }
@@ -324,7 +324,7 @@ public Block getBlock(final int x, final int y) {
 	      		 //Right
 	      		 if (wGridBounds(i, j + 1) && wGrid[i][j + 1].getWID() != Constants.BLOCK_AIR) {
 	      			 if (wGridBounds(i + 1, j) && wGrid[i + 1 ][j].getWID() == Constants.BLOCK_AIR) {
-	      				setWID(i + 1, j, Constants.Block_Water);
+	      				setWID(i + 1, j, Constants.BLOCK_WATER);
 	      				((Block_Water) wGrid[i + 1][j]).setWaterLevel(1);
 	      				((Block_Water) wGrid[i][j]).decWaterLevel();
 	      			 }
@@ -341,7 +341,7 @@ public Block getBlock(final int x, final int y) {
 			 }
     		 //Down
 			 if (wGridBounds(i, j + 1) && wGrid[i][j + 1].getWID() == Constants.BLOCK_AIR) {
-				setWID(i, j + 1, Constants.Block_Water);
+				setWID(i, j + 1, Constants.BLOCK_WATER);
 				((Block_Water) wGrid[i][j + 1]).setWaterLevel(1);
 				((Block_Water) wGrid[i][j]).decWaterLevel();
 			 }
@@ -371,10 +371,10 @@ public Block getBlock(final int x, final int y) {
 			return;
 		}
 		Block temp = wGrid[x][y];
-		if (wid != Constants.Block_Water) {
+		if (wid != Constants.BLOCK_WATER) {
 			wGrid[x][y] = new Block(wid, temp);
 		}
-		if (wid == Constants.Block_Water) {
+		if (wid == Constants.BLOCK_WATER) {
 			wGrid[x][y] = new Block_Water(temp);
 		}
 	}

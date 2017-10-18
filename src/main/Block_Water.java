@@ -7,7 +7,7 @@ package main;
  * @author Gary Fleming
  *
  */
-public class blockWater extends Block {
+public class Block_Water extends Block {
 	/**
 	 * The current level of water.
 	 * This holds how much water there is
@@ -28,7 +28,7 @@ public class blockWater extends Block {
 	 * @param bid the background id of the water block.
 	 * @param ll the lighting.
 	 */
-	public blockWater(final int wid, final int bid, final int ll) {
+	public Block_Water(final int wid, final int bid, final int ll) {
 		super(wid, bid, ll);
 		waterLevel = waterLevelMax;
 	}
@@ -41,7 +41,7 @@ public class blockWater extends Block {
 	 * @param ll the lighting.
 	 * @param wl the water level.
 	 */
-	public blockWater(final int wid, final int bid,
+	public Block_Water(final int wid, final int bid,
 			final int ll, final int wl) {
 		super(wid, bid, ll);
 		waterLevel = wl;
@@ -52,7 +52,7 @@ public class blockWater extends Block {
 	 * BID and lighting and sets water level to max.
 	 * @param block the base block.
 	 */
-	public blockWater(final Block block) {
+	public Block_Water(final Block block) {
 		super(4, block.getBID(), block.getLight());
 		waterLevel = waterLevelMax;
 	}
