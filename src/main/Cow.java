@@ -11,12 +11,12 @@ public class Cow extends Animal {
 	/**
 	 * The current state of the cow.
 	 */
-	private int state;
+	//private int state;
 	
 	/**
 	 * A random number generator.
 	 */
-	private Random random;
+	//private Random random;
 	
 	/**
 	 * This constructor creates a cow with a set x and y
@@ -28,8 +28,6 @@ public class Cow extends Animal {
 		super(xx, yy);
 		width = 64;
 		height = 64;
-		state = 0;
-		random = new Random();
 	}
 	
 	/**

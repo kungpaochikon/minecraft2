@@ -49,7 +49,7 @@ public class Player extends Entity {
 	/**
 	 * If the player is currently swinging.
 	 */
-	private static boolean swinging;
+	private static boolean swinging = false;
 	
 	/**
 	 * The time of the last swing of the player.
@@ -80,7 +80,6 @@ public class Player extends Entity {
 		jumpSequence = 0;
 		jumpHeight = 10;
 		jumpSequenceCooldown = 0;
-		swinging = true;
 		lastSwing = 0;
 	}
 	
@@ -238,8 +237,6 @@ public class Player extends Entity {
 	   ay2 = obj.getY() + obj.getHeight();
 	   axsp = obj.getXsp();
 	   aysp = obj.getYsp();
-	   aw = obj.getWidth();
-	   ah =  obj.getHeight();
 	   //xCol = false;
 	   //yCol = false;
 	   //Solid Object Collision

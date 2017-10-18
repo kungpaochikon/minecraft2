@@ -6,56 +6,60 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
+ * A world object is anything that is in the world.
+ * This is the parent class of most game objects.
  * @author gary, logun, alex
  *
  */
 public class WorldObject implements Comparable<WorldObject> {
 	/**
-	 * 
+	 * The x coordinate of the object.
 	 */
 	protected double x;
 	/**
-	 * 
+	 * The y coordinate of the object.
 	 */
 	protected double y;
 	/**
-	 * 
+	 * The change in the x coordinate per step.
 	 */
 	protected double xsp;
 	/**
-	 * 
+	 * The change in the y coordinate per step.
 	 */
 	protected double ysp;
 	/**
-	 * 
+	 * The value of gravity.
 	 */
 	protected double grav;
 	/**
-	 * 
+	 * The width of the object.
 	 */
 	protected double width;
 	/**
-	 * 
+	 * The height of the object.
 	 */
 	protected double height;
 	/**
-	 * 
+	 * If the object is solid.
 	 */
 	protected boolean solid;
 	/**
-	 * 
+	 * The angle of the object.
 	 */
 	protected double angle;
 	/**
-	 * 
+	 * If the object is destroyed.
 	 */
 	protected boolean destroy;
 	/**
-	 * 
+	 * The depth of the object.
 	 */
 	protected int depth;
 	
 	/**
+	 * The constructor sets the default values to many fields
+	 * and sets x and y to xx and yy.
 	 * @param xx x coordinate
 	 * @param yy y coordinate
 	 */
@@ -74,34 +78,37 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
-	 * @return depth
+	 * Gets the depth of the object.
+	 * @return depth.
 	 */
 	public int getDepth() {
 		return depth;
 	}
 	
 	/**
-	 * @param d depth
+	 * Sets the depth of the object.
+	 * @param d value to set depth to.
 	 */
 	public void setDepth(final int d) {
 		depth = d;
 	}
 	
 	/**
-	 * @return destroy
+	 * @return If the object is destroyed or not.
 	 */
 	public boolean destroyed() {
 		return destroy;
 	}
 	
 	/**
-	 * 
+	 * Sets the object to destroyed.
 	 */
 	public void destroy() {
 		destroy = true;
 	}
 	
 	/**
+	 * Sets the x coordinate.
 	 * @param xx x coordinate
 	 */
 	public void setX(final double xx) {
@@ -109,6 +116,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the y coordinate.
 	 * @param yy y coordinate
 	 */
 	public void setY(final double yy) {
@@ -116,6 +124,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the change in x.
 	 * @param xx xsp
 	 */
 	public void setXsp(final double xx) {
@@ -123,6 +132,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the change in y.
 	 * @param yy ysp
 	 */
 	public void setYsp(final double yy) {
@@ -130,28 +140,32 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
-	 * @param xx move x
+	 * Increases x by some amount.
+	 * @param xx move this amount.
 	 */
 	public void moveX(final double xx) {
 		x += xx;
 	}
 	
 	/**
-	 * @param yy move y
+	 * Increases y by some amount.
+	 * @param yy move this amount.
 	 */
 	public void moveY(final double yy) {
 		y += yy;
 	}
 	
 	/**
-	 * 
+	 * Adds gravity to change in y.
 	 */
 	public void doGrav() {
 		ysp += grav;
 	}
 	
 	/**
-	 * @param g game step
+	 * What the object does during each iteration
+	 * of the loop.
+	 * @param g the game.
 	 */
 	public void step(final Game g) {
 		//doGrav();
@@ -160,6 +174,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the gravity.
 	 * @param g gravity
 	 */
 	public void setGrav(final double g) {
@@ -167,6 +182,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the width.
 	 * @param ww width
 	 */
 	public void setWidth(final double ww) {
@@ -174,6 +190,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Sets the height.
 	 * @param hh height
 	 */
 	public void setHeight(final double hh) {
@@ -181,13 +198,15 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
-	 * @param ss solid
+	 * Sets if the object is solid.
+	 * @param ss if the object is solid.
 	 */
 	public void setSolid(final boolean ss) {
 		solid = ss;
 	}
 	
 	/**
+	 * Sets the angle.
 	 * @param ang angle
 	 */
 	public void setAngle(final double ang) {
@@ -195,6 +214,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets the x coordinate.
 	 * @return x
 	 */
 	public double getX() {
@@ -202,6 +222,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets the y coordinate.
 	 * @return y
 	 */
 	public double getY() {
@@ -209,6 +230,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets change in x.
 	 * @return xsp
 	 */
 	public double getXsp() {
@@ -216,6 +238,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets change in y.
 	 * @return ysp
 	 */
 	public double getYsp() {
@@ -223,6 +246,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets gravity.
 	 * @return gravity
 	 */
 	public double getGrav() {
@@ -230,6 +254,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets width.
 	 * @return width
 	 */
 	public double getWidth() {
@@ -237,6 +262,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets height.
 	 * @return height
 	 */
 	public double getHeight() {
@@ -244,6 +270,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
+	 * Gets angle.
 	 * @return angle
 	 */
 	public double getAngle() {
@@ -251,7 +278,7 @@ public class WorldObject implements Comparable<WorldObject> {
 	}
 	
 	/**
-	 * @return solid
+	 * @return if the object is solid or not.
 	 */
 	public boolean isSolid() {
 		return solid;
@@ -262,6 +289,5 @@ public class WorldObject implements Comparable<WorldObject> {
 		return depth - arg0.depth;
 	}
 	
-
 	
 }

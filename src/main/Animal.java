@@ -10,14 +10,17 @@ import java.util.Random;
  */
 public class Animal extends Entity {
 	/**
-	 * 
+	 * The state of the animal.
 	 */
-	int state;
+	private int state;
 	/**
-	 * 
+	 * A random number generator.
 	 */
-	Random random;
+	private Random random;
+	
 	/**
+	 * Constructor that creates an animal at (xx, yy) with width and
+	 * height of 32.
 	 * @param xx DESCRIPTION
 	 * @param yy DESCRIPTION
 	 */
@@ -32,7 +35,7 @@ public class Animal extends Entity {
 	/**
 	 * @see main.Entity#step(main.Game)
 	 * 
-	 * @param g DESCRIPTION
+	 * @param g the game.
 	 */
 	public void step(final Game g) {
 		WorldGrid world = g.getWorld();
@@ -131,8 +134,6 @@ public class Animal extends Entity {
 		   ay2 = obj.getY() + obj.getHeight();
 		   axsp = obj.getXsp();
 		   aysp = obj.getYsp();
-		   aw = obj.getWidth();
-		   ah =  obj.getHeight();
 		   //xCol = false;
 		   //yCol = false;
 		   //Solid Object Collision

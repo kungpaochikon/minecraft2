@@ -1236,10 +1236,12 @@ public class Game extends JFrame
 			int yy = (int) (Math.round(obj.getY()) - vy);
 			// int ww = (int) Math.round(obj.getWidth());
 			// int hh = (int) Math.round(obj.getHeight());
+			/*
 			AffineTransform at = new AffineTransform();
 			at.translate(getWidth() / 2, getHeight() / 2);
 			at.rotate(Math.toRadians(obj.getAngle()));
 			at.translate(-img.getWidth() / 2, -img.getHeight() / 2);
+			*/
 			// at.scale(obj.getWidth()/img.getWidth(),
 			// obj.getHeight()/img.getHeight());
 			// at =
@@ -1269,8 +1271,8 @@ public class Game extends JFrame
 		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
-			int xx = (int) (Math.round(x * wBlockSize) - vx);
-			int yy = (int) (Math.round(y * wBlockSize) - vy);
+			int xx = (x * wBlockSize - vx);
+			int yy = y * wBlockSize - vy;
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 			g2d.drawImage(img, xx, yy, wBlockSize, wBlockSize, null);

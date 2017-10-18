@@ -137,8 +137,6 @@ public class Enemy extends Entity {
 		   ay2 = obj.getY() + obj.getHeight();
 		   axsp = obj.getXsp();
 		   aysp = obj.getYsp();
-		   aw = obj.getWidth();
-		   ah =  obj.getHeight();
 		   //xCol = false;
 		   //yCol = false;
 		   //Solid Object Collision
