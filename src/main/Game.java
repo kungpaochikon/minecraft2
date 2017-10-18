@@ -173,6 +173,11 @@ public class Game extends JFrame
 	 * A black block.
 	 */
 	private BufferedImage sprBlack;
+	
+	/**
+	 * A crack for damaged blocks.
+	 */
+	private BufferedImage sprCrack;
 
 	/**
 	 * The diamond sprite.
@@ -334,6 +339,8 @@ public class Game extends JFrame
 			sprCow = ImageIO.read(new File("images\\spr_cow.png"));
 			sprZombie = ImageIO.read(new File(
 					"images\\spr_zombie.png"));
+			sprCrack = ImageIO.read(new File(
+					"images\\spr_damage.png"));
 			// Terrain
 			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] =
 					ImageIO.read(new File(
@@ -1023,7 +1030,15 @@ public class Game extends JFrame
 							g.drawImage(sprites[Constants.TYPE_BLOCK][world.getWID(i, j)],
 									(int) (i * wBlockSize - view.getViewXFinal()),
 									(int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
-						} else {
+							if(world.getBlock(i, j).getIntegrity()<Constants.INTEGRITIES[world.getWID(i, j)]){
+								drawTile(i,j, sprCrack, g, 
+										(float)1-((float)world.getBlock(i, j).getIntegrity()/Constants.INTEGRITIES[world.getWID(i, j)]));
+								//drawTile((int) (i * wBlockSize - view.getViewXFinal()),
+								//		(int) (j * wBlockSize - view.getViewYFinal()), sprCrack, g, 
+								//		1);
+								
+							}
+						}else {
 							drawTile(i, j, sprites[Constants.TYPE_BLOCK][world.getWID(i, j)], g,
 									(float) world.getWaterLevel(i, j) / 4);
 						}
@@ -1296,12 +1311,11 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * <<<<<<< HEAD Give a value a floor and a ceiling. Set the value to the
+	 * Give a value a floor and a ceiling. Set the value to the
 	 * floor if it is less than the floor. Set it to ceiling if it is greater
 	 * than the ceiling. ======= Give a value a floor and a ceiling. Set the
 	 * value to the floor if it is less than the floor. Set it to ceiling if it
-	 * is greater than the ceiling. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * is greater than the ceiling.
 	 * 
 	 * @param val
 	 *            the number to be bound.
