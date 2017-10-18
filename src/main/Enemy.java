@@ -13,14 +13,14 @@ public class Enemy extends Entity{
 		random = new Random();
 	}
 	
-	public void step(Game g){
+	public void step(Game g) {
 		WorldGrid world = g.getWorld();
 		int wBlockSize = g.getwBlockSize();
 		
-		if(random.nextInt(80)==1){
+		if (random.nextInt(80) == 1) {
 			state = random.nextInt(3);
 		}
-		switch(state){
+		switch (state) {
 		case(0):
 			xsp = 0;
 			break;
@@ -29,6 +29,8 @@ public class Enemy extends Entity{
 			break;
 		case(2):
 			xsp = 1;
+			break;
+		default:
 			break;
 		}
 		Enemy obj = this;

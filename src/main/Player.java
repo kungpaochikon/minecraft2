@@ -1,7 +1,14 @@
 package main;
 
 public class Player extends Entity{
+	/**
+	 * If the player is on the ground.
+	 */
 	private boolean grounded;
+	
+	/**
+	 * 
+	 */
 	private float xsp_max;
 	private double jumpSequence;
 	private double jumpHeight;
@@ -38,8 +45,10 @@ public class Player extends Entity{
 	
 	public void jump(){
 		jumpSequence++;
-		if(jumpSequence>3)jumpSequence = 3;
-		ysp = -(jumpHeight + (jumpHeight/2) * (jumpSequence/3));
+		if (jumpSequence > 3) {
+			jumpSequence = 3;
+		}
+		ysp = -(jumpHeight + (jumpHeight / 2) * (jumpSequence / 3));
 		
 	}
 	
@@ -55,20 +64,19 @@ public class Player extends Entity{
 		return xsp_max;
 	}
 	
-	public void step(Game g){
+	public void step(Game g) {
 		WorldGrid world = g.getWorld();
 		int wBlockSize = g.getwBlockSize();
-		if(grounded){
+		if (grounded) {
 			jumpSequenceCooldown++;
-			if(jumpSequenceCooldown>15){
+			if (jumpSequenceCooldown > 15) {
 				jumpSequence = 0;
 			}
-		}
-		else{
+		} else {
 			jumpSequenceCooldown = 0;
 		}
-		hunger-=0.01;
-		if(hunger<0){
+		hunger -= 0.01;
+		if (hunger < 0) {
 			kill();
 		}
 		Player obj = this;

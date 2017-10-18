@@ -13,7 +13,7 @@ public class Chicken extends Animal{
 		random = new Random();
 	}
 	
-	public void step(Game g){
+	public void step(final Game g){
 		super.step(g);
 	}
 

@@ -24,7 +24,7 @@ public class Particle extends WorldObject{
 		}
 	}
 	
-	public Particle(double xx, double yy, double xxx, double yyy, int l, BufferedImage i){
+	public Particle(final double xx, final double yy, final double xxx, final double yyy, final int l, final BufferedImage i) {
 		super(xx, yy);
 		width = 16;
 		height = 16;
@@ -34,17 +34,17 @@ public class Particle extends WorldObject{
 		img = i;
 	}
 	
-	public void step(Game g){
-		if(life<1 || width<=0){
+	public void step(final Game g) {
+		if (life < 1 || width <= 0) {
 			destroy();
 		}
 		life--;
-		width-=0.5;
-		height-=0.5;
+		width -= 0.5;
+		height -= 0.5;
 		super.step(g);
 	}
 	
-	public BufferedImage getSprite(){
+	public BufferedImage getSprite() {
 		return img;
 	}
 

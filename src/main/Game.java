@@ -809,8 +809,8 @@ public class Game extends JFrame
 
 	/*******************************************************************
 	 * 
-	 * Update Game --------- Update the game by going through everything that
-	 * changes per step.
+	 * Update Game --------- Update the game by going through everything
+	 * that changes per step.
 	 * 
 	 *******************************************************************/
 	private void updateGame() {
