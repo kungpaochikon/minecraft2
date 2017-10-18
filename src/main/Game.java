@@ -271,17 +271,17 @@ public class Game extends JFrame
 	private int wBlockSize = 48;
 
 	/**
-	 * TODO: FIX THESE JAVADOC COMMENTS BELOW
+	 * The length of the block.
 	 */
 	private int wBlockLen = 256;
 
 	/**
-	 * 
+	 * unused variable.
 	 */
 	private int bBlockLen = 256;
 
 	/**
-	 * 
+	 * unused variable.
 	 */
 	private int lBlockLen = 5;
 
@@ -720,10 +720,10 @@ public class Game extends JFrame
 	// Only run this in another Thread!
 	private void gameLoop() {
 		// This value would probably be stored elsewhere.
-		final double GAME_HERTZ = 60.0;
+		final double gameHertz = 60.0;
 		// Calculate how many ns each frame should take for our target game
 		// hertz.
-		final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+		final double timeBetweenUpdates = 1000000000 / gameHertz;
 		// At the very most we will update the game this many times before a new
 		// render.
 		// If you're worried about visual hitches more than perfect timing, set
@@ -748,9 +748,9 @@ public class Game extends JFrame
 			if (!paused) {
 				// Do as many game updates as we need to, potentially playing
 				// catchup.
-				while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
+				while (now - lastUpdateTime > timeBetweenUpdates && updateCount < MAX_UPDATES_BEFORE_RENDER) {
 					updateGame();
-					lastUpdateTime += TIME_BETWEEN_UPDATES;
+					lastUpdateTime += timeBetweenUpdates;
 					updateCount++;
 				}
 
@@ -760,13 +760,13 @@ public class Game extends JFrame
 				// If you were doing some sort of game that needed to keep EXACT
 				// time, you would
 				// get rid of this.
-				if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-					lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+				if (now - lastUpdateTime > timeBetweenUpdates) {
+					lastUpdateTime = now - timeBetweenUpdates;
 				}
 
 				// Render. To do so, we need to calculate interpolation for a
 				// smooth render.
-				float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES));
+				float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / timeBetweenUpdates));
 				drawGame(interpolation);
 				lastRenderTime = now;
 
@@ -784,7 +784,7 @@ public class Game extends JFrame
 				// renders. This saves
 				// the CPU from hogging.
 				while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
-						&& now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+						&& now - lastUpdateTime < timeBetweenUpdates) {
 					Thread.yield();
 
 					// This stops the app from consuming all your CPU. It makes
