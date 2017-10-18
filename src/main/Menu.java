@@ -25,42 +25,46 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
+ * The main menu of Minecraft 2.
  * @author gary, logun, alex
  *
  */
 public class Menu extends JPanel {
 	/**
-	 * 
+	 * The icon for the buttons.
 	 */
-	BufferedImage buttonIcon;
+	private BufferedImage buttonIcon;
 	/**
-	 * 
+	 * The scroll over icon for the buttons.
 	 */
-	BufferedImage buttonHover;
+	private BufferedImage buttonHover;
 	/**
-	 * 
+	 * The pressed icon for the buttons.
 	 */
-	BufferedImage buttonPressed;
+	private BufferedImage buttonPressed;
 	/**
-	 * 
+	 * The background image.
 	 */
-	BufferedImage bg;
+	private BufferedImage bg;
 	/**
-	 * 
+	 * The title.
 	 */
-	BufferedImage title;
+	private BufferedImage title;
 	
 	/**
-	 * 
+	 * The new game button.
 	 */
-	JButton newGame;
+	private JButton newGame;
 	/**
-	 * 
+	 * The load game button.
 	 */
-	JButton loadGame;
+	private JButton loadGame;
 	
 	/**
-	 * @param al action listener
+	 * The constructor adds the buttons to the panel and
+	 * changes their icons. It finally adds the buttons to
+	 * the action listener.
+	 * @param al action listener for the buttons.
 	 */
 	public Menu(final ActionListener al) {
 		try {

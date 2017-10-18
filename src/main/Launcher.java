@@ -3,7 +3,7 @@ package main;
 import javax.swing.JFrame;
 
 public class Launcher {
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		JFrame obj = new JFrame();
 		Game game = new Game();
 		obj.setBounds(0, 0, 1280, 720);
