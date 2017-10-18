@@ -79,7 +79,7 @@ public class Menu extends JPanel {
 		loadGame.setFont(new Font("Minecrafter", Font.TRUETYPE_FONT, 50));
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBackground(new Color(0,0,0,0));
+		buttonPanel.setBackground(new Color(0, 0, 0, 0));
 		buttonPanel.setLayout(new GridBagLayout());
 		position.gridx = 0;
 		position.gridy = 0;

@@ -9,7 +9,7 @@ public class WorldGrid {
 	private Random random;
 	private Block[][] wGrid;
 	
-	public WorldGrid(int x,int y, int bSize) {
+	public WorldGrid(int x, int y, int bSize) {
 		//Create array of empty blocks
 		sizeX = x;
 		sizeY = y;

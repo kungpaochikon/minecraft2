@@ -1,12 +1,30 @@
 package main;
 
 public class Entity extends WorldObject{
+	/**
+	 * The maximum number of hit points.
+	 * Max health.
+	 */
 	protected int hp_max;
+	
+	/**
+	 * The current number of hit points.
+	 */
 	protected int hp;
+	
+	/**
+	 * If the entity is alive or not.
+	 */
 	protected boolean alive;
 	
-	public Entity(double xx, double yy){
-		super(xx,yy);
+	/**
+	 * The constructor initializes all fields to their
+	 * initial values.
+	 * @param xx the x coordinate of the entity.
+	 * @param yy the y coordinate of the entity.
+	 */
+	public Entity(final double xx, final double yy) {
+		super(xx, yy);
 		width = 32;
 		height = 32;
 		xsp = 0;
@@ -18,29 +36,50 @@ public class Entity extends WorldObject{
 		alive = true;
 	}
 	
-	public void kill(){
+	/**
+	 * Makes the entity dead.
+	 */
+	public void kill() {
 		hp = 0;
 		alive = false;
 	}
 	
-	public boolean isAlive(){
+	/**
+	 * Returns whether the entity is alive or not.
+	 * @return if the entity is alive or not.
+	 */
+	public boolean isAlive() {
 		return alive;
 	}
 	
-	public void step(Game g){
-		if(alive){
+	/**
+	 * The actions taken by the entity during
+	 * each iteration through the game loop.
+	 * @param g the game the entity is a part of.
+	 */
+	public void step(final Game g) {
+		if (alive) {
 			super.step(g);
 		}
-		if(hp<1){
+		if (hp < 1) {
 			alive = false;
 		}
 	}
 	
-	public int getHP(){
+	/**
+	 * Gets the current hit points of the
+	 * entity.
+	 * @return the current hp.
+	 */
+	public int getHP() {
 		return hp;
 	}
 	
-	public void setHP(int h){
+	/**
+	 * Sets the hit points of the entity.
+	 * @param h the value to set hp to.
+	 */
+	public void setHP(final int h) {
 		hp = h;
 	}
 }

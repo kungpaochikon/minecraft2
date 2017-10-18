@@ -18,7 +18,7 @@ public class WorldObject implements Comparable<WorldObject>{
 	protected boolean destroy;
 	protected int depth;
 	
-	public WorldObject(double xx,double yy){
+	public WorldObject(double xx, double yy){
 		x = xx;
 		y = yy;
 		xsp = 0;

@@ -7,6 +7,13 @@ package main;
  */
 public final class Constants {
 	/**
+	 * Private constructor to disallow instances
+	 * of Constants.
+	 */
+	private Constants() {
+		super();
+	}
+	/**
 	 * The index of an air blocks in the block array.
 	 */
 	public static final int BLOCK_AIR = 0;
