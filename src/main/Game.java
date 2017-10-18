@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.AlphaComposite;
@@ -688,6 +689,7 @@ public class Game extends JFrame
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error loading game...");
 		}
 	}
 
