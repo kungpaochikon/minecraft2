@@ -1,24 +1,69 @@
 package main;
 
-public class Player extends Entity{
+/**
+ * This class is for the player character.
+ * It holds data for the player and handles
+ * collision detection.
+ * @author Gary Fleming
+ *
+ */
+public class Player extends Entity {
 	/**
 	 * If the player is on the ground.
 	 */
 	private boolean grounded;
 	
 	/**
-	 * 
+	 * The maximum change in x.
 	 */
-	private float xsp_max;
+	private float xspMax;
+	
+	/**
+	 * How far along the player is in a jump.
+	 */
 	private double jumpSequence;
+	
+	/**
+	 * The height of a jump.
+	 */
 	private double jumpHeight;
+	
+	/**
+	 * The number of iterations the jump has
+	 * been cooling down for. This number must
+	 * be big enough for the player to jump again.
+	 */
 	private double jumpSequenceCooldown;
+	
+	/**
+	 * The current level of the player's
+	 * hunger bar.
+	 */
 	private double hunger;
-	private double hunger_max;
+	
+	/**
+	 * The max level of the player's hunger bar.
+	 */
+	private double hungerMax;
+	
+	/**
+	 * If the player is currently swinging.
+	 */
 	private static boolean swinging;
+	
+	/**
+	 * The time of the last swing of the player.
+	 */
 	private long lastSwing;
 	
-	public Player(double xx, double yy) {
+	/**
+	 * The constructor for Player that sets the x and y location
+	 * of the player. Sets all instance variables to their starting
+	 * values.
+	 * @param xx the x location of the player.
+	 * @param yy the y location of the player.
+	 */
+	public Player(final double xx, final double yy) {
 		super(xx, yy);
 		width = 32;
 		height = 32;
@@ -28,10 +73,10 @@ public class Player extends Entity{
 		solid = false;
 		hp_max = 3;
 		hp = hp_max;
-		hunger_max = 100;
-		hunger = hunger_max;
+		hungerMax = 100;
+		hunger = hungerMax;
 		grounded = false;
-		xsp_max = 8;
+		xspMax = 8;
 		jumpSequence = 0;
 		jumpHeight = 10;
 		jumpSequenceCooldown = 0;
@@ -39,11 +84,18 @@ public class Player extends Entity{
 		lastSwing = 0;
 	}
 	
-	public double getJumpSequence(){
+	/**
+	 * Gets the jump sequence.
+	 * @return the value of the jump sequence.
+	 */
+	public double getJumpSequence() {
 		return jumpSequence;
 	}
 	
-	public void jump(){
+	/**
+	 * Makes the player jump.
+	 */
+	public void jump() {
 		jumpSequence++;
 		if (jumpSequence > 3) {
 			jumpSequence = 3;
@@ -52,19 +104,38 @@ public class Player extends Entity{
 		
 	}
 	
-	public boolean isGrounded(){
+	/**
+	 * Returns  if the player is currently on the ground.
+	 * @return if the player is on the ground.
+	 */
+	public boolean isGrounded() {
 		return grounded;
 	}
 	
-	public void setGrounded(boolean g){
+	/**
+	 * Sets the value of grounded.
+	 * @param g the value to set grounded to.
+	 */
+	public void setGrounded(final boolean g) {
 		grounded = g;
 	}
 	
-	public double getXsp_max(){
-		return xsp_max;
+	/**
+	 * Gets the value of xspMax.
+	 * @return the maximum change in x.
+	 */
+	public double getXspMax() {
+		return xspMax;
 	}
 	
-	public void step(Game g) {
+	/**
+	 * The actions taken by the player on each iteration
+	 * of the game loop. It decreases hunger, checks the
+	 * jump cool down, and performs collision detection.
+	 * @param g the game the Player is stepping through.
+	 */
+	@Override
+	public void step(final Game g) {
 		WorldGrid world = g.getWorld();
 		int wBlockSize = g.getwBlockSize();
 		if (grounded) {
@@ -97,7 +168,7 @@ public class Player extends Entity{
 	   int yLow = Math.floorDiv((int) ay1, wBlockSize);
 	   int yHi = Math.floorDiv((int) ay2, wBlockSize);
 	   xx = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + axsp), wBlockSize);
-	   for(int yy = yLow; yy <= yHi; yy++) {
+	   for (int yy = yLow; yy <= yHi; yy++) {
 		   if (g.wGridBounds(xx, yy) && world.getWID(xx, yy) != 0 && world.getWID(xx, yy) != 4) {
 			   int xx2 = Math.floorDiv((int) (ax1 + aw / 2 + aw * Math.signum(axsp) / 2 + Math.signum(axsp)), wBlockSize);
 			   while (g.wGridBounds(xx, yy) && (world.getWID(xx2, yy) == 0 || world.getWID(xx2, yy) == 4)) {
@@ -240,33 +311,67 @@ public class Player extends Entity{
 	super.step(g);
 	}
 	
+	/**
+	 * Destroys this entity.
+	 */
 	public void destroy() {
 		super.destroy();
 		
 	}
 	
+	/**
+	 * Gets the value of hunger.
+	 * @return the current level of hunger.
+	 */
 	public double getHunger() { 
 		return hunger;
 	}
-	public void setHunger(double h) {
+	
+	/**
+	 * Sets the value of hunger.
+	 * @param h the value to set hunger to.
+	 */
+	public void setHunger(final double h) {
 		hunger = h;
 	}
+	
+	/**
+	 * Gets the maximum value of hunger.
+	 * @return the maximum value of hunger.
+	 */
 	public double getHungerMax() {
-		return hunger_max;
+		return hungerMax;
 	}
 	
-	static public boolean isSwinging() {
+	/**
+	 * Returns whether the player is swinging.
+	 * @return if the player is swinging or not.
+	 */
+	public static boolean isSwinging() {
 		return swinging;
 	}
 	
-	static public void setSwinging(boolean s) {
+	/**
+	 * Sets the value of swinging.
+	 * @param s the value to set swinging to.
+	 */
+	public static void setSwinging(final boolean s) {
 		swinging = s;
 	}
 	
-	public void setLastSwing(long ls) {
+	/**
+	 * Sets the last swing time.
+	 * @param ls the value to set last swing to.
+	 */
+	public void setLastSwing(final long ls) {
 		lastSwing = ls;
 	}
 	
+	/**
+	 * Gets the last time the player
+	 * swinged.
+	 * @return the last time the player swinged.
+	 */
 	public long getLastSwing() {
 		return lastSwing;
 	}

@@ -823,8 +823,8 @@ public class Game extends JFrame
 		if (moveR) {
 			player.setXsp(player.getXsp() + 1);
 		}
-		if (Math.abs(player.getXsp()) > player.getXsp_max()) {
-			player.setXsp(player.getXsp_max() * Math.signum(player.getXsp()));
+		if (Math.abs(player.getXsp()) > player.getXspMax()) {
+			player.setXsp(player.getXspMax() * Math.signum(player.getXsp()));
 		}
 		if (!moveL && !moveR) {
 			if (Math.abs(player.getXsp()) > 1) {
