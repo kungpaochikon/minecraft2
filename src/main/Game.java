@@ -78,9 +78,9 @@ public class Game extends JFrame
 	private boolean playerControl;
 
 	/**
-	 * TODO: FIND OUT WHAT THIS DOES!!!
+	 * If player is in the menus in game.
 	 */
-	private boolean menu_player;
+	private boolean menuPlayer;
 
 	/**
 	 * The number of frames the game plays per second.
@@ -88,7 +88,7 @@ public class Game extends JFrame
 	private int fps = 60;
 
 	/**
-	 * TODO: FIND OUT WHAT THIS DOES!!!
+	 * Counts number of frames.
 	 */
 	private int frameCount = 0;
 
@@ -100,12 +100,12 @@ public class Game extends JFrame
 	/**
 	 * The list of objects in the world.
 	 */
-	public ArrayList<WorldObject> objList;
+	private ArrayList<WorldObject> objList;
 
 	/**
 	 * The player's inventory.
 	 */
-	public Inventory inventory;
+	private Inventory inventory;
 
 	/**
 	 * Handles the view.
@@ -149,7 +149,7 @@ public class Game extends JFrame
 	private double mouseY;
 
 	/**
-	 * The y offset for the window bar
+	 * The y offset for the window bar.
 	 */
 	private double mouseYOffset = -24;
 
@@ -167,12 +167,12 @@ public class Game extends JFrame
 	/**
 	 * The sky background picture.
 	 */
-	private BufferedImage bg_sky;
+	private BufferedImage bgSky;
 
 	/**
 	 * A black block.
 	 */
-	private BufferedImage spr_black;
+	private BufferedImage sprBlack;
 
 	/**
 	 * The diamond sprite.
@@ -182,22 +182,22 @@ public class Game extends JFrame
 	/**
 	 * The heart sprite for the health bar.
 	 */
-	private BufferedImage spr_heart;
+	private BufferedImage sprHeart;
 
 	/**
 	 * The sprite for a chicken.
 	 */
-	private BufferedImage spr_chicken;
+	private BufferedImage sprChicken;
 
 	/**
 	 * The sprite for a cow.
 	 */
-	private BufferedImage spr_cow;
+	private BufferedImage sprCow;
 
 	/**
 	 * The sprite for a zombie.
 	 */
-	private BufferedImage spr_zombie;
+	private BufferedImage sprZombie;
 	// private BufferedImage spr_block;
 	/**
 	 * The array that holds all sprites.
@@ -207,93 +207,93 @@ public class Game extends JFrame
 	/**
 	 * The sound of a jump.
 	 */
-	private File snd_jump;
+	private File sndJump;
 
 	/**
 	 * The death sound.
 	 */
-	private File snd_death;
+	private File sndDeath;
 
 	/**
 	 * The sound of an explosion.
 	 */
-	private File snd_explosion;
+	private File sndExplosion;
 
 	/**
 	 * The sound of a bop.
 	 */
-	public File snd_bop;
+	private File sndBop;
 
 	/**
 	 * The sound of a block getting hit.
 	 */
-	public File sndBlockHit;
+	private File sndBlockHit;
 	
 	/**
 	 * The sound of eating food.
 	 */
-	public File sndEat;
+	private File sndEat;
 
 	/**
 	 * The background music for the main world.
 	 */
-	public File snd_mus_overworld;
+	private File sndMusOverworld;
 
 	/**
 	 * The background music for the main world at night.
 	 */
-	public File snd_mus_overworldNight;
+	private File sndMusOverworldNight;
 
 	/**
 	 * The background music for when the player is underground.
 	 */
-	public File snd_mus_underground;
+	private File sndMusUnderground;
 
 	// World Grid
 	/**
 	 * The instance of the main world.
 	 */
-	public WorldGrid world;
+	private WorldGrid world;
 
 	/**
 	 * The width of the world.
 	 */
-	public int wGridSizeX = 256;
+	private int wGridSizeX = 256;
 
 	/**
 	 * The height of the world.
 	 */
-	public int wGridSizeY = 256;
+	private int wGridSizeY = 256;
 
 	/**
 	 * The size of blocks.
 	 */
-	public int wBlockSize = 48;
+	private int wBlockSize = 48;
 
 	/**
 	 * TODO: FIX THESE JAVADOC COMMENTS BELOW
 	 */
-	public int wBlockLen = 256;
+	private int wBlockLen = 256;
 
 	/**
 	 * 
 	 */
-	public int bBlockLen = 256;
+	private int bBlockLen = 256;
 
 	/**
 	 * 
 	 */
-	public int lBlockLen = 5;
+	private int lBlockLen = 5;
 
 	/**
 	 * 
 	 */
-	public int updateInterval = 1;
+	private int updateInterval = 1;
 
 	/**
 	 * 
 	 */
-	public int updateIntervalCount = 0;
+	private int updateIntervalCount = 0;
 
 	/*******************************************************************
 	 * 
@@ -322,13 +322,17 @@ public class Game extends JFrame
 		// Load Sprites/sounds
 		try {
 			sprites = new BufferedImage[10][256];
-			sprPlayer = ImageIO.read(new File("images\\spr_player.png"));
-			bg_sky = ImageIO.read(new File("images\\bg_clouds.png"));
-			spr_black = ImageIO.read(new File("images\\spr_black.png"));
-			spr_heart = ImageIO.read(new File("images\\spr_heart.png"));
-			spr_chicken = ImageIO.read(new File("images\\spr_chicken.png"));
-			spr_cow = ImageIO.read(new File("images\\spr_cow.png"));
-			spr_zombie = ImageIO.read(new File("images\\spr_zombie.png"));
+			sprPlayer = ImageIO.read(new File(
+					"images\\spr_player.png"));
+			bgSky = ImageIO.read(new File("images\\bg_clouds.png"));
+			sprBlack = ImageIO.read(new File(
+					"images\\spr_black.png"));
+			sprHeart = ImageIO.read(new File(
+					"images\\spr_heart.png"));
+			sprChicken = ImageIO.read(new File(
+					"images\\spr_chicken.png"));
+			sprCow = ImageIO.read(new File("images\\spr_cow.png"));
+			sprZombie = ImageIO.read(new File("images\\spr_zombie.png"));
 			// Terrain
 			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] = ImageIO.read(new File("images\\spr_dirt.png"));
 			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_GRASS] = ImageIO.read(new File("images\\spr_dirt_grass.png"));
@@ -362,10 +366,10 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_COW] = ImageIO.read(new File("images\\spr_cow.png"));
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_ZOMBIE] = ImageIO.read(new File("images\\spr_zombie.png"));
 			// Sounds
-			snd_jump = new File("sounds\\jump.wav").getAbsoluteFile();
-			snd_death = new File("sounds\\death.wav").getAbsoluteFile();
-			snd_explosion = new File("sounds\\explosion.wav").getAbsoluteFile();
-			snd_bop = new File("sounds\\bop.wav").getAbsoluteFile();
+			sndJump = new File("sounds\\jump.wav").getAbsoluteFile();
+			sndDeath = new File("sounds\\death.wav").getAbsoluteFile();
+			sndExplosion = new File("sounds\\explosion.wav").getAbsoluteFile();
+			sndBop = new File("sounds\\bop.wav").getAbsoluteFile();
 			sndBlockHit = new File("sounds\\hit.wav").getAbsoluteFile();
 			sndEat = new File("sounds\\eat.wav").getAbsoluteFile();
 		} catch (IOException e) {
@@ -438,7 +442,7 @@ public class Game extends JFrame
 	 */
 	private void setGame() {
 		playerControl = true;
-		menu_player = false;
+		menuPlayer = false;
 		objList = new ArrayList<WorldObject>();
 		inventory = new Inventory();
 		inventory.add(new Item(Constants.TYPE_TOOL, Constants.PICKAXE, 1));
@@ -541,7 +545,7 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
-				playSound(snd_jump);
+				playSound(sndJump);
 			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_R && playerControl) {
@@ -573,7 +577,7 @@ public class Game extends JFrame
 			view.viewShake(20, 50);
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_I) {
-			menu_player = !menu_player;
+			menuPlayer = !menuPlayer;
 		}
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
@@ -981,10 +985,10 @@ public class Game extends JFrame
 			// Draw Back
 			// g.setColor(Color.blue);
 			// g.fillRect(0, 0, 1280, 720);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2), 0, 1280, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 2, 720, null);
-			g.drawImage(bg_sky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 3, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2), 0, 1280, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 2, 720, null);
+			g.drawImage(bgSky, (int) (0 - view.getViewXFinal() * 0.2 + 1280), 0, 1280 * 3, 720, null);
 
 			// Draw Terrain
 			for (int i = (int) Math.floor(view.getViewX() / wBlockSize); i < Math
@@ -1065,13 +1069,13 @@ public class Game extends JFrame
 								null);
 					}
 					if (obj instanceof Chicken) {
-						drawSprite(obj, spr_chicken, g, false);
+						drawSprite(obj, sprChicken, g, false);
 					}
 					if (obj instanceof Cow) {
-						drawSprite(obj, spr_cow, g, false);
+						drawSprite(obj, sprCow, g, false);
 					}
 					if (obj instanceof Enemy) {
-						drawSprite(obj, spr_zombie, g, false);
+						drawSprite(obj, sprZombie, g, false);
 					}
 				}
 			}
@@ -1094,10 +1098,10 @@ public class Game extends JFrame
 				g.setColor(Color.white);
 				g.drawRect(xx, yy, wBlockSize, wBlockSize);
 			}
-			g.drawImage(spr_black, (int) mouseX, (int) mouseY, 16, 16, null);
+			g.drawImage(sprBlack, (int) mouseX, (int) mouseY, 16, 16, null);
 
 			// Player Menu
-			if (menu_player) {
+			if (menuPlayer) {
 				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
 				g.fillRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
 				g.setColor(Color.white);
@@ -1120,7 +1124,7 @@ public class Game extends JFrame
 
 			// Hearts
 			for (int i = 0; i < player.getHP(); i++) {
-				g.drawImage(spr_heart, 32 * i, 0, 32, 32, null);
+				g.drawImage(sprHeart, 32 * i, 0, 32, 32, null);
 			}
 			// Hunger
 			g.setColor(Color.ORANGE);
@@ -1385,19 +1389,16 @@ public class Game extends JFrame
 
 	@Override
 	public void mouseClicked(final MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(final MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(final MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -1634,6 +1635,210 @@ public class Game extends JFrame
 	public int randomRange(final int min, final int max) {
 		int randomNum = random.nextInt((max - min) + 1) + min;
 		return randomNum;
+	}
+	
+	public Inventory getInventory() {
+		return inventory;
+	}
+	
+	public ArrayList<WorldObject> getObjList() {
+		return objList;
+	}
+
+	/**
+	 * @return the sndJump
+	 */
+	public File getSndJump() {
+		return sndJump;
+	}
+
+	/**
+	 * @param sndJump the sndJump to set
+	 */
+	public void setSndJump(File sndJump) {
+		this.sndJump = sndJump;
+	}
+
+	/**
+	 * @return the sndDeath
+	 */
+	public File getSndDeath() {
+		return sndDeath;
+	}
+
+	/**
+	 * @param sndDeath the sndDeath to set
+	 */
+	public void setSndDeath(File sndDeath) {
+		this.sndDeath = sndDeath;
+	}
+
+	/**
+	 * @return the sndExplosion
+	 */
+	public File getSndExplosion() {
+		return sndExplosion;
+	}
+
+	/**
+	 * @param sndExplosion the sndExplosion to set
+	 */
+	public void setSndExplosion(File sndExplosion) {
+		this.sndExplosion = sndExplosion;
+	}
+
+	/**
+	 * @return the sndBop
+	 */
+	public File getSndBop() {
+		return sndBop;
+	}
+
+	/**
+	 * @param sndBop the sndBop to set
+	 */
+	public void setSndBop(File sndBop) {
+		this.sndBop = sndBop;
+	}
+
+	/**
+	 * @return the sndBlockHit
+	 */
+	public File getSndBlockHit() {
+		return sndBlockHit;
+	}
+
+	/**
+	 * @param sndBlockHit the sndBlockHit to set
+	 */
+	public void setSndBlockHit(File sndBlockHit) {
+		this.sndBlockHit = sndBlockHit;
+	}
+
+	/**
+	 * @return the sndEat
+	 */
+	public File getSndEat() {
+		return sndEat;
+	}
+
+	/**
+	 * @param sndEat the sndEat to set
+	 */
+	public void setSndEat(File sndEat) {
+		this.sndEat = sndEat;
+	}
+
+	/**
+	 * @return the sndMusOverworld
+	 */
+	public File getSndMusOverworld() {
+		return sndMusOverworld;
+	}
+
+	/**
+	 * @param sndMusOverworld the sndMusOverworld to set
+	 */
+	public void setSndMusOverworld(File sndMusOverworld) {
+		this.sndMusOverworld = sndMusOverworld;
+	}
+
+	/**
+	 * @return the sndMusOverworldNight
+	 */
+	public File getSndMusOverworldNight() {
+		return sndMusOverworldNight;
+	}
+
+	/**
+	 * @param sndMusOverworldNight the sndMusOverworldNight to set
+	 */
+	public void setSndMusOverworldNight(File sndMusOverworldNight) {
+		this.sndMusOverworldNight = sndMusOverworldNight;
+	}
+
+	/**
+	 * @return the sndMusUnderground
+	 */
+	public File getSndMusUnderground() {
+		return sndMusUnderground;
+	}
+
+	/**
+	 * @param sndMusUnderground the sndMusUnderground to set
+	 */
+	public void setSndMusUnderground(File sndMusUnderground) {
+		this.sndMusUnderground = sndMusUnderground;
+	}
+
+	/**
+	 * @return the world
+	 */
+	public WorldGrid getWorld() {
+		return world;
+	}
+
+	/**
+	 * @param world the world to set
+	 */
+	public void setWorld(WorldGrid world) {
+		this.world = world;
+	}
+
+	/**
+	 * @return the wGridSizeX
+	 */
+	public int getwGridSizeX() {
+		return wGridSizeX;
+	}
+
+	/**
+	 * @param wGridSizeX the wGridSizeX to set
+	 */
+	public void setwGridSizeX(int wGridSizeX) {
+		this.wGridSizeX = wGridSizeX;
+	}
+
+	/**
+	 * @return the wGridSizeY
+	 */
+	public int getwGridSizeY() {
+		return wGridSizeY;
+	}
+
+	/**
+	 * @param wGridSizeY the wGridSizeY to set
+	 */
+	public void setwGridSizeY(int wGridSizeY) {
+		this.wGridSizeY = wGridSizeY;
+	}
+
+	/**
+	 * @return the wBlockSize
+	 */
+	public int getwBlockSize() {
+		return wBlockSize;
+	}
+
+	/**
+	 * @param wBlockSize the wBlockSize to set
+	 */
+	public void setwBlockSize(int wBlockSize) {
+		this.wBlockSize = wBlockSize;
+	}
+
+	/**
+	 * @return the wBlockLen
+	 */
+	public int getwBlockLen() {
+		return wBlockLen;
+	}
+
+	/**
+	 * @param wBlockLen the wBlockLen to set
+	 */
+	public void setwBlockLen(int wBlockLen) {
+		this.wBlockLen = wBlockLen;
 	}
 
 }
