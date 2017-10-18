@@ -959,8 +959,15 @@ public class Game extends JFrame
 		gamePanel.repaint();
 	}
 
+	/**
+	 * @author gary, logun, alex
+	 *
+	 */
 	private class GamePanel extends JPanel {
 
+		/**
+		 * 
+		 */
 		float interpolation;
 
 		/**
@@ -1218,8 +1225,10 @@ public class Game extends JFrame
 		 *            the object's sprite.
 		 * @param g
 		 *            the graphics that will draw it.
+		 * @param centered
+		 * 			  if true, center
 		 */
-		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g, boolean centered) {
+		public void drawSprite(final WorldObject obj, final BufferedImage img, final Graphics g, final boolean centered) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
 			int xOff = 0;
@@ -1425,7 +1434,7 @@ public class Game extends JFrame
 	 *            DESCRIPTION
 	 * @return DESCRIPTION
 	 */
-	private Item_Drop ItemDropCreate(final int xx, final int yy, final int type, final int id) {
+	private Item_Drop itemDropCreate(final int xx, final int yy, final int type, final int id) {
 		WorldObject drop = addWorldObject(new Item_Drop(xx, yy, type, id, 1));
 		drop.setGrav(1);
 		drop.setXsp(randomRange(-5, 5));
@@ -1508,11 +1517,11 @@ public class Game extends JFrame
 								if (myID == Constants.BLOCK_LEAVES) {
 									drop = false;
 									if (random.nextInt(10) == 1) {
-										ItemDropCreate(xxx, yyy, Constants.TYPE_FOOD, Constants.APPLE);
+										itemDropCreate(xxx, yyy, Constants.TYPE_FOOD, Constants.APPLE);
 									}
 								}
 								if (drop) {
-									ItemDropCreate(xxx, yyy, myType, myID);
+									itemDropCreate(xxx, yyy, myType, myID);
 								}
 								world.setWID(xx, yy, Constants.BLOCK_AIR);
 							}
@@ -1530,7 +1539,7 @@ public class Game extends JFrame
 								myPart.setDepth(-5);
 							}
 							playSound(sndBlockHit);
-							ItemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
+							itemDropCreate(xxx, yyy, Constants.TYPE_BACK, world.getBID(xx, yy));
 							world.setBID(xx, yy, Constants.BACK_AIR);
 						}
 					}
@@ -1546,10 +1555,10 @@ public class Game extends JFrame
 								if (x > obj.getX() && x < obj.getX() + obj.getWidth() && y > obj.getY()
 										&& y < obj.getY() + obj.getHeight()) {
 									if (obj instanceof Chicken) {
-										ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_CHICKEN);
+										itemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_CHICKEN);
 									}
 									if (obj instanceof Cow) {
-										ItemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_BEEF);
+										itemDropCreate((int) x, (int) y, Constants.TYPE_FOOD, Constants.RAW_BEEF);
 									}
 									obj.destroy();
 								}
@@ -1562,8 +1571,8 @@ public class Game extends JFrame
 						player.setHunger(player.getHungerMax());
 						inventory.getFocused().changeCount(-1);
 						for (int i = 0; i < 5; i++) {
-							Particle myPart = (Particle) addWorldObject(new Particle(player.getX()+player.getWidth()/2,
-									player.getY() + player.getHeight()/2, random.nextInt(10) - 5, -random.nextInt(10), 500,
+							Particle myPart = (Particle) addWorldObject(new Particle(player.getX() + player.getWidth() / 2,
+									player.getY() + player.getHeight() / 2, random.nextInt(10) - 5, -random.nextInt(10), 500,
 									sprites[Constants.TYPE_FOOD][inventory.getFocused().getId()]));
 							myPart.setGrav(0.5);
 							
@@ -1649,10 +1658,16 @@ public class Game extends JFrame
 		return randomNum;
 	}
 	
+	/**
+	 * @return inventory
+	 */
 	public Inventory getInventory() {
 		return inventory;
 	}
 	
+	/**
+	 * @return list of world objects
+	 */
 	public ArrayList<WorldObject> getObjList() {
 		return objList;
 	}
@@ -1667,7 +1682,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndJump the sndJump to set
 	 */
-	public void setSndJump(File sndJump) {
+	public void setSndJump(final File sndJump) {
 		this.sndJump = sndJump;
 	}
 
@@ -1681,7 +1696,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndDeath the sndDeath to set
 	 */
-	public void setSndDeath(File sndDeath) {
+	public void setSndDeath(final File sndDeath) {
 		this.sndDeath = sndDeath;
 	}
 
@@ -1695,7 +1710,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndExplosion the sndExplosion to set
 	 */
-	public void setSndExplosion(File sndExplosion) {
+	public void setSndExplosion(final File sndExplosion) {
 		this.sndExplosion = sndExplosion;
 	}
 
@@ -1709,7 +1724,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndBop the sndBop to set
 	 */
-	public void setSndBop(File sndBop) {
+	public void setSndBop(final File sndBop) {
 		this.sndBop = sndBop;
 	}
 
@@ -1723,7 +1738,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndBlockHit the sndBlockHit to set
 	 */
-	public void setSndBlockHit(File sndBlockHit) {
+	public void setSndBlockHit(final File sndBlockHit) {
 		this.sndBlockHit = sndBlockHit;
 	}
 
@@ -1737,7 +1752,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndEat the sndEat to set
 	 */
-	public void setSndEat(File sndEat) {
+	public void setSndEat(final File sndEat) {
 		this.sndEat = sndEat;
 	}
 
@@ -1751,7 +1766,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndMusOverworld the sndMusOverworld to set
 	 */
-	public void setSndMusOverworld(File sndMusOverworld) {
+	public void setSndMusOverworld(final File sndMusOverworld) {
 		this.sndMusOverworld = sndMusOverworld;
 	}
 
@@ -1765,7 +1780,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndMusOverworldNight the sndMusOverworldNight to set
 	 */
-	public void setSndMusOverworldNight(File sndMusOverworldNight) {
+	public void setSndMusOverworldNight(final File sndMusOverworldNight) {
 		this.sndMusOverworldNight = sndMusOverworldNight;
 	}
 
@@ -1779,7 +1794,7 @@ public class Game extends JFrame
 	/**
 	 * @param sndMusUnderground the sndMusUnderground to set
 	 */
-	public void setSndMusUnderground(File sndMusUnderground) {
+	public void setSndMusUnderground(final File sndMusUnderground) {
 		this.sndMusUnderground = sndMusUnderground;
 	}
 
@@ -1793,7 +1808,7 @@ public class Game extends JFrame
 	/**
 	 * @param world the world to set
 	 */
-	public void setWorld(WorldGrid world) {
+	public void setWorld(final WorldGrid world) {
 		this.world = world;
 	}
 
@@ -1807,7 +1822,7 @@ public class Game extends JFrame
 	/**
 	 * @param wGridSizeX the wGridSizeX to set
 	 */
-	public void setwGridSizeX(int wGridSizeX) {
+	public void setwGridSizeX(final int wGridSizeX) {
 		this.wGridSizeX = wGridSizeX;
 	}
 
@@ -1821,7 +1836,7 @@ public class Game extends JFrame
 	/**
 	 * @param wGridSizeY the wGridSizeY to set
 	 */
-	public void setwGridSizeY(int wGridSizeY) {
+	public void setwGridSizeY(final int wGridSizeY) {
 		this.wGridSizeY = wGridSizeY;
 	}
 
@@ -1835,7 +1850,7 @@ public class Game extends JFrame
 	/**
 	 * @param wBlockSize the wBlockSize to set
 	 */
-	public void setwBlockSize(int wBlockSize) {
+	public void setwBlockSize(final int wBlockSize) {
 		this.wBlockSize = wBlockSize;
 	}
 
@@ -1849,7 +1864,7 @@ public class Game extends JFrame
 	/**
 	 * @param wBlockLen the wBlockLen to set
 	 */
-	public void setwBlockLen(int wBlockLen) {
+	public void setwBlockLen(final int wBlockLen) {
 		this.wBlockLen = wBlockLen;
 	}
 
