@@ -1,8 +1,8 @@
 package main;
 
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
@@ -17,24 +17,52 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
+//import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * @author gary, logun, alex
+ *
+ */
 public class Menu extends JPanel {
+	/**
+	 * 
+	 */
 	BufferedImage buttonIcon;
+	/**
+	 * 
+	 */
 	BufferedImage buttonHover;
+	/**
+	 * 
+	 */
 	BufferedImage buttonPressed;
+	/**
+	 * 
+	 */
 	BufferedImage bg;
+	/**
+	 * 
+	 */
 	BufferedImage title;
 	
+	/**
+	 * 
+	 */
 	JButton newGame;
+	/**
+	 * 
+	 */
 	JButton loadGame;
 	
-	public Menu(ActionListener al) {
+	/**
+	 * @param al action listener
+	 */
+	public Menu(final ActionListener al) {
 		try {
 			buttonIcon = ImageIO.read(new File("images\\button.png"));
 			buttonHover = ImageIO.read(new File("images\\buttonhover.png"));
@@ -102,15 +130,26 @@ public class Menu extends JPanel {
 		loadGame.addActionListener(al);
 	}
 	
+	/**
+	 * @return new game
+	 */
 	public JButton getNewGameButton() {
 		return newGame;
 	}
 	
+	/**
+	 * @return load game
+	 */
 	public JButton getLoadGameButton() {
 		return loadGame;
 	}
 	
-	public void paintComponent(Graphics g) {
+	/**
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 * 
+	 * @param g graphics component
+	 */
+	public void paintComponent(final Graphics g) {
 		g.drawImage(bg, 0, 0, this);
 		g.drawImage(title, 0, 10, this);
 	}
