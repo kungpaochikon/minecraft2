@@ -6,10 +6,27 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Particle extends WorldObject{
+/**
+ * @author gary, logun, alex
+ *
+ */
+public class Particle extends WorldObject {
+	/**
+	 * 
+	 */
 	private int life;
+	/**
+	 * 
+	 */
 	private BufferedImage img;
-	public Particle(double xx, double yy, double xxx, double yyy, int l){
+	/**
+	 * @param xx particle x
+	 * @param yy particle y
+	 * @param xxx particle xsp
+	 * @param yyy particle ysp
+	 * @param l life
+	 */
+	public Particle(final double xx, final double yy, final double xxx, final double yyy, final int l) {
 		super(xx, yy);
 		width = 16;
 		height = 16;
@@ -24,6 +41,14 @@ public class Particle extends WorldObject{
 		}
 	}
 	
+	/**
+	 * @param xx particle x
+	 * @param yy particle y
+	 * @param xxx particle xsp
+	 * @param yyy particle ysp
+	 * @param l life
+	 * @param i img
+	 */
 	public Particle(final double xx, final double yy, final double xxx, final double yyy, final int l, final BufferedImage i) {
 		super(xx, yy);
 		width = 16;
@@ -34,6 +59,11 @@ public class Particle extends WorldObject{
 		img = i;
 	}
 	
+	/**
+	 * @see main.WorldObject#step(main.Game)
+	 * 
+	 * @param g game step
+	 */
 	public void step(final Game g) {
 		if (life < 1 || width <= 0) {
 			destroy();
