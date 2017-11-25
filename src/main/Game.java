@@ -963,7 +963,7 @@ public class Game extends JFrame
 		/**
 		 * 
 		 */
-		float interpolation;
+		private float interpolation;
 
 		/**
 		 * 
