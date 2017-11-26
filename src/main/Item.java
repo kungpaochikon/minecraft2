@@ -1,6 +1,12 @@
 package main;
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+
 /**
+ * An item that can be picked up by the player.
  * @author gary, logun, alex
  *
  */
