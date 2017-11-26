@@ -5,12 +5,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -73,6 +75,11 @@ public class Game extends JFrame
 	private boolean paused = false;
 
 	/**
+	 * If the gamePLAY is currently paused.
+	 */
+	private boolean gamePaused = false;
+	
+	/**
 	 * If the player has control of his character.
 	 */
 	private boolean playerControl;
@@ -81,6 +88,11 @@ public class Game extends JFrame
 	 * If player is in the menus in game.
 	 */
 	private boolean menuPlayer;
+	
+	/**
+	 * If player is in the pause menu.
+	 */
+	private boolean menuPause;
 
 	/**
 	 * The number of frames the game plays per second.
@@ -587,7 +599,12 @@ public class Game extends JFrame
 			moveR = true;
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
+			//System.exit(0);
+			if (menuPause) {
+				menuPause = false;
+			} else {
+				menuPause = true;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_F && playerControl) {
 			player.destroy();
@@ -695,6 +712,7 @@ public class Game extends JFrame
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error loading game...");
 		}
 	}
 
@@ -815,6 +833,15 @@ public class Game extends JFrame
 	 * 
 	 *******************************************************************/
 	private void updateGame() {
+		if (menuPause) {
+			gamePaused = true;
+		} else {
+			gamePaused = false;
+		}
+		//Nothing below this line happens if paused
+		if (gamePaused) {
+			return;
+		}
 		// Update inventory
 		inventoryUpdate();
 		// Player Movement
@@ -1146,6 +1173,16 @@ public class Game extends JFrame
 
 				}
 			}
+			
+			// Pause Menu
+			if (menuPause) {
+				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
+				g.fillRect(1280 / 4, 720 / 8, 1280 / 2, 720 * 6 / 8);
+				g.setColor(Color.white);
+				g.drawRect(1280 / 4, 720 / 8, 1280 / 2, 720 * 6 / 8);
+				g.setFont(new Font("Arial", Font.BOLD, 48));
+				g.drawString("PAUSED", 1280 / 2, 720 / 8);
+			}
 
 			// Draw HUD
 
@@ -1251,10 +1288,12 @@ public class Game extends JFrame
 			int yy = (int) (Math.round(obj.getY()) - vy);
 			// int ww = (int) Math.round(obj.getWidth());
 			// int hh = (int) Math.round(obj.getHeight());
+			/*
 			AffineTransform at = new AffineTransform();
 			at.translate(getWidth() / 2, getHeight() / 2);
 			at.rotate(Math.toRadians(obj.getAngle()));
 			at.translate(-img.getWidth() / 2, -img.getHeight() / 2);
+			*/
 			// at.scale(obj.getWidth()/img.getWidth(),
 			// obj.getHeight()/img.getHeight());
 			// at =
@@ -1284,8 +1323,8 @@ public class Game extends JFrame
 		public void drawTile(final int x, final int y, final BufferedImage img, final Graphics g, final float opacity) {
 			int vx = (int) Math.round(view.getViewXFinal());
 			int vy = (int) Math.round(view.getViewYFinal());
-			int xx = (int) (Math.round(x * wBlockSize) - vx);
-			int yy = (int) (Math.round(y * wBlockSize) - vy);
+			int xx = (x * wBlockSize - vx);
+			int yy = y * wBlockSize - vy;
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 			g2d.drawImage(img, xx, yy, wBlockSize, wBlockSize, null);

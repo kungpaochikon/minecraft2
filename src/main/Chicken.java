@@ -10,12 +10,12 @@ public class Chicken extends Animal {
 	/**
 	 * The state of the chicken.
 	 */
-	private int state;
+	//private int state;
 	
 	/**
 	 * A random number generator.
 	 */
-	private Random random;
+	//private Random random;
 	
 	/**
 	 * Creates a chicken entity with an x and y location.
@@ -26,8 +26,6 @@ public class Chicken extends Animal {
 		super(xx, yy);
 		width = 32;
 		height = 32;
-		state = 0;
-		random = new Random();
 	}
 	
 	/**
