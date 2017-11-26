@@ -1,4 +1,3 @@
-
 package main;
 
 /**
@@ -157,3 +156,4 @@ public class Block {
 		integrity = Constants.INTEGRITIES[wID];
 	}
 }
+
