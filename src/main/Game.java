@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -590,6 +592,11 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_I) {
 			menuPlayer = !menuPlayer;
+			if (menuPlayer) {
+				gamePanel.makeInventory();
+			} else {
+				gamePanel.removeInventory();
+			}
 		}
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
@@ -960,7 +967,12 @@ public class Game extends JFrame
 	 *
 	 */
 	private class GamePanel extends JPanel {
-
+		
+		/**
+		 * 
+		 */
+		private InventoryPanel inventoryPanel;
+		
 		/**
 		 * 
 		 */
@@ -980,7 +992,23 @@ public class Game extends JFrame
 		public void setInterpolation(final float interp) {
 			interpolation = interp;
 		}
-
+		
+		public void makeInventory() {
+			inventoryPanel = new InventoryPanel(inventory, sprites);
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints position = new GridBagConstraints();
+			position.anchor = GridBagConstraints.CENTER;
+			position.gridx = 0;
+			position.gridy = 0;
+			this.add(inventoryPanel, position);
+			inventoryPanel.setVisible(true);
+			inventoryPanel.revalidate();
+		}
+		
+		public void removeInventory() {
+			this.remove(inventoryPanel);
+			inventoryPanel = null;
+		}
 		/**
 		 * 
 		 */
@@ -1119,6 +1147,7 @@ public class Game extends JFrame
 
 			// Player Menu
 			if (menuPlayer) {
+				/*
 				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
 				g.fillRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
 				g.setColor(Color.white);
@@ -1132,9 +1161,8 @@ public class Game extends JFrame
 					g.setColor(Color.white);
 					g.drawString(Integer.toString(inventory.get(i).getCount()), 1280 / 4 + 54 * i + 40, 720 / 2 - 48);
 					// g.drawString((inventory.get(i).getType().name()),
-					// 54*i+40,720-48);
-
-				}
+					// 54*i+40,720-48);*/
+				
 			}
 
 			// Draw HUD

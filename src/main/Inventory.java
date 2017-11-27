@@ -40,7 +40,18 @@ public class Inventory {
 	    * and sets them to their initial values.
 	    */
 	   public Inventory() {
-		   inventoryMax = 30;
+		   this(30);
+	   }
+	   
+	   /**
+	    * The constructor instantiates all variables
+	    * and sets them to their initial values.
+	    * This constructor allows the user to create
+	    * an inventory with a different max size.
+	    * @param max
+	    */
+	   public Inventory(int max) {
+		   inventoryMax = max;
 		   inventory = new Item[inventoryMax];
 		   hotbarMax = 10;
 		   hotbarFocus = 0;

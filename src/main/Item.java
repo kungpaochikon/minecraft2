@@ -96,4 +96,16 @@ public class Item {
 		count += c;
 	}
 	
+	@Override
+	public boolean equals(final Object o) {
+		if (o instanceof Item) {
+			Item item = (Item) o;
+			return this.id == item.id && this.type == item.type;
+		}
+		return false;
+	}
+	public int hashCode() {
+		  assert false : "hashCode not designed";
+		  return 42; // any arbitrary constant will do
+	}
 }

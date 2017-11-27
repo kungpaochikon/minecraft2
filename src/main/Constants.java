@@ -205,4 +205,16 @@ public final class Constants {
      * after swinging.
      */
     public static final long SWING_COOL_DOWN = 250;
+    
+    public static final Item AIR_ITEM = new Item(TYPE_BLOCK, BLOCK_AIR, 1);
+    
+    public static final Item DIRT_ITEM = new Item(TYPE_BLOCK, BLOCK_DIRT, 1);
+    
+    public static final Item GRASS_ITEM = new Item(TYPE_BLOCK, BLOCK_GRASS, 1);
+    
+    public static final Item SWORD_ITEM = new Item(TYPE_TOOL, SWORD, 1);
+    
+    public static final Item DIAMOND_ITEM = new Item(TYPE_ITEM, ITEM_DIAMOND, 1);
+    
+    public static final Item WOOD_ITEM = new Item(TYPE_BACK, BACK_WOOD, 1);
 }
