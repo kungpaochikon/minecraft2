@@ -15,6 +15,8 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +50,8 @@ import java.util.Scanner;
  *
  */
 public class Game extends JFrame
-		implements ActionListener, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
+		implements ActionListener, KeyListener,
+		MouseListener, MouseMotionListener, MouseWheelListener {
 	/**
 	 * The panel that runs the game.
 	 */
@@ -612,6 +615,11 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_I) {
 			menuPlayer = !menuPlayer;
+			if (menuPlayer) {
+				gamePanel.makeInventory();
+			} else {
+				gamePanel.removeInventory();
+			}
 		}
 		// Select Inventory with Numbs
 		if (arg0.getKeyCode() == KeyEvent.VK_1 && playerControl) {
@@ -677,20 +685,20 @@ public class Game extends JFrame
 		try {
 
 			out = new PrintWriter(new BufferedWriter(new FileWriter("save")));
-
+			out.println(Double.toString(player.getX()) + ":" + Double.toString(player.getY()));
+			out.close();
 		} catch (IOException e) {
 
 			e.printStackTrace();
 
 		}
-		out.println(Double.toString(player.getX()) + ":" + Double.toString(player.getY()));
+		
 		for (int i = 0; i < wGridSizeX; i++) {
 			for (int j = 0; j < wGridSizeY; j++) {
 				out.println(Integer.toString(i) + ":" + Integer.toString(j) + ":" + Integer.toString(world.getWID(i, j))
 						+ ":" + Integer.toString(world.getBID(i, j)));
 			}
 		}
-		out.close();
 	}
 
 	/**
@@ -991,7 +999,12 @@ public class Game extends JFrame
 	 *
 	 */
 	private class GamePanel extends JPanel {
-
+		
+		/**
+		 * 
+		 */
+		private InventoryPanel inventoryPanel;
+		
 		/**
 		 * 
 		 */
@@ -1011,7 +1024,23 @@ public class Game extends JFrame
 		public void setInterpolation(final float interp) {
 			interpolation = interp;
 		}
-
+		
+		public void makeInventory() {
+			inventoryPanel = new InventoryPanel(inventory, sprites);
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints position = new GridBagConstraints();
+			position.anchor = GridBagConstraints.CENTER;
+			position.gridx = 0;
+			position.gridy = 0;
+			this.add(inventoryPanel, position);
+			inventoryPanel.setVisible(true);
+			inventoryPanel.revalidate();
+		}
+		
+		public void removeInventory() {
+			this.remove(inventoryPanel);
+			inventoryPanel = null;
+		}
 		/**
 		 * 
 		 */
@@ -1096,7 +1125,9 @@ public class Game extends JFrame
 						AffineTransform at = new AffineTransform();
 						drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
-						img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
+						if (inventory.getFocused() != null) {
+							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
+						}
 						at.translate((int) (obj.getX() - view.getViewXFinal() + 10),
 								(int) (obj.getY() - view.getViewYFinal() + 10));
 						if (mousePressed) {
@@ -1156,6 +1187,7 @@ public class Game extends JFrame
 
 			// Player Menu
 			if (menuPlayer) {
+				/*
 				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
 				g.fillRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
 				g.setColor(Color.white);
@@ -1169,9 +1201,8 @@ public class Game extends JFrame
 					g.setColor(Color.white);
 					g.drawString(Integer.toString(inventory.get(i).getCount()), 1280 / 4 + 54 * i + 40, 720 / 2 - 48);
 					// g.drawString((inventory.get(i).getType().name()),
-					// 54*i+40,720-48);
-
-				}
+					// 54*i+40,720-48);*/
+				
 			}
 			
 			// Pause Menu
@@ -1198,19 +1229,23 @@ public class Game extends JFrame
 
 			// Inventory Bar
 			g.setColor(new Color(0, 0, (float) 0.4, (float) 0.5));
-			g.fillRect(0, 720 - 64 - 40, inventory.getMax() * 54 + 4, 64);
-			for (int i = 0; i < inventory.getMax(); i++) {
+			g.fillRect(0, 720 - 64 - 40, inventory.getHotbarMax() * 54 + 4, 64);
+			for (int i = 0; i < inventory.getHotbarMax(); i++) {
 				g.setColor(Color.white);
 				g.drawRect(i * 54, 720 - 64 - 40 + 8, 48, 48);
 			}
-			for (int i = 0; i < inventory.size(); i++) {
+			for (int i = 0; i < inventory.getHotbarMax(); i++) {
 				BufferedImage image = null;
-				image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
+				if (inventory.get(i) != null) {
+					image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
+				}
 				g.drawImage(image, 54 * i, 720 - 48 * 2, 48, 48, null);
 				g.setColor(Color.black);
 				g.fillRect(54 * i + 40, 720 - 48 - 12, 12, 12);
 				g.setColor(Color.white);
-				g.drawString(Integer.toString(inventory.get(i).getCount()), 54 * i + 40, 720 - 48);
+				if (inventory.get(i) != null) {
+					g.drawString(Integer.toString(inventory.get(i).getCount()), 54 * i + 40, 720 - 48);
+				}
 				// g.drawString((inventory.get(i).getType().name()),
 				// 54*i+40,720-48);
 
@@ -1395,14 +1430,17 @@ public class Game extends JFrame
 	 */
 	private void inventoryUpdate() {
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i).getCount() < 1) {
+			if (inventory.get(i) != null && inventory.get(i).getCount() < 1) {
 				inventory.remove(i);
 				i--;
 				continue;
 			}
 		}
-		if (inventory.getFocus() >= inventory.size()) {
-			inventory.setFocus(inventory.size() - 1);
+		if (inventory.getFocus() >= inventory.getHotbarMax()) {
+			inventory.setFocus(0);
+		}
+		if (inventory.getFocus() < 0) {
+			inventory.setFocus(inventory.getHotbarMax() - 1);
 		}
 	}
 
@@ -1417,7 +1455,7 @@ public class Game extends JFrame
 	public void inventoryAdd(final int type, final int id) {
 		boolean found = false;
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
+			if (inventory.get(i) != null && inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
 				inventory.get(i).changeCount(1);
 				System.out.println(inventory.get(i).getCount());
 				found = true;
@@ -1439,7 +1477,7 @@ public class Game extends JFrame
 	 */
 	public boolean inventoryCheck(final int type, final int id) {
 		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
+			if (inventory.get(i) != null && inventory.get(i).getType() == type && inventory.get(i).getId() == id) {
 				return true;
 			}
 		}
@@ -1499,7 +1537,7 @@ public class Game extends JFrame
 				int yy = Math.floorDiv((int) ((int) mouseY2 + view.getViewYFinal()), wBlockSize);
 				int xxx = xx * wBlockSize + wBlockSize / 4;
 				int yyy = yy * wBlockSize + wBlockSize / 4;
-				if (inventory.size() > 0 && inventory.getFocused().getCount() > 0) {
+				if (inventory.size() > 0 && inventory.getFocused() != null) {
 					// Place Block
 					if (inventory.getFocused().getType() == Constants.TYPE_BLOCK) {
 						if (world.getWID(xx, yy) == Constants.BLOCK_AIR || world.getWID(xx, yy) == Constants.BLOCK_WATER
@@ -1652,13 +1690,13 @@ public class Game extends JFrame
 		int notches = arg0.getWheelRotation();
 		if (notches > 0) {
 			inventory.setFocus(inventory.getFocus() + 1);
-			if (inventory.getFocus() >= inventory.size()) {
+			if (inventory.getFocus() >= inventory.getHotbarMax()) {
 				inventory.setFocus(0);
 			}
 		} else {
 			inventory.setFocus(inventory.getFocus() - 1);
 			if (inventory.getFocus() < 0) {
-				inventory.setFocus(inventory.size() - 1);
+				inventory.setFocus(inventory.getHotbarMax() - 1);
 			}
 		}
 	}

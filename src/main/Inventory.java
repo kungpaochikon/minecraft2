@@ -13,7 +13,7 @@ public class Inventory {
 	   /**
 	    * The actual inventory of the player.
 	    */
-	   private ArrayList<Item> inventory;
+	   private Item[] inventory;
 	   
 	   /**
 	    * The maximum number of items in the player's
@@ -33,14 +33,26 @@ public class Inventory {
 	    */
 	   private int hotbarFocus;
 	   
+	   private int size;
 	   
 	   /**
 	    * The constructor instantiates all variables
 	    * and sets them to their initial values.
 	    */
 	   public Inventory() {
-		   inventory = new ArrayList<Item>();
-		   inventoryMax = 20;
+		   this(30);
+	   }
+	   
+	   /**
+	    * The constructor instantiates all variables
+	    * and sets them to their initial values.
+	    * This constructor allows the user to create
+	    * an inventory with a different max size.
+	    * @param max
+	    */
+	   public Inventory(int max) {
+		   inventoryMax = max;
+		   inventory = new Item[inventoryMax];
 		   hotbarMax = 10;
 		   hotbarFocus = 0;
 	   }
@@ -51,7 +63,8 @@ public class Inventory {
 	    * @param i the index to remove from.
 	    */
 	   public void remove(final int i) {
-		   inventory.remove(i);
+		   inventory[i] = null;
+		   size--;
 	   }
 	   
 	   /**
@@ -61,7 +74,7 @@ public class Inventory {
 	    * @return the item in index i of the inventory.
 	    */
 	   public Item get(final int i) {
-		   return inventory.get(i);
+		   return inventory[i];
 	   }
 	   
 	   /**
@@ -69,17 +82,27 @@ public class Inventory {
 	    * @return the item in the hotbar focus.
 	    */
 	   public Item getFocused() {
-		   return inventory.get(hotbarFocus);
+		   return inventory[hotbarFocus];
 	   }
 	   
 	   /**
 	    * Puts an item in the inventory.
-	    * @param i the item to put in the inventory.
+	    * @param item the item to put in the inventory.
 	    */
-	   public void add(final Item i) {
-		   inventory.add(i);
+	   public void add(final Item item) {
+		   for (int i = 0; i < inventoryMax; i++) {
+			   if (inventory[i] == null) {
+				   inventory[i] = item;
+				   size++;
+				   return;
+			   }
+		   }
 	   }
 	   
+	   public void add(final Item item, final int i) {
+		   inventory[i] = item;
+		   size++;
+	   }
 	   /**
 	    * Checks if an item is in the inventory.
 	    * @param item the item we want to know is in the
@@ -87,8 +110,8 @@ public class Inventory {
 	    * @return whether item is in the inventory.
 	    */
 	   public boolean has(final Item item) {
-		   for (int i = 0; i < inventory.size(); i++) {
-			   if (inventory.get(i).getType() == item.getType() && inventory.get(i).getId() == item.getId()) {
+		   for (int i = 0; i < inventory.length; i++) {
+			   if (inventory[i].getType() == item.getType() && inventory[i].getId() == item.getId()) {
 				   return true;
 			   }
 		   }
@@ -147,6 +170,6 @@ public class Inventory {
 	    * @return the number of items in the inventory.
 	    */
 	   public int size() {
-		   return inventory.size();
+		   return size;
 	   }
 }
