@@ -12,6 +12,7 @@ import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -77,6 +78,11 @@ public class Game extends JFrame
 	private boolean paused = false;
 
 	/**
+	 * If the gamePLAY is currently paused.
+	 */
+	private boolean gamePaused = false;
+	
+	/**
 	 * If the player has control of his character.
 	 */
 	private boolean playerControl;
@@ -85,6 +91,11 @@ public class Game extends JFrame
 	 * If player is in the menus in game.
 	 */
 	private boolean menuPlayer;
+	
+	/**
+	 * If player is in the pause menu.
+	 */
+	private boolean menuPause;
 
 	/**
 	 * The number of frames the game plays per second.
@@ -177,6 +188,11 @@ public class Game extends JFrame
 	 * A black block.
 	 */
 	private BufferedImage sprBlack;
+	
+	/**
+	 * A crack for damaged blocks.
+	 */
+	private BufferedImage sprCrack;
 
 	/**
 	 * The diamond sprite.
@@ -338,6 +354,8 @@ public class Game extends JFrame
 			sprCow = ImageIO.read(new File("images\\spr_cow.png"));
 			sprZombie = ImageIO.read(new File(
 					"images\\spr_zombie.png"));
+			sprCrack = ImageIO.read(new File(
+					"images\\spr_damage.png"));
 			// Terrain
 			sprites[Constants.TYPE_BLOCK][Constants.BLOCK_DIRT] =
 					ImageIO.read(new File(
@@ -584,7 +602,12 @@ public class Game extends JFrame
 			moveR = true;
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
+			//System.exit(0);
+			if (menuPause) {
+				menuPause = false;
+			} else {
+				menuPause = true;
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_F && playerControl) {
 			player.destroy();
@@ -818,6 +841,15 @@ public class Game extends JFrame
 	 * 
 	 *******************************************************************/
 	private void updateGame() {
+		if (menuPause) {
+			gamePaused = true;
+		} else {
+			gamePaused = false;
+		}
+		//Nothing below this line happens if paused
+		if (gamePaused) {
+			return;
+		}
 		// Update inventory
 		inventoryUpdate();
 		// Player Movement
@@ -1054,7 +1086,15 @@ public class Game extends JFrame
 							g.drawImage(sprites[Constants.TYPE_BLOCK][world.getWID(i, j)],
 									(int) (i * wBlockSize - view.getViewXFinal()),
 									(int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
-						} else {
+							if(world.getBlock(i, j).getIntegrity()<Constants.INTEGRITIES[world.getWID(i, j)]){
+								drawTile(i,j, sprCrack, g, 
+										(float)1-((float)world.getBlock(i, j).getIntegrity()/Constants.INTEGRITIES[world.getWID(i, j)]));
+								//drawTile((int) (i * wBlockSize - view.getViewXFinal()),
+								//		(int) (j * wBlockSize - view.getViewYFinal()), sprCrack, g, 
+								//		1);
+								
+							}
+						}else {
 							drawTile(i, j, sprites[Constants.TYPE_BLOCK][world.getWID(i, j)], g,
 									(float) world.getWaterLevel(i, j) / 4);
 						}
@@ -1163,6 +1203,16 @@ public class Game extends JFrame
 					// g.drawString((inventory.get(i).getType().name()),
 					// 54*i+40,720-48);*/
 				
+			}
+			
+			// Pause Menu
+			if (menuPause) {
+				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
+				g.fillRect(1280 / 4, 720 / 8, 1280 / 2, 720 * 6 / 8);
+				g.setColor(Color.white);
+				g.drawRect(1280 / 4, 720 / 8, 1280 / 2, 720 * 6 / 8);
+				g.setFont(new Font("Arial", Font.BOLD, 48));
+				g.drawString("PAUSED", 1280 / 2, 720 / 8);
 			}
 
 			// Draw HUD
@@ -1335,12 +1385,11 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * <<<<<<< HEAD Give a value a floor and a ceiling. Set the value to the
+	 * Give a value a floor and a ceiling. Set the value to the
 	 * floor if it is less than the floor. Set it to ceiling if it is greater
 	 * than the ceiling. ======= Give a value a floor and a ceiling. Set the
 	 * value to the floor if it is less than the floor. Set it to ceiling if it
-	 * is greater than the ceiling. >>>>>>>
-	 * bf97e219a80d08982c6a9e784b9f6aa7fcc064ec
+	 * is greater than the ceiling.
 	 * 
 	 * @param val
 	 *            the number to be bound.
