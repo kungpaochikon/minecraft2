@@ -314,6 +314,21 @@ public class Game extends JFrame
 	 * 
 	 */
 	private int updateIntervalCount = 0;
+	
+	/**
+	 * 
+	 */
+	private int worldTime = 0;
+	
+	/**
+	 * 
+	 */
+	private final int dayLength = 60*10;
+	
+	final int MAX_UPDATES_BEFORE_RENDER = 100;
+	// If we are able to get as high as this FPS, don't render again.
+	final double TARGET_FPS = 60;
+	final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -756,15 +771,10 @@ public class Game extends JFrame
 		// If you're worried about visual hitches more than perfect timing, set
 		// this to
 		// 1.
-		final int MAX_UPDATES_BEFORE_RENDER = 100;
 		// We will need the last update time.
 		double lastUpdateTime = System.nanoTime();
 		// Store the last time we rendered.
 		double lastRenderTime = System.nanoTime();
-
-		// If we are able to get as high as this FPS, don't render again.
-		final double TARGET_FPS = 60;
-		final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 		// Simple way of finding FPS.
 		int lastSecondTime = (int) (lastUpdateTime / 1000000000);
@@ -841,6 +851,11 @@ public class Game extends JFrame
 	 * 
 	 *******************************************************************/
 	private void updateGame() {
+		//Inc Time of Day
+		worldTime++;
+		if (worldTime > dayLength) {
+			worldTime = 0;
+		}
 		if (menuPause) {
 			gamePaused = true;
 		} else {
@@ -1164,6 +1179,14 @@ public class Game extends JFrame
 					}
 				}
 			}
+			float alpha = 1;
+			double midPoint = (double)dayLength/2;
+			alpha = (float)Math.abs((midPoint - worldTime)/dayLength);
+			//Dusk
+			g.setColor(new Color(0,0,0,alpha));
+			g.fillRect(0,0,1280,720);
+			g.setColor(Color.white);
+			g.drawString(Integer.toString(worldTime), 64, 128);
 			/*
 			 * //Draw Lighitng for(int i = (int)
 			 * Math.floor(viewX/lBlockSize);i<Math.floor((viewX +
