@@ -592,6 +592,9 @@ public class Game extends JFrame
 	 *******************************************************************/
 	@Override
 	public void keyPressed(final KeyEvent arg0) {
+		
+		ArrayList<String> konamiArray = new ArrayList<String>();
+		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
@@ -615,6 +618,7 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
+			konamiArray.add("a");
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_D && playerControl) {
 			moveR = true;
@@ -673,7 +677,21 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_L) {
 			loadGame();
 		}
-
+		if (arg0.getKeyCode() == KeyEvent.VK_KP_UP) {
+			konamiArray.add("up");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_KP_DOWN) {
+			konamiArray.add("down");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_KP_LEFT) {
+			konamiArray.add("left");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
+			konamiArray.add("right");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_B) {
+			konamiArray.add("b");
+		}
 	}
 
 	@Override
@@ -1310,6 +1328,8 @@ public class Game extends JFrame
 				g.drawString("ViewW: " + Integer.toString(view.getViewW()), i, j * h);
 				j++;
 				g.drawString("ViewH: " + Integer.toString(view.getViewH()), i, j * h);
+				j++;
+				g.drawString("konami: " + Integer.toString(view.getViewH()), i, j * h);
 				j++;
 
 				// Mouse
