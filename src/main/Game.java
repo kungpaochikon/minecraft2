@@ -394,6 +394,9 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_BLOCK]
 					[Constants.BLOCK_COBBLESTONE] = ImageIO.read(
 					new File("images\\spr_cobblestone.png"));
+			sprites[Constants.TYPE_BLOCK]
+					[Constants.BLOCK_PLANKS] = ImageIO.read(
+					new File("images\\spr_planks.png"));
 			// Backs
 			sprites[Constants.TYPE_BACK][Constants.BACK_WOOD] =
 					ImageIO.read(new File(
