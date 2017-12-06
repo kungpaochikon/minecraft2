@@ -125,7 +125,7 @@ public class Game extends JFrame
 	/**
 	 * Handles the view.
 	 */
-	private View view;
+	public View view;
 
 	// Control booleans
 	/**
@@ -318,17 +318,17 @@ public class Game extends JFrame
 	/**
 	 * 
 	 */
-	private int worldTime = 0;
+	private final int dayLength = 60*60;
 	
 	/**
 	 * 
 	 */
-	private final int dayLength = 60*10;
+	private int worldTime = dayLength/2;
 	
-	final int MAX_UPDATES_BEFORE_RENDER = 100;
+	private final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
-	final double TARGET_FPS = 60;
-	final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	private final double TARGET_FPS = 60;
+	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -673,6 +673,14 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_L) {
 			loadGame();
 		}
+		if (arg0.getKeyCode() == KeyEvent.VK_B && debug) {
+			inventory.add(new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND,100));
+			inventory.add(new Item(Constants.TYPE_BACK, Constants.BACK_WOOD,100));
+			inventory.add(new Item(Constants.TYPE_BLOCK, Constants.BLOCK_COBBLESTONE,100));
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_U && debug) {
+			worldTime = 0;
+		}
 
 	}
 
@@ -859,6 +867,14 @@ public class Game extends JFrame
 		if (worldTime > dayLength) {
 			worldTime = 0;
 		}
+		//Spawn Zombies In
+		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
+			int roll = random.nextInt(100);
+			if (roll == 0) {
+				addWorldObject(new Enemy(player.getX(), 0));
+			}
+		}
+		
 		if (menuPause) {
 			gamePaused = true;
 		} else {
@@ -1141,7 +1157,7 @@ public class Game extends JFrame
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						drawSprite(obj, sprPlayer, g, false);
+						if(player.showSprite())drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
 						if (inventory.getFocused() != null) {
 							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];

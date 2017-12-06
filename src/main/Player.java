@@ -57,6 +57,16 @@ public class Player extends Entity {
 	private long lastSwing;
 	
 	/**
+	 * The time of the last swing of the player.
+	 */
+	private boolean isHurt;
+	
+	/**
+	 * The time of the last swing of the player.
+	 */
+	private int hurtCD = 0;
+	
+	/**
 	 * The constructor for Player that sets the x and y location
 	 * of the player. Sets all instance variables to their starting
 	 * values.
@@ -243,6 +253,7 @@ public class Player extends Entity {
 	   
 	   for (int o = 0; o < g.getObjList().size(); o++) {
 		   WorldObject objCol = g.getObjList().get(o);
+		   //Item Collision
 		   if (objCol instanceof Item_Drop) {
 			   double bx1 = objCol.getX();
 			   double bx2 = objCol.getX() + objCol.getWidth();
@@ -250,6 +261,7 @@ public class Player extends Entity {
 			   double by2 = objCol.getY() + objCol.getHeight();
 			   Item_Drop drop = (Item_Drop) objCol;
 			   //General Collision
+			   //Pickin up and Item
 			   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
 					   && ay1 + aysp < by2 && ay2 + aysp
 					   > by1 && isAlive()) {
@@ -260,6 +272,26 @@ public class Player extends Entity {
 					   g.inventoryAdd((drop).getType(), (drop).getId());
 					   g.removeWorldObject(drop);
 					   g.playSound(g.getSndBop());
+				   }
+			   }
+		   }
+		   //Enemy Collision
+		   if (objCol instanceof Enemy) {
+			   double bx1 = objCol.getX();
+			   double bx2 = objCol.getX() + objCol.getWidth();
+			   double by1 = objCol.getY();
+			   double by2 = objCol.getY() + objCol.getHeight();
+			   Enemy drop = (Enemy) objCol;
+			   //General Collision
+			   //Pickin up and Item
+			   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
+					   && ay1 + aysp < by2 && ay2 + aysp
+					   > by1 && isAlive()) {
+				   if(!isHurt){
+					   isHurt = true;
+					   hurtCD = 60;
+					   hp--;
+					   g.view.viewShake(10, 20);
 				   }
 			   }
 		   }
@@ -304,6 +336,14 @@ public class Player extends Entity {
 		   ((Player) obj).setGrounded(true);
 	   } else {
 		   ((Player) obj).setGrounded(false);
+	   }
+	   
+	   //ISHURT
+	   if(isHurt){
+		   hurtCD--;
+		   if(hurtCD<0){
+			   isHurt = false;
+		   }
 	   }
 	super.step(g);
 	}
@@ -362,6 +402,14 @@ public class Player extends Entity {
 	 */
 	public void setLastSwing(final long ls) {
 		lastSwing = ls;
+	}
+	
+	/**
+	 * Returns whether or not the player should be opaque
+	 * (relating to hurtCD)
+	 */
+	public boolean showSprite() {
+		return !isHurt | hurtCD % 2 == 0; 
 	}
 	
 	/**
