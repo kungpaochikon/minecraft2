@@ -44,16 +44,12 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	private BufferedImage[][] sprites;
 
 	private Recipe[] recipes = {
-			/*
-			 * Recipe.createRecipe(new Item[] { null, Constants.DIAMOND_ITEM, null, null,
-			 * Constants.DIAMOND_ITEM, null, null, Constants.WOOD_ITEM, null },
-			 * Constants.SWORD_ITEM)
-			 */
-			Recipe.createRecipe(
-					new Item[] { null, new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
-							new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
-							new Item(Constants.TYPE_BACK, Constants.BACK_WOOD, 1), null },
-					new Item(Constants.TYPE_TOOL, Constants.SWORD, 1)) };
+			 Recipe.createRecipe(new Item[] {
+					 null, Constants.DIAMOND_ITEM, null,
+					 null, Constants.DIAMOND_ITEM, null,
+					 null, Constants.WOOD_ITEM, null },
+			Constants.SWORD_ITEM)
+	};
 
 	private int numRecipes;
 

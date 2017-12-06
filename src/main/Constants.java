@@ -212,6 +212,8 @@ public final class Constants {
     
     public static final Item GRASS_ITEM = new Item(TYPE_BLOCK, BLOCK_GRASS, 1);
     
+    public static final Item COBBLESTONE_ITEM = new Item(TYPE_BLOCK, BLOCK_COBBLESTONE, 1);
+    
     public static final Item SWORD_ITEM = new Item(TYPE_TOOL, SWORD, 1);
     
     public static final Item DIAMOND_ITEM = new Item(TYPE_ITEM, ITEM_DIAMOND, 1);
