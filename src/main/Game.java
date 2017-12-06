@@ -125,7 +125,7 @@ public class Game extends JFrame
 	/**
 	 * Handles the view.
 	 */
-	private View view;
+	public View view;
 
 	// Control booleans
 	/**
@@ -677,6 +677,7 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_L) {
 			loadGame();
 		}
+<<<<<<< HEAD
 		if (arg0.getKeyCode() == KeyEvent.VK_KP_UP) {
 			konamiArray.add("up");
 		}
@@ -692,6 +693,8 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_B) {
 			konamiArray.add("b");
 		}
+=======
+>>>>>>> 5646f13fecb2db07b3f5db37e8c4ca7240dadd54
 	}
 
 	@Override
@@ -877,6 +880,8 @@ public class Game extends JFrame
 		if (worldTime > dayLength) {
 			worldTime = 0;
 		}
+		//Spawn Zombies In
+		
 		if (menuPause) {
 			gamePaused = true;
 		} else {
