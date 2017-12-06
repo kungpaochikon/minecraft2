@@ -216,6 +216,10 @@ public final class Constants {
     
     public static final Item SWORD_ITEM = new Item(TYPE_TOOL, SWORD, 1);
     
+    public static final Item PICKAXE_ITEM = new Item(TYPE_TOOL, PICKAXE, 1);
+    
+    public static final Item AXE_ITEM = new Item(TYPE_TOOL, AXE, 1);
+    
     public static final Item DIAMOND_ITEM = new Item(TYPE_ITEM, ITEM_DIAMOND, 1);
     
     public static final Item WOOD_ITEM = new Item(TYPE_BACK, BACK_WOOD, 1);

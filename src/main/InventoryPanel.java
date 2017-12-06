@@ -48,7 +48,17 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 					 null, Constants.DIAMOND_ITEM, null,
 					 null, Constants.DIAMOND_ITEM, null,
 					 null, Constants.WOOD_ITEM, null },
-			Constants.SWORD_ITEM)
+			 Constants.SWORD_ITEM),
+			 Recipe.createRecipe(new Item[] {
+					 Constants.DIAMOND_ITEM, Constants.DIAMOND_ITEM, Constants.DIAMOND_ITEM,
+					 null, Constants.WOOD_ITEM, null,
+					 null, Constants.WOOD_ITEM, null },
+			 Constants.PICKAXE_ITEM),
+			 Recipe.createRecipe(new Item[] {
+					 null, Constants.DIAMOND_ITEM, Constants.DIAMOND_ITEM,
+					 null, Constants.WOOD_ITEM, Constants.DIAMOND_ITEM,
+					 null, Constants.WOOD_ITEM, null },
+			 Constants.AXE_ITEM)
 	};
 
 	private int numRecipes;
