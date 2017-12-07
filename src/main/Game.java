@@ -713,6 +713,7 @@ public class Game extends JFrame
 			inventory.add(new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 100));
 			inventory.add(new Item(Constants.TYPE_BACK, Constants.BACK_WOOD, 100));
 			inventory.add(new Item(Constants.TYPE_BLOCK, Constants.BLOCK_COBBLESTONE, 100));
+			inventory.add(new Item(Constants.TYPE_FOOD, Constants.APPLE, 100));
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_U && debug) {
 			worldTime = 0;
