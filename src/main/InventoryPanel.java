@@ -63,7 +63,12 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 					 null, null, null,
 					 null, Constants.WOOD_ITEM, null,
 					 null, null, null },
-			 Constants.PLANKS_ITEM)
+			 Constants.PLANKS_ITEM),
+			 Recipe.createRecipe(new Item[] {
+					 null, null, null,
+					 Constants.APPLE_ITEM, Constants.APPLE_ITEM, Constants.APPLE_ITEM,
+					 null, null, null },
+			 Constants.APPLE_PIE_ITEM)
 	};
 
 	private int numRecipes;
@@ -220,6 +225,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 			sprites[Constants.TYPE_FOOD][Constants.APPLE] = ImageIO.read(new File("images\\spr_apple.png"));
 			sprites[Constants.TYPE_FOOD][Constants.RAW_CHICKEN] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
 			sprites[Constants.TYPE_FOOD][Constants.RAW_BEEF] = ImageIO.read(new File("images\\spr_beef_raw.png"));
+			sprites[Constants.TYPE_FOOD][Constants.APPLE_PIE] = ImageIO.read(new File("images\\spr_apple_pie.png"));
 
 			// Entities
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_PLAYER] = ImageIO.read(new File("images\\spr_player.png"));
