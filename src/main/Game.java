@@ -36,6 +36,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
@@ -56,6 +57,16 @@ public class Game extends JFrame
 	 * The panel that runs the game.
 	 */
 	private GamePanel gamePanel = new GamePanel();
+	
+	/**
+	 * 
+	 */
+	private ArrayList<String> konamiCode = new ArrayList<String>(Arrays.asList("up", "up", "down", "down", "left", "right", "left", "right", "b", "a"));
+	
+	/**
+	 * 
+	 */
+	private ArrayList<String> konamiArray = new ArrayList<String>();
 
 	/**
 	 * The main menu panel.
@@ -318,17 +329,17 @@ public class Game extends JFrame
 	/**
 	 * 
 	 */
-	private int worldTime = 0;
+	private final int dayLength = 60*60;
 	
 	/**
 	 * 
 	 */
-	private final int dayLength = 60*10;
+	private int worldTime = dayLength/2;
 	
-	final int MAX_UPDATES_BEFORE_RENDER = 100;
+	private final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
-	final double TARGET_FPS = 60;
-	final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	private final double TARGET_FPS = 60;
+	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -593,8 +604,6 @@ public class Game extends JFrame
 	@Override
 	public void keyPressed(final KeyEvent arg0) {
 		
-		ArrayList<String> konamiArray = new ArrayList<String>();
-		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
@@ -619,6 +628,12 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
 			konamiArray.add("a");
+			
+			if (konamiArray.equals(konamiCode)) {
+				player.hp = 10;
+			} else {
+				konamiArray.clear();
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_D && playerControl) {
 			moveR = true;
@@ -677,24 +692,34 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_L) {
 			loadGame();
 		}
-<<<<<<< HEAD
-		if (arg0.getKeyCode() == KeyEvent.VK_KP_UP) {
+		if (arg0.getKeyCode() == KeyEvent.VK_UP) {
+			konamiArray.clear();
+			konamiArray.add("up");
 			konamiArray.add("up");
 		}
-		if (arg0.getKeyCode() == KeyEvent.VK_KP_DOWN) {
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN) {
 			konamiArray.add("down");
 		}
-		if (arg0.getKeyCode() == KeyEvent.VK_KP_LEFT) {
+		if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {
 			konamiArray.add("left");
 		}
-		if (arg0.getKeyCode() == KeyEvent.VK_KP_RIGHT) {
+		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT) {
 			konamiArray.add("right");
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_B) {
 			konamiArray.add("b");
 		}
-=======
->>>>>>> 5646f13fecb2db07b3f5db37e8c4ca7240dadd54
+		if (arg0.getKeyCode() == KeyEvent.VK_B && debug) {
+			inventory.add(new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND,100));
+			inventory.add(new Item(Constants.TYPE_BACK, Constants.BACK_WOOD,100));
+			inventory.add(new Item(Constants.TYPE_BLOCK, Constants.BLOCK_COBBLESTONE,100));
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_U && debug) {
+			worldTime = 0;
+		}
+		if (konamiArray.size() > 9 && !(konamiArray.equals(konamiCode))) {
+			konamiArray.clear();
+		}
 	}
 
 	@Override
@@ -881,6 +906,12 @@ public class Game extends JFrame
 			worldTime = 0;
 		}
 		//Spawn Zombies In
+		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
+			int roll = random.nextInt(100);
+			if (roll == 0) {
+				addWorldObject(new Enemy(player.getX(), 0));
+			}
+		}
 		
 		if (menuPause) {
 			gamePaused = true;
@@ -1164,7 +1195,7 @@ public class Game extends JFrame
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						drawSprite(obj, sprPlayer, g, false);
+						if(player.showSprite())drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
 						if (inventory.getFocused() != null) {
 							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
@@ -1334,7 +1365,7 @@ public class Game extends JFrame
 				j++;
 				g.drawString("ViewH: " + Integer.toString(view.getViewH()), i, j * h);
 				j++;
-				g.drawString("konami: " + Integer.toString(view.getViewH()), i, j * h);
+				g.drawString("konami: " + konamiArray, i, j * h);
 				j++;
 
 				// Mouse
