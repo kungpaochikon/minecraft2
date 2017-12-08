@@ -1231,10 +1231,6 @@ public class Game extends JFrame
 						Graphics2D g2d = (Graphics2D) g;
 						g2d.drawImage(img, at, null);
 					}
-					if (obj instanceof Wall) {
-						g.setColor(Color.GRAY);
-						g.fillRect(xx, yy, ww, hh);
-					}
 					if (obj instanceof Item_Drop) {
 						BufferedImage image = null;
 						image = sprites[((Item_Drop) obj).getType()][((Item_Drop) obj).getId()];
