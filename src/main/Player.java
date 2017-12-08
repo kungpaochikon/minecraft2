@@ -287,11 +287,11 @@ public class Player extends Entity {
 			   if (ax1 + axsp < bx2 && ax2 + axsp > bx1
 					   && ay1 + aysp < by2 && ay2 + aysp
 					   > by1 && isAlive()) {
-				   if(!isHurt){
+				   if (!isHurt) {
 					   isHurt = true;
 					   hurtCD = 60;
 					   hp--;
-					   g.view.viewShake(10, 20);
+					   g.getView().viewShake(10, 20);
 				   }
 			   }
 		   }
@@ -339,9 +339,9 @@ public class Player extends Entity {
 	   }
 	   
 	   //ISHURT
-	   if(isHurt){
+	   if (isHurt) {
 		   hurtCD--;
-		   if(hurtCD<0){
+		   if (hurtCD < 0) {
 			   isHurt = false;
 		   }
 	   }
@@ -406,7 +406,8 @@ public class Player extends Entity {
 	
 	/**
 	 * Returns whether or not the player should be opaque
-	 * (relating to hurtCD)
+	 * (relating to hurtCD).
+	 * @return whether or not the player should be opaque.
 	 */
 	public boolean showSprite() {
 		return !isHurt | hurtCD % 2 == 0; 

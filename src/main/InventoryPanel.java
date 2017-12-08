@@ -41,7 +41,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	/**
 	 * The size of each sprites.
 	 */
-	private final int SPRITE_SIZE = 32;
+	private static final int SPRITE_SIZE = 32;
 	
 	/**
 	 * The item held by the cursor.

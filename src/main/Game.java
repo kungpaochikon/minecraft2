@@ -136,7 +136,7 @@ public class Game extends JFrame
 	/**
 	 * Handles the view.
 	 */
-	public View view;
+	private View view;
 
 	// Control booleans
 	/**
@@ -329,26 +329,26 @@ public class Game extends JFrame
 	/**
 	 * The length of time in the world.
 	 */
-	private final int dayLength = 60*60;
+	private final int dayLength = 60 * 60;
 	
 	/**
 	 * The current time of the world.
 	 */
-	private int worldTime = dayLength/2;
+	private int worldTime = dayLength / 2;
 	
 	/**
 	 * Max number of updates before the game renders again.
 	 */
-	private final int MAX_UPDATES_BEFORE_RENDER = 100;
+	private static final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
 	/**
 	 * What we want the FPS to be.
 	 */
-	private final double TARGET_FPS = 60;
+	private static final double TARGET_FPS = 60;
 	/**
 	 * The ideal number of time between renders.
 	 */
-	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	private static final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -599,7 +599,13 @@ public class Game extends JFrame
 		}
 	}
 	
-	public boolean spawnPlayer(boolean go) {
+	/**
+	 * Spawns the player into the world at the x center of the world
+	 * and the surface.
+	 * @param go if we go forward.
+	 * @return if we go forward after this.
+	 */
+	public boolean spawnPlayer(final boolean go) {
 		for (int j = 0; j < wGridSizeY; j++) {
 			if (world.getWID(wGridSizeX / 2, j) != 0 && go) {
 				player.setX(wGridSizeX * wBlockSize / 2);
@@ -922,7 +928,7 @@ public class Game extends JFrame
 			worldTime = 0;
 		}
 		//Spawn Zombies In
-		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
+		if (worldTime < dayLength / 5 || worldTime < dayLength - dayLength / 5) {
 			int roll = random.nextInt(1000);
 			if (roll == 0) {
 				addWorldObject(new Enemy(player.getX(), 0));
@@ -1225,7 +1231,9 @@ public class Game extends JFrame
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						if(player.showSprite())drawSprite(obj, sprPlayer, g, false);
+						if (player.showSprite()) {
+							drawSprite(obj, sprPlayer, g, false);
+						}
 						BufferedImage img = null;
 						if (inventory.getFocused() != null) {
 							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
@@ -2022,5 +2030,11 @@ public class Game extends JFrame
 	public void setwBlockLen(final int wBlockLen) {
 		this.wBlockLen = wBlockLen;
 	}
-
+	
+	/**
+	 * @return the view
+	 */
+	public View getView() {
+		return view;
+	}
 }

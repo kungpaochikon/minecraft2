@@ -262,9 +262,18 @@ public final class Constants {
      */
     public static final Item WOOD_ITEM = new Item(TYPE_BACK, BACK_WOOD, 1);
     
+    /**
+     * A dummy item for planks.
+     */
     public static final Item PLANKS_ITEM = new Item(TYPE_BLOCK, BLOCK_PLANKS, 1);
     
+    /**
+     * A dummy item for apples.
+     */
     public static final Item APPLE_ITEM = new Item(TYPE_FOOD, APPLE, 1);
     
+    /**
+     * A dummy item for apple pie.
+     */
     public static final Item APPLE_PIE_ITEM = new Item(TYPE_FOOD, APPLE_PIE, 1);
 }
