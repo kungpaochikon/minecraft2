@@ -187,6 +187,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	 * A main method used for initial testing.
 	 * @param args args.
 	 */
+	/*
 	public static void main(final String[] args) {
 		int t = 4;
 		Inventory i = new Inventory();
@@ -246,7 +247,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+*/
 	@Override
 	public void mouseDragged(final MouseEvent arg0) {
 		if (!dragResult) {

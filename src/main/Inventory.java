@@ -117,7 +117,7 @@ public class Inventory {
 	    */
 	   public boolean has(final Item item) {
 		   for (int i = 0; i < inventory.length; i++) {
-			   if (inventory[i].getType() == item.getType() && inventory[i].getId() == item.getId()) {
+			   if (inventory[i] != null && inventory[i].getType() == item.getType() && inventory[i].getId() == item.getId()) {
 				   return true;
 			   }
 		   }

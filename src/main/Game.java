@@ -557,8 +557,8 @@ public class Game extends JFrame
 		view = new View();
 		view.setViewW(1280);
 		view.setViewH(720);
-		view.setViewX(player.getX() - view.getViewW() / 2.0);
-		view.setViewY(player.getY() - view.getViewH() / 2.0);
+		view.setViewX(player.getX() - view.getViewW() / 2);
+		view.setViewY(player.getY() - view.getViewH() / 2);
 	}
 
 	/*******************************************************************
@@ -608,7 +608,7 @@ public class Game extends JFrame
 	public boolean spawnPlayer(final boolean go) {
 		for (int j = 0; j < wGridSizeY; j++) {
 			if (world.getWID(wGridSizeX / 2, j) != 0 && go) {
-				player.setX(wGridSizeX * wBlockSize / 2.0);
+				player.setX(wGridSizeX * wBlockSize / 2);
 				player.setY((j - 1) * wBlockSize);
 				return false;
 			}
@@ -947,6 +947,7 @@ public class Game extends JFrame
 		
 		// if player is dead, remove his inventory and respawn him.
 		if (!player.isAlive()) {
+			removeWorldObject(player);
 			player = new Player(0, 0);
 			player.setDepth(-1);
 			addWorldObject(player);
@@ -1077,8 +1078,8 @@ public class Game extends JFrame
 		}
 		view.step();
 		// View Follow Player
-		view.setViewX(view.getViewX() + (player.getX() - view.getViewW() / 2.0 - view.getViewX()) * 0.3);
-		view.setViewY(view.getViewY() + (player.getY() - view.getViewH() / 2.0 - view.getViewY()) * 0.1);
+		view.setViewX(view.getViewX() + (player.getX() - view.getViewW() / 2 - view.getViewX()) * 0.3);
+		view.setViewY(view.getViewY() + (player.getY() - view.getViewH() / 2 - view.getViewY()) * 0.1);
 		view.setViewX(bindDouble(view.getViewX(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewW()));
 		view.setViewY(bindDouble(view.getViewY(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewH()));
 		gamePanel.update();
