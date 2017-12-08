@@ -206,21 +206,49 @@ public final class Constants {
      */
     public static final long SWING_COOL_DOWN = 250;
     
+    /**
+     * A dummy item for air.
+     */
     public static final Item AIR_ITEM = new Item(TYPE_BLOCK, BLOCK_AIR, 1);
     
+    /**
+     * A dummy item for dirt.
+     */
     public static final Item DIRT_ITEM = new Item(TYPE_BLOCK, BLOCK_DIRT, 1);
     
+    /**
+     * A dummy item for grass.
+     */
     public static final Item GRASS_ITEM = new Item(TYPE_BLOCK, BLOCK_GRASS, 1);
     
+    
+    /**
+     * A dummy item for cobblestone.
+     */
     public static final Item COBBLESTONE_ITEM = new Item(TYPE_BLOCK, BLOCK_COBBLESTONE, 1);
     
+    /**
+     * A dummy item for a sword.
+     */
     public static final Item SWORD_ITEM = new Item(TYPE_TOOL, SWORD, 1);
     
+    /**
+     * A dummy item for a pickaxe.
+     */
     public static final Item PICKAXE_ITEM = new Item(TYPE_TOOL, PICKAXE, 1);
     
+    /**
+     * A dummy item for an axe.
+     */
     public static final Item AXE_ITEM = new Item(TYPE_TOOL, AXE, 1);
     
+    /**
+     * A dummy item for a diamond.
+     */
     public static final Item DIAMOND_ITEM = new Item(TYPE_ITEM, ITEM_DIAMOND, 1);
     
+    /**
+     * A dummy item for wood.
+     */
     public static final Item WOOD_ITEM = new Item(TYPE_BACK, BACK_WOOD, 1);
 }

@@ -10,7 +10,7 @@ public class Entity extends WorldObject {
 	 * The maximum number of hit points.
 	 * Max health.
 	 */
-	protected int hp_max;
+	protected int hpMax;
 	
 	/**
 	 * The current number of hit points.
@@ -36,8 +36,8 @@ public class Entity extends WorldObject {
 		ysp = 0;
 		grav = 1;
 		solid = false;
-		hp_max = 3;
-		hp = hp_max;
+		hpMax = 3;
+		hp = hpMax;
 		alive = true;
 	}
 	

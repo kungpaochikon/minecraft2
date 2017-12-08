@@ -71,8 +71,8 @@ public class Player extends Entity {
 		ysp = 0;
 		grav = 0.5;
 		solid = false;
-		hp_max = 3;
-		hp = hp_max;
+		hpMax = 3;
+		hp = hpMax;
 		hungerMax = 100;
 		hunger = hungerMax;
 		grounded = false;

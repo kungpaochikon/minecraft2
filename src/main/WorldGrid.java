@@ -107,8 +107,8 @@ public class WorldGrid {
 	    	  }
 	    	  //Gen Tree
 	    	  r = random.nextInt(12);
-	    	  if (r == 0 && (wGridBounds(i,ground) && wGrid[i][ground].getWID() != Constants.BLOCK_WATER) && 
-	    			  (wGridBounds(i,ground) && wGrid[i][ground].getWID() != Constants.BLOCK_AIR)) {
+	    	  if (r == 0 && (wGridBounds(i, ground) && wGrid[i][ground].getWID() != Constants.BLOCK_WATER)
+	    			  && (wGridBounds(i, ground) && wGrid[i][ground].getWID() != Constants.BLOCK_AIR)) {
 	    		  wGenTree(i, ground, random.nextInt(3) + 1, random.nextInt(5) + 7, 4);
 	    	  }
 	    	  for (int j = ground + 1; j < sizeY; j++) {

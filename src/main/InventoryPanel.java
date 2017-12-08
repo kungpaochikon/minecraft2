@@ -8,9 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,25 +21,45 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+/**
+ * An inventory panel that displays the inventory and allows
+ * the player to craft.
+ * @author Logun DeLeon
+ *
+ */
 public class InventoryPanel extends JPanel implements MouseListener, MouseMotionListener {
 	/**
 	 * The player's inventory.
 	 */
 	private Inventory inventory;
-
+	
+	/**
+	 * The array of labels representing the crafting menu.
+	 */
 	private ItemLabel[] craftingLabels;
-
+	
+	/**
+	 * The size of each sprites.
+	 */
 	private final int SPRITE_SIZE = 32;
-
+	
+	/**
+	 * The item held by the cursor.
+	 */
 	private Item tempItem;
-
+	
+	/**
+	 * The inventory of the crafting menu.
+	 */
 	private Inventory tempInventory;
 	/**
 	 * The sprites of each inventory item.
 	 */
 	private BufferedImage[][] sprites;
-
+	
+	/**
+	 * The recipes used in the game.
+	 */
 	private Recipe[] recipes = {
 			 Recipe.createRecipe(new Item[] {
 					 null, Constants.DIAMOND_ITEM, null,
@@ -60,22 +77,45 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 					 null, Constants.WOOD_ITEM, null },
 			 Constants.AXE_ITEM)
 	};
-
+	
+	/**
+	 * Number of Recipes.
+	 */
 	private int numRecipes;
-
+	
+	/**
+	 * The X location of the mouse.
+	 */
 	private int mouseX;
-
+	
+	/**
+	 * The Y location of the mouse.
+	 */
 	private int mouseY;
 
+	/**
+	 * The JLabel that represent where the drag started.
+	 */
 	private JLabel dragSource;
 	
+	/**
+	 * If the drag came from the result label.
+	 */
 	private boolean dragResult;
 
+	/**
+	 * The JLabel that represents the result of crafting.
+	 */
 	private ResultLabel result;
-
-	public InventoryPanel(Inventory inventory, BufferedImage[][] sprites) {
+	
+	/**
+	 * Inventory Panel constructor instantiates all variables.
+	 * @param inventory The inventory that the panel represents.
+	 * @param sprites The sprites that represent the objects.
+	 */
+	public InventoryPanel(final Inventory inventory, final BufferedImage[][] sprites) {
 		dragResult = false;
-		this.numRecipes = 0;
+		this.numRecipes = 3;
 		this.inventory = inventory;
 		this.tempItem = null;
 		this.tempInventory = new Inventory(9);
@@ -132,54 +172,115 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 		}
 		this.setPreferredSize(new Dimension(1280 / 2, 720 / 2));
 	}
-
+	
+	/**
+	 * A JLabel that represents the result of crafting.
+	 * @author Logun DeLeon
+	 *
+	 */
 	private class ResultLabel extends JLabel {
+		/**
+		 * The item that was crafted.
+		 */
 		private Item item;
-
-		ResultLabel(Item item) {
+		
+		/**
+		 * A constructor that sets the crafted item
+		 * to the parameter.
+		 * @param item The item crafted.
+		 */
+		ResultLabel(final Item item) {
 			this.item = item;
 		}
-
+		
+		/**
+		 * Gets the item crafted.
+		 * @return the item crafted.
+		 */
 		public Item getItem() {
 			return item;
 		}
-
-		public void setItem(Item item) {
+		
+		/**
+		 * Sets the crafted item.
+		 * @param item the item thats crafted.
+		 */
+		public void setItem(final Item item) {
 			this.item = item;
 		}
-
-		public void setItem(int type, int id) {
+		
+		/**
+		 * Sets the crafted item.
+		 * @param type the type of the item crafted.
+		 * @param id the ID of the item crafted.
+		 */
+		public void setItem(final int type, final int id) {
 			this.item = new Item(type, id, 1);
 		}
 	}
-
+	
+	/**
+	 * A label that represents a slot in the inventory.
+	 * @author Logun DeLeon
+	 *
+	 */
 	private class ItemLabel extends JLabel {
+		/**
+		 * The index of the inventory that is represented
+		 * by the label.
+		 */
 		private int inventoryIndex;
+		
+		/**
+		 * If the slot is used for crafting.
+		 */
 		private boolean crafting;
-
-		ItemLabel(int i, boolean crafting) {
+		
+		/**
+		 * Constructor that sets the index to i
+		 * and if the label is used for crafting.
+		 * @param i the inventory index that the label represents.
+		 * @param crafting if the slot is used for crafting.
+		 */
+		ItemLabel(final int i, final boolean crafting) {
 			super();
 			inventoryIndex = i;
 			this.crafting = crafting;
 		}
-
+		
+		/**
+		 * Gets the inventory index represented.
+		 * @return the inventory index represented.
+		 */
 		public int getIndex() {
 			return inventoryIndex;
 		}
-
-		public void setIndex(int i) {
+		
+		/**
+		 * Sets the index represented.
+		 * @param i the index to be represented.
+		 */
+		public void setIndex(final int i) {
 			inventoryIndex = i;
 		}
-
+		
+		/**
+		 * If the slot is used for crafting.
+		 * @return if the slot is used for crafting.
+		 */
 		public boolean isCrafting() {
 			return crafting;
 		}
 	}
-
-	public static void main(String[] args) {
+	
+	/**
+	 * A main method used for initial testing.
+	 * @param args args.
+	 */
+	public static void main(final String[] args) {
 		int t = 4;
 		Recipe r = Recipe.createRecipe(
-				new Item[] { null, new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
+				new Item[] {null, new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
 						new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
 						new Item(Constants.TYPE_BACK, Constants.BACK_WOOD, 1), null },
 				new Item(Constants.TYPE_ITEM, Constants.SWORD, 1));
@@ -241,7 +342,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
+	public void mouseDragged(final MouseEvent arg0) {
 		if (!dragResult) {
 			mouseX = arg0.getX() + dragSource.getX();
 			mouseY = arg0.getY() + dragSource.getY();
@@ -253,29 +354,29 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseMoved(final MouseEvent arg0) {
 
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	public void mouseClicked(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(final MouseEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(final MouseEvent arg0) {
 
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(final MouseEvent arg0) {
 		Component c = arg0.getComponent();
 		if (c instanceof ItemLabel) {
 			ItemLabel label = (ItemLabel) c;
@@ -332,7 +433,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
+	public void mouseReleased(final MouseEvent arg0) {
 		dragResult = false;
 		Component c = this.getComponentAt(mouseX, mouseY);
 		ItemLabel label;
@@ -428,7 +529,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(final Graphics g) {
 		g.clearRect(0, 0, getWidth(), getHeight());
 		super.paintComponent(g);
 		setBackground(new Color(39, 52, 130, 170));
@@ -438,14 +539,26 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 			g.drawString(new Integer(tempItem.getCount()).toString(), mouseX + 24, mouseY + 30);
 		}
 	}
-
-	public boolean sameItem(ItemLabel label, Item i, Inventory inv) {
+	/**
+	 * If two items are of the same type.
+	 * @param label The slot tested.
+	 * @param i the item tested.
+	 * @param inv the inventory used to test from.
+	 * @return if the items are the same.
+	 */
+	public boolean sameItem(final ItemLabel label, final Item i, final Inventory inv) {
 		return inv.get(label.getIndex()) != null && i != null
 				&& inv.get(label.getIndex()).getType() == tempItem.getType()
 				&& inv.get(label.getIndex()).getId() == tempItem.getId();
 	}
-
-	public Recipe recipe(Inventory i) {
+	
+	/**
+	 * Returns the recipe that the crafting menu
+	 * matches. If none, returns null.
+	 * @param i the crafting inventory.
+	 * @return the matching recipe.
+	 */
+	public Recipe recipe(final Inventory i) {
 		Recipe rtn = null;
 		for (Recipe r : recipes) {
 			if (r != null && r.isEqual(i)) {

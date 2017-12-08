@@ -10,7 +10,7 @@ public class Launcher {
 	/**
 	 * @param args game launger arguments
 	 */
-	public static void main(final String[] args) {
+	private static void main(final String[] args) {
 		JFrame obj = new JFrame();
 		Game game = new Game();
 		obj.setBounds(0, 0, 1280, 720);

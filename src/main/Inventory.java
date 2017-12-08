@@ -1,7 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-
 /**
  * The player's inventory. This class holds all items
  * that the player will gather on their journey through
@@ -33,6 +31,9 @@ public class Inventory {
 	    */
 	   private int hotbarFocus;
 	   
+	   /**
+	    * The number of items in the inventory.
+	    */
 	   private int size;
 	   
 	   /**
@@ -48,9 +49,9 @@ public class Inventory {
 	    * and sets them to their initial values.
 	    * This constructor allows the user to create
 	    * an inventory with a different max size.
-	    * @param max
+	    * @param max The max size of the inventory.
 	    */
-	   public Inventory(int max) {
+	   public Inventory(final int max) {
 		   inventoryMax = max;
 		   inventory = new Item[inventoryMax];
 		   hotbarMax = 10;
@@ -99,6 +100,11 @@ public class Inventory {
 		   }
 	   }
 	   
+	   /**
+	    * Adds an item to the inventory.
+	    * @param item The item added to the inventory.
+	    * @param i the index to put it in.
+	    */
 	   public void add(final Item item, final int i) {
 		   inventory[i] = item;
 		   size++;

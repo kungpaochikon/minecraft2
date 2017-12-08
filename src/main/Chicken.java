@@ -1,6 +1,5 @@
 package main;
 
-import java.util.Random;
 /**
  * A chicken entity.
  * @author Gary Fleming, Logun DeLeon, Alex Duncanson

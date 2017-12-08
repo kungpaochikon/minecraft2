@@ -1,9 +1,5 @@
 package main;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 
 /**
  * An item that can be picked up by the player.
@@ -104,6 +100,8 @@ public class Item {
 		}
 		return false;
 	}
+	
+	@Override
 	public int hashCode() {
 		  assert false : "hashCode not designed";
 		  return 42; // any arbitrary constant will do

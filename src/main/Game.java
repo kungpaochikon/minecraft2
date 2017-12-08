@@ -323,12 +323,21 @@ public class Game extends JFrame
 	/**
 	 * 
 	 */
-	private final int dayLength = 60*10;
+	private final int dayLength = 60 * 10;
 	
-	final int MAX_UPDATES_BEFORE_RENDER = 100;
+	/**
+	 * 
+	 */
+	private final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
-	final double TARGET_FPS = 60;
-	final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	/**
+	 * 
+	 */
+	private final double TARGET_FPS = 60;
+	/**
+	 * 
+	 */
+	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -1028,7 +1037,7 @@ public class Game extends JFrame
 		/**
 		 * 
 		 */
-		public GamePanel() {
+		GamePanel() {
 			interpolation = 0;
 		}
 
@@ -1040,6 +1049,9 @@ public class Game extends JFrame
 			interpolation = interp;
 		}
 		
+		/**
+		 * Makes an inventory panel.
+		 */
 		public void makeInventory() {
 			inventoryPanel = new InventoryPanel(inventory, sprites);
 			this.setLayout(new GridBagLayout());
@@ -1052,6 +1064,9 @@ public class Game extends JFrame
 			inventoryPanel.revalidate();
 		}
 		
+		/**
+		 * Removes the inventory panel.
+		 */
 		public void removeInventory() {
 			this.remove(inventoryPanel);
 			inventoryPanel = null;
@@ -1101,15 +1116,15 @@ public class Game extends JFrame
 							g.drawImage(sprites[Constants.TYPE_BLOCK][world.getWID(i, j)],
 									(int) (i * wBlockSize - view.getViewXFinal()),
 									(int) (j * wBlockSize - view.getViewYFinal()), wBlockSize, wBlockSize, null);
-							if(world.getBlock(i, j).getIntegrity()<Constants.INTEGRITIES[world.getWID(i, j)]){
-								drawTile(i,j, sprCrack, g, 
-										(float)1-((float)world.getBlock(i, j).getIntegrity()/Constants.INTEGRITIES[world.getWID(i, j)]));
+							if (world.getBlock(i, j).getIntegrity() < Constants.INTEGRITIES[world.getWID(i, j)]) {
+								drawTile(i, j, sprCrack, g, 
+										(float) 1 - ((float) world.getBlock(i, j).getIntegrity() / Constants.INTEGRITIES[world.getWID(i, j)]));
 								//drawTile((int) (i * wBlockSize - view.getViewXFinal()),
 								//		(int) (j * wBlockSize - view.getViewYFinal()), sprCrack, g, 
 								//		1);
 								
 							}
-						}else {
+						} else {
 							drawTile(i, j, sprites[Constants.TYPE_BLOCK][world.getWID(i, j)], g,
 									(float) world.getWaterLevel(i, j) / 4);
 						}
@@ -1180,11 +1195,11 @@ public class Game extends JFrame
 				}
 			}
 			float alpha = 1;
-			double midPoint = (double)dayLength/2;
-			alpha = (float)Math.abs((midPoint - worldTime)/dayLength);
+			double midPoint = (double) dayLength / 2;
+			alpha = (float) Math.abs((midPoint - worldTime) / dayLength);
 			//Dusk
-			g.setColor(new Color(0,0,0,alpha));
-			g.fillRect(0,0,1280,720);
+			g.setColor(new Color(0, 0, 0, alpha));
+			g.fillRect(0, 0, 1280, 720);
 			g.setColor(Color.white);
 			g.drawString(Integer.toString(worldTime), 64, 128);
 			/*
@@ -1207,26 +1222,6 @@ public class Game extends JFrame
 				g.drawRect(xx, yy, wBlockSize, wBlockSize);
 			}
 			g.drawImage(sprBlack, (int) mouseX, (int) mouseY, 16, 16, null);
-
-			// Player Menu
-			if (menuPlayer) {
-				/*
-				g.setColor(new Color(0, 0, (float) 0.4, (float) 0.9));
-				g.fillRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
-				g.setColor(Color.white);
-				g.drawRect(1280 / 4, 720 / 4, 1280 / 2, 720 / 2);
-				for (int i = 0; i < inventory.size(); i++) {
-					BufferedImage image = null;
-					image = sprites[inventory.get(i).getType()][inventory.get(i).getId()];
-					g.drawImage(image, 1280 / 4 + 54 * i, 720 / 2 - 48 * 2, 48, 48, null);
-					g.setColor(Color.black);
-					g.fillRect(1280 / 4 + 54 * i + 40, 720 / 2 - 48 - 12, 12, 12);
-					g.setColor(Color.white);
-					g.drawString(Integer.toString(inventory.get(i).getCount()), 1280 / 4 + 54 * i + 40, 720 / 2 - 48);
-					// g.drawString((inventory.get(i).getType().name()),
-					// 54*i+40,720-48);*/
-				
-			}
 			
 			// Pause Menu
 			if (menuPause) {

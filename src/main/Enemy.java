@@ -35,7 +35,7 @@ public class Enemy extends Entity {
 	 * of the game loop.
 	 * @param g the game the enemy exists in.
 	 */
-	public void step(Game g) {
+	public void step(final Game g) {
 		WorldGrid world = g.getWorld();
 		int wBlockSize = g.getwBlockSize();
 		
