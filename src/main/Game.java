@@ -36,6 +36,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
@@ -56,6 +57,16 @@ public class Game extends JFrame
 	 * The panel that runs the game.
 	 */
 	private GamePanel gamePanel = new GamePanel();
+	
+	/**
+	 * 
+	 */
+	private ArrayList<String> konamiCode = new ArrayList<String>(Arrays.asList("up", "up", "down", "down", "left", "right", "left", "right", "b", "a"));
+	
+	/**
+	 * 
+	 */
+	private ArrayList<String> konamiArray = new ArrayList<String>();
 
 	/**
 	 * The main menu panel.
@@ -125,7 +136,7 @@ public class Game extends JFrame
 	/**
 	 * Handles the view.
 	 */
-	private View view;
+	public View view;
 
 	// Control booleans
 	/**
@@ -306,36 +317,36 @@ public class Game extends JFrame
 	private int lBlockLen = 5;
 
 	/**
-	 * 
+	 * Interval between each update.
 	 */
 	private int updateInterval = 1;
 
 	/**
-	 * 
+	 * The number of update intervals passed.
 	 */
 	private int updateIntervalCount = 0;
 	
 	/**
-	 * 
+	 * The length of time in the world.
 	 */
-	private int worldTime = 0;
+	private final int dayLength = 60*60;
 	
 	/**
-	 * 
+	 * The current time of the world.
 	 */
-	private final int dayLength = 60 * 10;
+	private int worldTime = dayLength/2;
 	
 	/**
-	 * 
+	 * Max number of updates before the game renders again.
 	 */
 	private final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
 	/**
-	 * 
+	 * What we want the FPS to be.
 	 */
 	private final double TARGET_FPS = 60;
 	/**
-	 * 
+	 * The ideal number of time between renders.
 	 */
 	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
@@ -403,6 +414,9 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_BLOCK]
 					[Constants.BLOCK_COBBLESTONE] = ImageIO.read(
 					new File("images\\spr_cobblestone.png"));
+			sprites[Constants.TYPE_BLOCK]
+					[Constants.BLOCK_PLANKS] = ImageIO.read(
+					new File("images\\spr_planks.png"));
 			// Backs
 			sprites[Constants.TYPE_BACK][Constants.BACK_WOOD] =
 					ImageIO.read(new File(
@@ -421,6 +435,7 @@ public class Game extends JFrame
 			sprites[Constants.TYPE_FOOD][Constants.APPLE] = ImageIO.read(new File("images\\spr_apple.png"));
 			sprites[Constants.TYPE_FOOD][Constants.RAW_CHICKEN] = ImageIO.read(new File("images\\spr_chicken_raw.png"));
 			sprites[Constants.TYPE_FOOD][Constants.RAW_BEEF] = ImageIO.read(new File("images\\spr_beef_raw.png"));
+			sprites[Constants.TYPE_FOOD][Constants.APPLE_PIE] = ImageIO.read(new File("images\\spr_apple_pie.png"));
 
 			// Entities
 			sprites[Constants.TYPE_ENTITY][Constants.ENTITY_PLAYER] = ImageIO.read(new File("images\\spr_player.png"));
@@ -598,6 +613,7 @@ public class Game extends JFrame
 	 *******************************************************************/
 	@Override
 	public void keyPressed(final KeyEvent arg0) {
+		
 		if (arg0.getKeyCode() == KeyEvent.VK_SPACE && playerControl) {
 			if (player.isGrounded()) {
 				player.jump();
@@ -621,6 +637,13 @@ public class Game extends JFrame
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_A && playerControl) {
 			moveL = true;
+			konamiArray.add("a");
+			
+			if (konamiArray.equals(konamiCode)) {
+				player.hp = 10;
+			} else {
+				konamiArray.clear();
+			}
 		}
 		if (arg0.getKeyCode() == KeyEvent.VK_D && playerControl) {
 			moveR = true;
@@ -679,7 +702,35 @@ public class Game extends JFrame
 		if (arg0.getKeyCode() == KeyEvent.VK_L) {
 			loadGame();
 		}
-
+		if (arg0.getKeyCode() == KeyEvent.VK_UP) {
+			konamiArray.clear();
+			konamiArray.add("up");
+			konamiArray.add("up");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_DOWN) {
+			konamiArray.add("down");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_LEFT) {
+			konamiArray.add("left");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_RIGHT) {
+			konamiArray.add("right");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_B) {
+			konamiArray.add("b");
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_B && debug) {
+			inventory.add(new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 100));
+			inventory.add(new Item(Constants.TYPE_BACK, Constants.BACK_WOOD, 100));
+			inventory.add(new Item(Constants.TYPE_BLOCK, Constants.BLOCK_COBBLESTONE, 100));
+			inventory.add(new Item(Constants.TYPE_FOOD, Constants.APPLE, 100));
+		}
+		if (arg0.getKeyCode() == KeyEvent.VK_U && debug) {
+			worldTime = 0;
+		}
+		if (konamiArray.size() > 9 && !(konamiArray.equals(konamiCode))) {
+			konamiArray.clear();
+		}
 	}
 
 	@Override
@@ -865,6 +916,14 @@ public class Game extends JFrame
 		if (worldTime > dayLength) {
 			worldTime = 0;
 		}
+		//Spawn Zombies In
+		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
+			int roll = random.nextInt(100);
+			if (roll == 0) {
+				addWorldObject(new Enemy(player.getX(), 0));
+			}
+		}
+		
 		if (menuPause) {
 			gamePaused = true;
 		} else {
@@ -1153,7 +1212,7 @@ public class Game extends JFrame
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						drawSprite(obj, sprPlayer, g, false);
+						if(player.showSprite())drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
 						if (inventory.getFocused() != null) {
 							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
@@ -1302,6 +1361,8 @@ public class Game extends JFrame
 				g.drawString("ViewW: " + Integer.toString(view.getViewW()), i, j * h);
 				j++;
 				g.drawString("ViewH: " + Integer.toString(view.getViewH()), i, j * h);
+				j++;
+				g.drawString("konami: " + konamiArray, i, j * h);
 				j++;
 
 				// Mouse

@@ -54,6 +54,11 @@ public final class Constants {
 	public static final int BLOCK_COBBLESTONE = 7;
 	
 	/**
+	 * The index of wooden planks blocks in the block array.
+	 */
+	public static final int BLOCK_PLANKS = 8;
+	
+	/**
 	 * The index of the block array in the type array.
 	 */
 	public static final int TYPE_BLOCK = 0;
@@ -163,12 +168,17 @@ public final class Constants {
 	public static final int RAW_BEEF = 2;
 	
 	/**
+	 * The index of apple pie in the food array.
+	 */
+	public static final int APPLE_PIE = 3;
+	
+	/**
 	 * The array of block integrities. The integrities are in order
 	 * of the indices of the blocks in the blocks array (i.e. the value
 	 * at index 0 corresponds to BLOCK_AIR which equals 0).
 	 */
 	public static final int[] INTEGRITIES =
-		{Integer.MAX_VALUE, 50, 50, 20, Integer.MAX_VALUE, 100, 80, 80};
+		{Integer.MAX_VALUE, 50, 50, 20, Integer.MAX_VALUE, 100, 80, 80, 100};
 	
 	/**
 	 * The frame rate of the game.
@@ -251,4 +261,10 @@ public final class Constants {
      * A dummy item for wood.
      */
     public static final Item WOOD_ITEM = new Item(TYPE_BACK, BACK_WOOD, 1);
+    
+    public static final Item PLANKS_ITEM = new Item(TYPE_BLOCK, BLOCK_PLANKS, 1);
+    
+    public static final Item APPLE_ITEM = new Item(TYPE_FOOD, APPLE, 1);
+    
+    public static final Item APPLE_PIE_ITEM = new Item(TYPE_FOOD, APPLE_PIE, 1);
 }
