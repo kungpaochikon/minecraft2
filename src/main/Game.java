@@ -535,13 +535,7 @@ public class Game extends JFrame
 		world.generate();
 		boolean go = true;
 		// Place Player
-		for (int j = 0; j < wGridSizeY; j++) {
-			if (world.getWID(wGridSizeX / 2, j) != 0 && go) {
-				player.setX(wGridSizeX * wBlockSize / 2);
-				player.setY((j - 1) * wBlockSize);
-				go = false;
-			}
-		}
+		go = spawnPlayer(go);
 		// Spawn Animals
 		for (int i = 0; i < wGridSizeX; i++) {
 			for (int j = 0; j < wGridSizeY; j++) {
@@ -603,6 +597,17 @@ public class Game extends JFrame
 			cp.revalidate();
 			this.requestFocusInWindow();
 		}
+	}
+	
+	public boolean spawnPlayer(boolean go) {
+		for (int j = 0; j < wGridSizeY; j++) {
+			if (world.getWID(wGridSizeX / 2, j) != 0 && go) {
+				player.setX(wGridSizeX * wBlockSize / 2);
+				player.setY((j - 1) * wBlockSize);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/*******************************************************************
@@ -777,7 +782,7 @@ public class Game extends JFrame
 	}
 
 	/**
-	 * 
+	 * Reads a save file and loads a game from it.
 	 */
 	public void loadGame() {
 		try {
@@ -918,7 +923,7 @@ public class Game extends JFrame
 		}
 		//Spawn Zombies In
 		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
-			int roll = random.nextInt(100);
+			int roll = random.nextInt(1000);
 			if (roll == 0) {
 				addWorldObject(new Enemy(player.getX(), 0));
 			}
@@ -932,6 +937,14 @@ public class Game extends JFrame
 		//Nothing below this line happens if paused
 		if (gamePaused) {
 			return;
+		}
+		
+		// if player is dead, remove his inventory and respawn him.
+		if (!player.isAlive()) {
+			player = new Player(0, 0);
+			player.setDepth(-1);
+			addWorldObject(player);
+			spawnPlayer(true);
 		}
 		// Update inventory
 		inventoryUpdate();
@@ -1697,7 +1710,7 @@ public class Game extends JFrame
 						double y = mouseY2 + view.getViewYFinal();
 						for (int i = 0; i < objList.size(); i++) {
 							WorldObject obj = objList.get(i);
-							if (obj instanceof Animal) {
+							if (obj instanceof Entity && !(obj instanceof Player)) {
 								if (x > obj.getX() && x < obj.getX() + obj.getWidth() && y > obj.getY()
 										&& y < obj.getY() + obj.getHeight()) {
 									if (obj instanceof Chicken) {
