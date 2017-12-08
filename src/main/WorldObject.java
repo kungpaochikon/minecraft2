@@ -288,20 +288,5 @@ public class WorldObject implements Comparable<WorldObject> {
 	public int compareTo(final WorldObject arg0) {
 		return depth - arg0.depth;
 	}
-	
-	@Override
-	public boolean equals(final Object o) {
-		boolean rtn = false;
-		if (o instanceof WorldObject) {
-			rtn = this.getDepth() == ((WorldObject) o).getDepth();
-		}
-		return rtn;
-	}
-	
-	@Override
-	public int hashCode() {
-	    assert false : "hashCode not designed";
-	    return 42; // any arbitrary constant will do
-	}
 
 }

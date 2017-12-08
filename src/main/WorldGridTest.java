@@ -21,7 +21,7 @@ public class WorldGridTest {
 		world.setWID(1, 1, -1);
 		assert (world.getWID(-1, -1) == 1);
 		world.setWID(100, 100, 1);
-		world.getWID(100, 100);
+		assert (world.getWID(100, 100) == 1);
 		world.generate();
 	}
 
