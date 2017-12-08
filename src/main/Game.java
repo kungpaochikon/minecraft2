@@ -136,7 +136,7 @@ public class Game extends JFrame
 	/**
 	 * Handles the view.
 	 */
-	private View view;
+	public View view;
 
 	// Control booleans
 	/**
@@ -329,26 +329,26 @@ public class Game extends JFrame
 	/**
 	 * The length of time in the world.
 	 */
-	private static final int DAY_LENGTH = 60 * 60;
+	private final int dayLength = 60*60;
 	
 	/**
 	 * The current time of the world.
 	 */
-	private int worldTime = DAY_LENGTH / 2;
+	private int worldTime = dayLength/2;
 	
 	/**
 	 * Max number of updates before the game renders again.
 	 */
-	private static final int MAX_UPDATES_BEFORE_RENDER = 100;
+	private final int MAX_UPDATES_BEFORE_RENDER = 100;
 	// If we are able to get as high as this FPS, don't render again.
 	/**
 	 * What we want the FPS to be.
 	 */
-	private static final double TARGET_FPS = 60;
+	private final double TARGET_FPS = 60;
 	/**
 	 * The ideal number of time between renders.
 	 */
-	private static final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+	private final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
 	/*******************************************************************
 	 * 
@@ -535,7 +535,7 @@ public class Game extends JFrame
 		world.generate();
 		boolean go = true;
 		// Place Player
-		spawnPlayer(go);
+		go = spawnPlayer(go);
 		// Spawn Animals
 		for (int i = 0; i < wGridSizeX; i++) {
 			for (int j = 0; j < wGridSizeY; j++) {
@@ -557,8 +557,8 @@ public class Game extends JFrame
 		view = new View();
 		view.setViewW(1280);
 		view.setViewH(720);
-		view.setViewX(player.getX() - view.getViewW() / 2.0);
-		view.setViewY(player.getY() - view.getViewH() / 2.0);
+		view.setViewX(player.getX() - view.getViewW() / 2);
+		view.setViewY(player.getY() - view.getViewH() / 2);
 	}
 
 	/*******************************************************************
@@ -599,16 +599,10 @@ public class Game extends JFrame
 		}
 	}
 	
-	/**
-	 * Spawns the player into the world at the x center of the world
-	 * and the surface.
-	 * @param go if we go forward.
-	 * @return if we go forward after this.
-	 */
-	public boolean spawnPlayer(final boolean go) {
+	public boolean spawnPlayer(boolean go) {
 		for (int j = 0; j < wGridSizeY; j++) {
 			if (world.getWID(wGridSizeX / 2, j) != 0 && go) {
-				player.setX(wGridSizeX * wBlockSize / 2.0);
+				player.setX(wGridSizeX * wBlockSize / 2);
 				player.setY((j - 1) * wBlockSize);
 				return false;
 			}
@@ -924,12 +918,12 @@ public class Game extends JFrame
 	private void updateGame() {
 		//Inc Time of Day
 		worldTime++;
-		if (worldTime > DAY_LENGTH) {
+		if (worldTime > dayLength) {
 			worldTime = 0;
 		}
 		//Spawn Zombies In
-		if (worldTime < DAY_LENGTH / 5 || worldTime > DAY_LENGTH - DAY_LENGTH / 5) {
-			int roll = random.nextInt(600);
+		if (worldTime < dayLength/5 || worldTime < dayLength - dayLength/5) {
+			int roll = random.nextInt(1000);
 			if (roll == 0) {
 				addWorldObject(new Enemy(player.getX(), 0));
 			}
@@ -1077,8 +1071,8 @@ public class Game extends JFrame
 		}
 		view.step();
 		// View Follow Player
-		view.setViewX(view.getViewX() + (player.getX() - view.getViewW() / 2.0 - view.getViewX()) * 0.3);
-		view.setViewY(view.getViewY() + (player.getY() - view.getViewH() / 2.0 - view.getViewY()) * 0.1);
+		view.setViewX(view.getViewX() + (player.getX() - view.getViewW() / 2 - view.getViewX()) * 0.3);
+		view.setViewY(view.getViewY() + (player.getY() - view.getViewH() / 2 - view.getViewY()) * 0.1);
 		view.setViewX(bindDouble(view.getViewX(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewW()));
 		view.setViewY(bindDouble(view.getViewY(), 0, (wGridSizeX - 1) * wBlockSize - view.getViewH()));
 		gamePanel.update();
@@ -1231,9 +1225,7 @@ public class Game extends JFrame
 					}
 					if (obj instanceof Player && ((Entity) obj).isAlive()) {
 						AffineTransform at = new AffineTransform();
-						if (player.showSprite()) {
-							drawSprite(obj, sprPlayer, g, false);
-						}
+						if(player.showSprite())drawSprite(obj, sprPlayer, g, false);
 						BufferedImage img = null;
 						if (inventory.getFocused() != null) {
 							img = sprites[inventory.getFocused().getType()][inventory.getFocused().getId()];
@@ -1271,8 +1263,8 @@ public class Game extends JFrame
 				}
 			}
 			float alpha = 1;
-			double midPoint = (double) DAY_LENGTH / 2;
-			alpha = (float) Math.abs((midPoint - worldTime) / DAY_LENGTH);
+			double midPoint = (double) dayLength / 2;
+			alpha = (float) Math.abs((midPoint - worldTime) / dayLength);
 			//Dusk
 			g.setColor(new Color(0, 0, 0, alpha));
 			g.fillRect(0, 0, 1280, 720);
@@ -2030,11 +2022,5 @@ public class Game extends JFrame
 	public void setwBlockLen(final int wBlockLen) {
 		this.wBlockLen = wBlockLen;
 	}
-	
-	/**
-	 * @return the view
-	 */
-	public View getView() {
-		return view;
-	}
+
 }
