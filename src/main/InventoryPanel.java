@@ -168,7 +168,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 				Image image = sprites[inventory.get(i).getType()][inventory.get(i).getId()]
 						.getScaledInstance(SPRITE_SIZE, SPRITE_SIZE, BufferedImage.SCALE_FAST);
 				item.setIcon(new ImageIcon(image));
-				item.setText(new Integer(inventory.get(i).getCount()).toString());
+				item.setText(Integer.toString(inventory.get(i).getCount()));
 				item.setVerticalTextPosition(JLabel.BOTTOM);
 				item.setForeground(Color.WHITE);
 				item.setIconTextGap(-10);
@@ -184,116 +184,11 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 	}
 	
 	/**
-	 * A JLabel that represents the result of crafting.
-	 * @author Logun DeLeon
-	 *
-	 */
-	private class ResultLabel extends JLabel {
-		/**
-		 * The item that was crafted.
-		 */
-		private Item item;
-		
-		/**
-		 * A constructor that sets the crafted item
-		 * to the parameter.
-		 * @param item The item crafted.
-		 */
-		ResultLabel(final Item item) {
-			this.item = item;
-		}
-		
-		/**
-		 * Gets the item crafted.
-		 * @return the item crafted.
-		 */
-		public Item getItem() {
-			return item;
-		}
-		
-		/**
-		 * Sets the crafted item.
-		 * @param item the item thats crafted.
-		 */
-		public void setItem(final Item item) {
-			this.item = item;
-		}
-		
-		/**
-		 * Sets the crafted item.
-		 * @param type the type of the item crafted.
-		 * @param id the ID of the item crafted.
-		 */
-		public void setItem(final int type, final int id) {
-			this.item = new Item(type, id, 1);
-		}
-	}
-	
-	/**
-	 * A label that represents a slot in the inventory.
-	 * @author Logun DeLeon
-	 *
-	 */
-	private class ItemLabel extends JLabel {
-		/**
-		 * The index of the inventory that is represented
-		 * by the label.
-		 */
-		private int inventoryIndex;
-		
-		/**
-		 * If the slot is used for crafting.
-		 */
-		private boolean crafting;
-		
-		/**
-		 * Constructor that sets the index to i
-		 * and if the label is used for crafting.
-		 * @param i the inventory index that the label represents.
-		 * @param crafting if the slot is used for crafting.
-		 */
-		ItemLabel(final int i, final boolean crafting) {
-			super();
-			inventoryIndex = i;
-			this.crafting = crafting;
-		}
-		
-		/**
-		 * Gets the inventory index represented.
-		 * @return the inventory index represented.
-		 */
-		public int getIndex() {
-			return inventoryIndex;
-		}
-		
-		/**
-		 * Sets the index represented.
-		 * @param i the index to be represented.
-		 */
-		public void setIndex(final int i) {
-			inventoryIndex = i;
-		}
-		
-		/**
-		 * If the slot is used for crafting.
-		 * @return if the slot is used for crafting.
-		 */
-		public boolean isCrafting() {
-			return crafting;
-		}
-	}
-	
-	/**
 	 * A main method used for initial testing.
 	 * @param args args.
 	 */
 	public static void main(final String[] args) {
 		int t = 4;
-		Recipe r = Recipe.createRecipe(
-				new Item[] {null, new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
-						new Item(Constants.TYPE_ITEM, Constants.ITEM_DIAMOND, 1), null, null,
-						new Item(Constants.TYPE_BACK, Constants.BACK_WOOD, 1), null },
-				new Item(Constants.TYPE_ITEM, Constants.SWORD, 1));
 		Inventory i = new Inventory();
 		i.add(new Item(0, 3, 5));
 		i.add(new Item(0, 2, 2));
@@ -417,7 +312,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 					label.setText(null);
 					return;
 				}
-				label.setText(new Integer(targetInventory.get(i).getCount()).toString());
+				label.setText(Integer.toString(targetInventory.get(i).getCount()));
 			}
 		}
 
@@ -432,7 +327,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 			for (int i = 0; i < 9; i++) {
 				if (tempInventory.get(i) != null) {
 					tempInventory.get(i).changeCount(-1);
-					craftingLabels[i].setText(new Integer(tempInventory.get(i).getCount()).toString());
+					craftingLabels[i].setText(Integer.toString(tempInventory.get(i).getCount()));
 					if (tempInventory.get(i).getCount() < 1) {
 						tempInventory.remove(i);
 						craftingLabels[i].setIcon(null);
@@ -462,7 +357,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 			if (targetInventory.get(label.getIndex()) != null) {
 				// if the component does not hold the same item type.
 				if (!sameItem(label, tempItem, targetInventory)) {
-					if (dragSource instanceof ItemLabel) {
+					if (dragSource != null) {
 						label = (ItemLabel) dragSource;
 						if (label.isCrafting()) {
 							targetInventory = tempInventory;
@@ -473,7 +368,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 				}
 			}
 		} else { // if the component is null or not a box, set label to the source of the drag.
-			if (dragSource instanceof ItemLabel) {
+			if (dragSource != null) {
 				label = (ItemLabel) dragSource;
 				if (label.isCrafting()) {
 					targetInventory = tempInventory;
@@ -499,12 +394,12 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 				// just change the count of the tempItem.
 				if (targetInventory.get(i) != null && sameItem(label, tempItem, targetInventory)) {
 					targetInventory.get(i).changeCount(tempItem.getCount());
-					label.setText(new Integer(targetInventory.get(i).getCount()).toString());
+					label.setText(Integer.toString(targetInventory.get(i).getCount()));
 					Recipe recipeResult = recipe(tempInventory);
 					if (recipeResult != null) {
 						result.setIcon(new ImageIcon(
 								sprites[recipeResult.getResult().getType()][recipeResult.getResult().getId()]));
-						result.setText(new Integer(recipeResult.getResult().getCount()).toString());
+						result.setText(Integer.toString(recipeResult.getResult().getCount()));
 						result.setVerticalTextPosition(JLabel.BOTTOM);
 						result.setForeground(Color.WHITE);
 						result.setIconTextGap(-10);
@@ -516,7 +411,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 				}
 				targetInventory.add(tempItem, i);
 				label.setIcon(new ImageIcon(sprites[tempItem.getType()][tempItem.getId()]));
-				label.setText(new Integer(targetInventory.get(i).getCount()).toString());
+				label.setText(Integer.toString(targetInventory.get(i).getCount()));
 				label.setVerticalTextPosition(JLabel.BOTTOM);
 				label.setForeground(Color.WHITE);
 				label.setIconTextGap(-10);
@@ -525,7 +420,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 			if (recipeResult != null) {
 				result.setIcon(
 						new ImageIcon(sprites[recipeResult.getResult().getType()][recipeResult.getResult().getId()]));
-				result.setText(new Integer(recipeResult.getResult().getCount()).toString());
+				result.setText(Integer.toString(recipeResult.getResult().getCount()));
 				result.setVerticalTextPosition(JLabel.BOTTOM);
 				result.setForeground(Color.WHITE);
 				result.setIconTextGap(-10);
@@ -547,7 +442,7 @@ public class InventoryPanel extends JPanel implements MouseListener, MouseMotion
 		if (tempItem != null) {
 			g.drawImage(sprites[tempItem.getType()][tempItem.getId()], mouseX, mouseY, SPRITE_SIZE, SPRITE_SIZE, null);
 			g.setColor(Color.WHITE);
-			g.drawString(new Integer(tempItem.getCount()).toString(), mouseX + 24, mouseY + 30);
+			g.drawString(Integer.toString(tempItem.getCount()), mouseX + 24, mouseY + 30);
 		}
 	}
 	/**
